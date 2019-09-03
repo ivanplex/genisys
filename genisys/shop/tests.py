@@ -17,6 +17,25 @@ class AtomicComponent_create_TestCase(TestCase):
         except ValidationError:
             pass
 
+class AtomicComponent_PositiveAvailability_TestCase(TestCase):
+    def test(self):
+        """
+        Test AtomicComponent creation
+        """
+        a = AtomicComponent.objects.create(stock_code="LargeSupply", availability=30)
+        req = AtomicRequirement.objects.create(atomic_component=a, quantity=4)
+        self.assertEqual(req.available(), True)
+
+class AtomicComponent_NegativeAvailability_TestCase(TestCase):
+    def test(self):
+        """
+        Test AtomicComponent creation
+        """
+        a = AtomicComponent.objects.create(stock_code="LargeSupply", availability=3)
+        req = AtomicRequirement.objects.create(atomic_component=a, quantity=40)
+        self.assertEqual(req.available(), False)
+
+
 class Blueprint_empty_valid_TestCase(TestCase):
     def test(self):
         """
@@ -33,7 +52,7 @@ class Blueprint_assign_atomic_only_TestCase(TestCase):
         """
         Test assigning 1 atomic component
         """
-        a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", quantity=700)
+        a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", availability=700)
         ar = AtomicRequirement.objects.create(atomic_component=a, quantity=4)
 
         try:
@@ -50,9 +69,9 @@ class Blueprint_assign_multiple_atomic_TestCase(TestCase):
         """
 
         component = [
-            AtomicComponent.objects.create(stock_code="Apple", part_code="Apple", quantity=700),
-            AtomicComponent.objects.create(stock_code="Orange", part_code="Orange", quantity=400),
-            AtomicComponent.objects.create(stock_code="Banana", part_code="Banana", quantity=200)
+            AtomicComponent.objects.create(stock_code="Apple", part_code="Apple", availability=700),
+            AtomicComponent.objects.create(stock_code="Orange", part_code="Orange", availability=400),
+            AtomicComponent.objects.create(stock_code="Banana", part_code="Banana", availability=200)
         ]
 
         c_req = []
@@ -76,7 +95,7 @@ class Blueprint_assign_blueprint_TestCase(TestCase):
         Test assigning blueprint requirement on blueprint
         """
         try:
-            a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", quantity=700)
+            a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", availability=700)
             ar = AtomicRequirement.objects.create(atomic_component=a, quantity=4)
             b = Blueprint.objects.create(name="Table")
             b.atomic_requirements.add(ar)
@@ -89,3 +108,40 @@ class Blueprint_assign_blueprint_TestCase(TestCase):
         except:
             self.fail('Creation of Blueprint object failed.')
 
+class Blueprint_PositiveAvailability_TestCase(TestCase):
+
+    b = Blueprint(name='Table')
+
+    def setUp(self):
+        supply = 300
+        demand = 4
+        r = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
+        self.b.save()
+        self.b.atomic_requirements.add(r)
+        self.b.save()
+
+    def test(self):
+        self.assertEqual(self.b.available(), True)
+
+class Blueprint_PositiveAvailability_TestCase(TestCase):
+
+    b = Blueprint(name='Table')
+
+    def setUp(self):
+        supply = 3
+        demand = 4
+        r = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
+        self.b.save()
+        self.b.atomic_requirements.add(r)
+        self.b.save()
+
+    def test(self):
+        self.assertEqual(self.b.available(), False)
+
+# class Blueprint_recursive_availability_TestCase(TestCase):
+#
+#     tableset = Blueprint(name='Tableset')
+#     table = Blueprint(name='table')
+#
+#     def setUp(self):
+#

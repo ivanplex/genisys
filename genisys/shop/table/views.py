@@ -1,10 +1,27 @@
 from django.http import HttpResponse
 from .models import AtomicComponent, Blueprint, AtomicRequirement
 
-def fail(request):
-    a = AtomicComponent()
-    a.save()
+def init(request):
+    tableRequirements = [
+        AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), quantity=4),
+        AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='T-Top', availability=30), quantity=4),
+        AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='T-Leg', availability=5), quantity=4),
+    ]
+
+    b = Blueprint(name='Table')
+    b.save()
+
+    for r in tableRequirements:
+        r.save()
+        b.atomic_requirements.add(r)
+        b.save()
+
     return HttpResponse("Success")
+
+def available(request):
+    b = Blueprint.objects.get(id=3)
+
+    return HttpResponse(b.available())
 
 def createComponents(request):
 

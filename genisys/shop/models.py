@@ -17,7 +17,7 @@ class AtomicComponent(TimestampedModel):
 	material = models.CharField(max_length=255, blank=True, null=True)
 	weight = models.IntegerField(blank=True, null=True)
 	image = models.CharField(max_length=1000, blank=True, null=True)
-	quantity = models.IntegerField(null=False, default=0)
+	availability = models.IntegerField(null=False, default=0)
 
 	def save(self, *args, **kwargs):
 		if self.stock_code is "":
@@ -30,13 +30,8 @@ class AtomicRequirement(TimestampedModel):
 	atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='components', null=False)
 	quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
-	# def save(self, *args, **kwargs):
-	# 	if self.atomic_component is None and self.blueprint_requirement is None:
-	# 		raise ValidationError('Either an atomic component or a blueprint is required. Cannot both be empty.')
-	# 	elif self.atomic_component is not None and self.blueprint_requirement is not None:
-	# 		raise ValidationError('Either an atomic component or a blueprint is required. Cannot both be required.')
-	# 	else:
-	# 		super(BlueprintRequirements, self).save(*args, **kwargs)
+	def available(self):
+		return True if self.quantity <= self.atomic_component.availability else False
 
 class BlueprintRequirement(TimestampedModel):
 
@@ -48,3 +43,10 @@ class Blueprint(TimestampedModel):
 	name = models.CharField(max_length=250)
 	atomic_requirements = models.ManyToManyField(AtomicRequirement, related_name='requirements', symmetrical=False)
 	blueprint_requirements = models.ManyToManyField(BlueprintRequirement, related_name='requirements', symmetrical=False)
+
+	def available(self):
+		results = []
+		for atm_req in self.atomic_requirements.all():
+			results.append(atm_req.available())
+
+		return all(results)
