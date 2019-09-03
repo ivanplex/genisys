@@ -1,21 +1,22 @@
-"""genisys URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import include, url
+
+
+def generate_url_include(name):
+    regex = r'^{}/'.format(name)
+    to_include = include('shop.{}.urls'.format(name))
+    namespace = 'shop.{}'.format(name)
+    return url(regex, to_include, name=namespace)
+
+namespaces_to_include = [
+    "piston",
+]
+
+namespaced_urls = [
+    generate_url_include(name) for name in namespaces_to_include
+]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
+    url(r'', include(namespaced_urls)),
 ]
