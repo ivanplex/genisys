@@ -175,7 +175,7 @@ class Blueprint_FalseEmpty_3_TestCase(TestCase):
         """
         self.assertEqual(self.tableset.isEmpty(), False)
 
-class Blueprint_PositiveAvailability_TestCase(TestCase):
+class Blueprint_PositiveAvailability_SingleLayer_TestCase(TestCase):
 
     def setUp(self):
         supply = 300
@@ -190,7 +190,7 @@ class Blueprint_PositiveAvailability_TestCase(TestCase):
     def test(self):
         self.assertEqual(self.b.available(), True)
 
-class Blueprint_NegativeAvailability_TestCase(TestCase):
+class Blueprint_NegativeAvailability_SingleLayer_TestCase(TestCase):
 
     def setUp(self):
         supply = 3
@@ -264,3 +264,44 @@ class Blueprint_recursive_availability_TestCase(TestCase):
 
     def test(self):
         self.assertEqual(set(self.tableset.listAtomicDependencies()), set(self.allAtomicRequirements))
+
+
+class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
+
+    def setUp(self):
+        supply = 300
+        demand = 4
+
+        self.table = Blueprint.objects.create(name='table')
+        r = AtomicRequirement.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
+        self.table.atomic_requirements.add(r)
+        self.table.save()
+        br = BlueprintRequirement.objects.create(blueprint_component=self.table, quantity=1)
+
+        self.tableset = Blueprint.objects.create(name='tableset')
+        self.tableset.blueprint_requirements.add(br)
+        self.tableset.save()
+
+    def test(self):
+        self.assertEqual(self.tableset.available(), True)
+
+class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
+
+    def setUp(self):
+        supply = 3
+        demand = 4
+
+        self.table = Blueprint.objects.create(name='table')
+        r = AtomicRequirement.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
+        self.table.atomic_requirements.add(r)
+        self.table.save()
+        br = BlueprintRequirement.objects.create(blueprint_component=self.table, quantity=1)
+
+        self.tableset = Blueprint.objects.create(name='tableset')
+        self.tableset.blueprint_requirements.add(br)
+        self.tableset.save()
+
+    def test(self):
+        self.assertEqual(self.tableset.available(), False)
