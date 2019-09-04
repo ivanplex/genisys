@@ -110,7 +110,8 @@ class Blueprint_assign_blueprint_TestCase(TestCase):
 
 class Blueprint_TrueEmpty_TestCase(TestCase):
 
-    table = Blueprint.objects.create(name='table')
+    def setUp(self):
+        self.table = Blueprint.objects.create(name='table')
 
     def test(self):
         """
@@ -121,9 +122,8 @@ class Blueprint_TrueEmpty_TestCase(TestCase):
 
 class Blueprint_FalseEmpty_1_TestCase(TestCase):
 
-    table = Blueprint.objects.create(name='table')
-
     def setUp(self):
+        self.table = Blueprint.objects.create(name='table')
         r = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), quantity=12)
         self.table.atomic_requirements.add(r)
         self.table.save()
@@ -136,10 +136,9 @@ class Blueprint_FalseEmpty_1_TestCase(TestCase):
 
 class Blueprint_FalseEmpty_2_TestCase(TestCase):
 
-    tableset = Blueprint.objects.create(name='tableset')
-    table = Blueprint.objects.create(name='table')
-
     def setUp(self):
+        self.tableset = Blueprint.objects.create(name='tableset')
+        self.table = Blueprint.objects.create(name='table')
         r = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), quantity=12)
         self.table.atomic_requirements.add(r)
         self.table.save()
@@ -156,10 +155,9 @@ class Blueprint_FalseEmpty_2_TestCase(TestCase):
 
 class Blueprint_FalseEmpty_3_TestCase(TestCase):
 
-    tableset = Blueprint.objects.create(name='tableset')
-    table = Blueprint.objects.create(name='table')
-
     def setUp(self):
+        self.tableset = Blueprint.objects.create(name='tableset')
+        self.table = Blueprint.objects.create(name='table')
         r1 = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), quantity=12)
         r2 = AtomicRequirement.objects.create(
             atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), quantity=12)
@@ -179,13 +177,13 @@ class Blueprint_FalseEmpty_3_TestCase(TestCase):
 
 class Blueprint_PositiveAvailability_TestCase(TestCase):
 
-    b = Blueprint(name='Table')
-
     def setUp(self):
         supply = 300
         demand = 4
-        r = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
-        self.b.save()
+
+        self.b = Blueprint.objects.create(name='Table')
+        r = AtomicRequirement.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
         self.b.atomic_requirements.add(r)
         self.b.save()
 
@@ -194,25 +192,75 @@ class Blueprint_PositiveAvailability_TestCase(TestCase):
 
 class Blueprint_NegativeAvailability_TestCase(TestCase):
 
-    b = Blueprint(name='Table')
-
     def setUp(self):
         supply = 3
         demand = 4
+
+        self.b = Blueprint.objects.create(name='Table')
         r = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
-        self.b.save()
         self.b.atomic_requirements.add(r)
         self.b.save()
 
     def test(self):
         self.assertEqual(self.b.available(), False)
 
-# class Blueprint_recursive_availability_TestCase(TestCase):
-#
-#     tableset = Blueprint(name='Tableset')
-#     table = Blueprint(name='table')
-#
-#     def setUp(self):
-#         chairSupply = 10
-#         chairDemand = 4
-#         chairReq = AtomicRequirement.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='chair', availability=chairSupply), quantity=chairDemand)
+class Blueprint_recursive_availability_TestCase(TestCase):
+    """
+    Recursive test case.
+
+    Scenario: Ikea table set
+
+    Table-set contains 1 table (blueprint) and 4 chairs (blueprint)
+    and a instruction manual (atomic)
+
+    A table contains 1 table-top, 4 legs, 4 screws
+    A chair contains a backplate and 4 legs, 4 screws
+    """
+
+    def setUp(self):
+
+        self.manual = AtomicComponent.objects.create(stock_code="man", availability=5)
+        self.tabletop = AtomicComponent.objects.create(stock_code="tabletop", availability=20)
+        self.leg = AtomicComponent.objects.create(stock_code="leg", availability=60)
+        self.screws = AtomicComponent.objects.create(stock_code="screws", availability=8000)
+        self.backplate = AtomicComponent.objects.create(stock_code="backplate", availability=15)
+
+        # Table
+        tableRequirements = [
+            AtomicRequirement.objects.create(atomic_component=self.tabletop, quantity=1),
+            AtomicRequirement.objects.create(atomic_component=self.leg, quantity=4),
+            AtomicRequirement.objects.create(atomic_component=self.screws, quantity=4)
+        ]
+        self.tableBlueprint = Blueprint.objects.create(name="table")
+        for req in tableRequirements:
+            self.tableBlueprint.atomic_requirements.add(req)
+        self.tableBlueprint.save()
+
+        # Chair
+        chairRequirements = [
+            AtomicRequirement.objects.create(atomic_component=self.backplate, quantity=1),
+            AtomicRequirement.objects.create(atomic_component=self.leg, quantity=4),
+            AtomicRequirement.objects.create(atomic_component=self.screws, quantity=4)
+        ]
+        self.chairBlueprint = Blueprint.objects.create(name="chair")
+        for req in chairRequirements:
+            self.chairBlueprint.atomic_requirements.add(req)
+        self.chairBlueprint.save()
+
+        # Table set
+        self.tableset = Blueprint.objects.create(name="tableset")
+        tablesetAtomicRequirement = AtomicRequirement.objects.create(atomic_component=self.manual, quantity=1)
+        tablesetBlueprintRequirement = [
+            BlueprintRequirement.objects.create(blueprint_component=self.tableBlueprint, quantity=1),
+            BlueprintRequirement.objects.create(blueprint_component=self.chairBlueprint, quantity=4)
+        ]
+        self.tableset.atomic_requirements.add(tablesetAtomicRequirement)
+        for bpReq in tablesetBlueprintRequirement:
+            self.tableset.blueprint_requirements.add(bpReq)
+        self.tableset.save()
+
+        # create a list of all requirements
+        self.allAtomicRequirements = tableRequirements + chairRequirements + [tablesetAtomicRequirement]
+
+    def test(self):
+        self.assertEqual(set(self.tableset.listAtomicDependencies()), set(self.allAtomicRequirements))
