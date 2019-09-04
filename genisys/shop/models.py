@@ -97,5 +97,40 @@ class Blueprint(TimestampedModel):
 
 
 
+	def getLocalAtomicDependencies(self):
+		"""
+		Return local AtomicRequirement only
+		:return: list[AtomicRequirement]
+		"""
+		l = []
+		for req in self.atomic_requirements.all():
+			l.append(req)
+		return l
+
+	def listAtomicDependencies(self):
+		"""
+		Return all atomic dependencies recursively
+		return list instead of queryset
+
+		:return: list[AtomicRequirement]
+		"""
+		if len(self.blueprint_requirements.all()) == 0:
+			# If no further blueprint dependencies
+			return self.getLocalAtomicDependencies()
+		else:
+			atomicReq = self.getLocalAtomicDependencies()
+			for bpReq in self.blueprint_requirements.all():
+				atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
+			return atomicReq
+
+
+
+
+	# def available(self):
+	# 	while len(self.blueprint_requirements.all()) != 0:
+
+
+
+
 
 

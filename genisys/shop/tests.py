@@ -175,6 +175,7 @@ class Blueprint_FalseEmpty_3_TestCase(TestCase):
         """
         self.assertEqual(self.tableset.isEmpty(), False)
 
+
 class Blueprint_PositiveAvailability_SingleLayer_TestCase(TestCase):
 
     def setUp(self):
@@ -189,6 +190,7 @@ class Blueprint_PositiveAvailability_SingleLayer_TestCase(TestCase):
 
     def test(self):
         self.assertEqual(self.b.available(), True)
+
 
 class Blueprint_NegativeAvailability_SingleLayer_TestCase(TestCase):
 
