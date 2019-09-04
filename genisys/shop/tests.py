@@ -296,7 +296,7 @@ class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
         """
         self.assertEqual(self.tableset.available(), True)
 
-class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
+class Blueprint_NegativeAvailability_MultiLayer_TestCase(TestCase):
 
     def setUp(self):
         supply = 3

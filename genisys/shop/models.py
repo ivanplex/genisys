@@ -10,7 +10,7 @@ class TimestampedModel(models.Model):
 
 class AtomicComponent(TimestampedModel):
 
-	stock_code = models.CharField(max_length=255, null=False, )
+	stock_code = models.CharField(max_length=255, null=False)
 	part_code = models.CharField(max_length=255, null=True)
 	description = models.TextField(blank=True, null=True)
 	warehouse_location = models.IntegerField(blank=True, null=True)
@@ -94,9 +94,6 @@ class Blueprint(TimestampedModel):
 				atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
 			return atomicReq
 
-
-
-
 	def getLocalAtomicDependencies(self):
 		"""
 		Return local AtomicRequirement only
@@ -123,11 +120,6 @@ class Blueprint(TimestampedModel):
 				atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
 			return atomicReq
 
-
-
-
-	# def available(self):
-	# 	while len(self.blueprint_requirements.all()) != 0:
 
 
 

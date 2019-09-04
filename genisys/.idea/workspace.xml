@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0362be23-39dc-4366-a1e6-50a68cf64d73" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/shop/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genisys/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/genisys/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shop/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +25,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/shop/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="12" column="62" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
+                <state relative-caret-position="180">
+                  <caret line="12" column="60" selection-start-line="12" selection-start-column="60" selection-end-line="12" selection-end-column="60" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
                   </folding>
@@ -32,22 +35,25 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/shop/table/views.py">
+            <entry file="file://$PROJECT_DIR$/shop/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="18" column="34" selection-start-line="4" selection-start-column="4" selection-end-line="18" selection-end-column="34" />
+                <state relative-caret-position="90">
+                  <caret line="6" column="19" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="19" />
                   <folding>
-                    <element signature="e#0#36#0" expanded="true" />
+                    <element signature="e#0#35#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/shop/table/urls.py">
+            <entry file="file://$PROJECT_DIR$/shop/urls.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+                <state relative-caret-position="75">
+                  <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+                  <folding>
+                    <element signature="e#0#32#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -55,8 +61,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/shop/tests.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="633">
-                  <caret line="320" column="58" selection-start-line="320" selection-start-column="58" selection-end-line="320" selection-end-column="58" />
+                <state relative-caret-position="604">
+                  <caret line="298" column="24" selection-start-line="298" selection-start-column="24" selection-end-line="298" selection-end-column="24" />
                   <folding>
                     <element signature="e#0#32#0" expanded="true" />
                   </folding>
@@ -71,8 +77,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/shop/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="543">
-                  <caret line="94" column="28" selection-start-line="94" selection-start-column="28" selection-end-line="94" selection-end-column="28" />
+                <state relative-caret-position="-993">
+                  <caret line="12" column="58" lean-forward="true" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
                   </folding>
@@ -97,7 +103,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/genisys/urls.py" />
         <option value="$PROJECT_DIR$/shop/admin.py" />
         <option value="$PROJECT_DIR$/shop/Blueprint/models.py" />
         <option value="$PROJECT_DIR$/shop/piston/models.py" />
@@ -107,6 +112,9 @@
         <option value="$PROJECT_DIR$/shop/table/urls.py" />
         <option value="$PROJECT_DIR$/shop/table/views.py" />
         <option value="$PROJECT_DIR$/shop/models.py" />
+        <option value="$PROJECT_DIR$/shop/views.py" />
+        <option value="$PROJECT_DIR$/shop/urls.py" />
+        <option value="$PROJECT_DIR$/genisys/urls.py" />
         <option value="$PROJECT_DIR$/shop/tests.py" />
       </list>
     </option>
@@ -214,12 +222,12 @@
       <option name="presentableId" value="Default" />
       <updated>1567496600908</updated>
       <workItem from="1567496602239" duration="23684000" />
-      <workItem from="1567605248532" duration="9642000" />
+      <workItem from="1567605248532" duration="10708000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33326000" />
+    <option name="totallyTimeSpent" value="34392000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="0" />
@@ -272,13 +280,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/genisys/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="32" lean-forward="true" selection-start-column="32" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shop/Blueprint/__init__.py" />
     <entry file="file://$PROJECT_DIR$/shop/Blueprint/models.py" />
     <entry file="file://$PROJECT_DIR$/shop/table/models.py">
@@ -303,15 +304,42 @@
         <state relative-caret-position="-265" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shop/views.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/shop/table/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="34" selection-start-line="4" selection-start-column="4" selection-end-line="18" selection-end-column="34" />
+        <state relative-caret-position="48">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shop/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="60" selection-start-line="12" selection-start-column="60" selection-end-line="12" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shop/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/genisys/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -319,24 +347,27 @@
     <entry file="file://$PROJECT_DIR$/shop/table/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+          <caret line="4" selection-start-line="4" selection-end-line="5" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shop/models.py">
+    <entry file="file://$PROJECT_DIR$/shop/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="62" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
+        <state relative-caret-position="75">
+          <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/shop/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="633">
-          <caret line="320" column="58" selection-start-line="320" selection-start-column="58" selection-end-line="320" selection-end-column="58" />
+        <state relative-caret-position="604">
+          <caret line="298" column="24" selection-start-line="298" selection-start-column="24" selection-end-line="298" selection-end-column="24" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
