@@ -44,9 +44,18 @@ class Blueprint(TimestampedModel):
 	atomic_requirements = models.ManyToManyField(AtomicRequirement, related_name='requirements', symmetrical=False)
 	blueprint_requirements = models.ManyToManyField(BlueprintRequirement, related_name='requirements', symmetrical=False)
 
+	def isEmpty(self):
+		if len(self.atomic_requirements.all()) == 0 and len(self.blueprint_requirements.all()) == 0:
+			return True
+		else:
+			return False
+
 	def available(self):
 		results = []
 		for atm_req in self.atomic_requirements.all():
 			results.append(atm_req.available())
 
 		return all(results)
+
+
+
