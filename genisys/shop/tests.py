@@ -263,6 +263,10 @@ class Blueprint_recursive_availability_TestCase(TestCase):
         self.allAtomicRequirements = tableRequirements + chairRequirements + [tablesetAtomicRequirement]
 
     def test(self):
+        """
+        Test recursive collection of all AtomicRequirements of a Blueprint
+        :return:
+        """
         self.assertEqual(set(self.tableset.listAtomicDependencies()), set(self.allAtomicRequirements))
 
 
@@ -284,6 +288,10 @@ class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
         self.tableset.save()
 
     def test(self):
+        """
+        Test multilayer availability
+        :return:
+        """
         self.assertEqual(self.tableset.available(), True)
 
 class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
@@ -304,4 +312,8 @@ class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
         self.tableset.save()
 
     def test(self):
+        """
+        Test multilayer availability
+        :return: 
+        """
         self.assertEqual(self.tableset.available(), False)
