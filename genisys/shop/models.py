@@ -53,12 +53,20 @@ class Blueprint(TimestampedModel):
 		else:
 			return False
 
-	def available(self):
-		results = []
-		for atm_req in self.atomic_requirements.all():
-			results.append(atm_req.available())
+	# def available(self):
+	# 	results = []
+	# 	for atm_req in self.atomic_requirements.all():
+	# 		results.append(atm_req.available())
+	#
+	# 	return all(results)
 
-		return all(results)
+	def available(self):
+		for requirement in self.listAtomicDependencies():
+			if requirement.atomic_component.availability >= requirement.quantity:
+				continue
+			else:
+				return False
+		return True
 
 	def getLocalAtomicDependencies(self):
 		"""
@@ -85,12 +93,6 @@ class Blueprint(TimestampedModel):
 			for bpReq in self.blueprint_requirements.all():
 				atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
 			return atomicReq
-
-
-
-
-	# def available(self):
-	# 	while len(self.blueprint_requirements.all()) != 0:
 
 
 
