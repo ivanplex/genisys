@@ -9,7 +9,7 @@ def generate_url_include(name):
     return url(regex, to_include, name=namespace)
 
 namespaces_to_include = [
-    "table",
+    # "concept",
 ]
 
 namespaced_urls = [
@@ -18,6 +18,6 @@ namespaced_urls = [
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^shop/', include('shop.urls')),
+    # url(r'^shop/', include('shop.urls')),
     url(r'', include(namespaced_urls)),
 ]
