@@ -4,9 +4,16 @@ from shop.concept.models import Blueprint, AtomicPrerequisite, BlueprintPrerequi
 
 class AtomicSpecification(TimestampedModel):
 
-    atomic_requirement = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+    atomic_prereq = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                            null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
+
+    def validate(self):
+        """
+        Valiate quantity following prerequisite constraint
+        :return: Bool
+        """
+        return True if self.atomic_prereq.min_quantity <= self.quantity <= self.atomic_prereq.max_quantity else False
 
     def __str__(self):
         return "AtomicSpecification: {}: {}".format(self.atomic_component.stock_code, self.quantity)
@@ -14,7 +21,7 @@ class AtomicSpecification(TimestampedModel):
 
 class BlueprintSpecification(TimestampedModel):
 
-    blueprint_requirement = models.ForeignKey(BlueprintPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+    blueprint_prereq = models.ForeignKey(BlueprintPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                             null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
@@ -31,6 +38,19 @@ class Build(TimestampedModel):
     blueprint_specifications = models.ManyToManyField(BlueprintSpecification, related_name='specifications',
                                                       symmetrical=False)
 
+    def validate(self):
+        """
+        Valiate quantity following prerequisite constraint
+        :return: Bool
+        """
+        #TODO: Make this recursive
+        for spec in self.atomic_specifications.all():
+            if spec.validate():
+                continue
+            else:
+                return False
+        return True
+
     # def available(self):
     # 	results = []
     # 	for atm_req in self.atomic_requirements.all():
@@ -46,7 +66,7 @@ class Build(TimestampedModel):
                 return False
         return True
 
-    def getLocalAtomicDependencies(self):
+    def getLocalAtomicSpecifications(self):
         """
         Return local AtomicSpecification only
         :return: list[AtomicSpecification]
@@ -65,9 +85,9 @@ class Build(TimestampedModel):
         """
         if len(self.blueprint_specifications.all()) == 0:
             # If no further blueprint dependencies
-            return self.getLocalAtomicDependencies()
+            return self.getLocalAtomicSpecifications()
         else:
-            atomicReq = self.getLocalAtomicDependencies()
-            for bpReq in self.blueprint_requirements.all():
+            atomicReq = self.getLocalAtomicSpecifications()
+            for bpReq in self.blueprint_specifications.all():
                 atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
             return atomicReq
