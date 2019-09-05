@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop',
     'shop.concept',
+    'shop.assembly',
 ]
 
 MIDDLEWARE = [

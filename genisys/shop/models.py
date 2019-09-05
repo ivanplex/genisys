@@ -28,15 +28,12 @@ class AtomicComponent(TimestampedModel):
 
 
 class AtomicRequirementModel(TimestampedModel):
-    atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='components',null=False)
 
     class Meta:
         abstract = True
 
 
 class BlueprintRequirementModel(TimestampedModel):
-    blueprint_component = models.ForeignKey('Blueprint', on_delete=models.PROTECT, related_name='components',
-                                            null=False)
 
     class Meta:
         abstract = True
