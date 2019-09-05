@@ -28,10 +28,11 @@ class AtomicComponent(TimestampedModel):
 class AtomicRequirement(TimestampedModel):
 
 	atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='components', null=False)
-	quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
+	min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
+	max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
-	def available(self):
-		return True if self.quantity <= self.atomic_component.availability else False
+	# def available(self):
+	# 	return True if self.quantity <= self.atomic_component.availability else False
 
 	def __str__(self):
 		return "AtomicRequirement: {} - {}".format(self.atomic_component.stock_code, self.quantity)
@@ -39,7 +40,8 @@ class AtomicRequirement(TimestampedModel):
 class BlueprintRequirement(TimestampedModel):
 
 	blueprint_component = models.ForeignKey('Blueprint', on_delete=models.PROTECT, related_name='components', null=False)
-	quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
+	min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
+	max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
 class Blueprint(TimestampedModel):
 
