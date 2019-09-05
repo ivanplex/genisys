@@ -1,7 +1,7 @@
 from django.db import models
-from shop.models import TimestampedModel, AtomicComponent, AtomicRequirementModel, BlueprintRequirementModel
+from shop.models import TimestampedModel, AtomicComponent, AtomicPrerequisiteModel, BlueprintPrerequisiteModel
 
-class AtomicRequirement(AtomicRequirementModel):
+class AtomicPrerequisite(AtomicPrerequisiteModel):
 
 	atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',
 										 null=False)
@@ -14,7 +14,7 @@ class AtomicRequirement(AtomicRequirementModel):
 	def __str__(self):
 		return "AtomicRequirement: {}: {} - {}".format(self.atomic_component.stock_code, self.min_quantity, self.max_quantity)
 
-class BlueprintRequirement(BlueprintRequirementModel):
+class BlueprintPrerequisite(BlueprintPrerequisiteModel):
 
 	blueprint_component = models.ForeignKey('Blueprint', on_delete=models.PROTECT, related_name='requires',
 											null=False)
@@ -25,8 +25,8 @@ class BlueprintRequirement(BlueprintRequirementModel):
 class Blueprint(TimestampedModel):
 
 	name = models.CharField(max_length=250)
-	atomic_requirements = models.ManyToManyField(AtomicRequirement, related_name='requirements', symmetrical=False)
-	blueprint_requirements = models.ManyToManyField(BlueprintRequirement, related_name='requirements', symmetrical=False)
+	atomic_requirements = models.ManyToManyField(AtomicPrerequisite, related_name='requirements', symmetrical=False)
+	blueprint_requirements = models.ManyToManyField(BlueprintPrerequisite, related_name='requirements', symmetrical=False)
 
 	def isEmpty(self):
 		if len(self.atomic_requirements.all()) == 0 and len(self.blueprint_requirements.all()) == 0:

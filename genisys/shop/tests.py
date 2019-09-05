@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from .models import AtomicComponent
-from shop.concept.models import AtomicRequirement
+from shop.concept.models import AtomicPrerequisite
 
 
 class AtomicComponent_create_TestCase(TestCase):

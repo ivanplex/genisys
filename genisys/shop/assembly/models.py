@@ -1,20 +1,20 @@
 from django.db import models
-from shop.models import TimestampedModel, AtomicComponent, AtomicRequirementModel, BlueprintRequirementModel
-from shop.concept.models import Blueprint
+from shop.models import TimestampedModel
+from shop.concept.models import Blueprint, AtomicPrerequisite, BlueprintPrerequisite
 
-class AtomicSpecification(AtomicRequirementModel):
+class AtomicSpecification(TimestampedModel):
 
-    atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='build_with',
-                                         null=False)
+    atomic_requirement = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+                                           null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
     def __str__(self):
         return "AtomicSpecification: {}: {}".format(self.atomic_component.stock_code, self.quantity)
 
 
-class BlueprintSpecification(BlueprintRequirementModel):
+class BlueprintSpecification(TimestampedModel):
 
-    blueprint_component = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='build_with',
+    blueprint_requirement = models.ForeignKey(BlueprintPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                             null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 

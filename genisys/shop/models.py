@@ -27,13 +27,13 @@ class AtomicComponent(TimestampedModel):
             super(AtomicComponent, self).save(*args, **kwargs)
 
 
-class AtomicRequirementModel(TimestampedModel):
+class AtomicPrerequisiteModel(TimestampedModel):
 
     class Meta:
         abstract = True
 
 
-class BlueprintRequirementModel(TimestampedModel):
+class BlueprintPrerequisiteModel(TimestampedModel):
 
     class Meta:
         abstract = True

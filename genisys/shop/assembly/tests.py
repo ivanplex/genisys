@@ -1,6 +1,6 @@
 from django.test import TestCase
 from shop.models import AtomicComponent
-from .models import AtomicSpecification, Blueprint, BlueprintSpecification
+from .models import AtomicSpecification, Build, BlueprintSpecification
 
 class Blueprint_PositiveAvailability_SingleLayer_TestCase(TestCase):
 
@@ -8,7 +8,7 @@ class Blueprint_PositiveAvailability_SingleLayer_TestCase(TestCase):
         supply = 300
         demand = 4
 
-        self.b = Blueprint.objects.create(name='Table')
+        self.b = Build.objects.create(name='Table')
         r = AtomicSpecification.objects.create(
             atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
         self.b.atomic_requirements.add(r)
@@ -24,7 +24,7 @@ class Blueprint_NegativeAvailability_SingleLayer_TestCase(TestCase):
         supply = 3
         demand = 4
 
-        self.b = Blueprint.objects.create(name='Table')
+        self.b = Build.objects.create(name='Table')
         r = AtomicSpecification.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
         self.b.atomic_requirements.add(r)
         self.b.save()
@@ -39,14 +39,14 @@ class Blueprint_PositiveAvailability_MultiLayer_TestCase(TestCase):
         supply = 300
         demand = 4
 
-        self.table = Blueprint.objects.create(name='table')
+        self.table = Build.objects.create(name='table')
         r = AtomicSpecification.objects.create(
             atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
         self.table.atomic_requirements.add(r)
         self.table.save()
         br = BlueprintSpecification.objects.create(blueprint_component=self.table, quantity=1)
 
-        self.tableset = Blueprint.objects.create(name='tableset')
+        self.tableset = Build.objects.create(name='tableset')
         self.tableset.blueprint_requirements.add(br)
         self.tableset.save()
 
@@ -63,14 +63,15 @@ class Blueprint_NegativeAvailability_MultiLayer_TestCase(TestCase):
         supply = 3
         demand = 4
 
-        self.table = Blueprint.objects.create(name='table')
+        self.table = Build.objects.create(name='table')
         r = AtomicSpecification.objects.create(
             atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=supply), quantity=demand)
         self.table.atomic_requirements.add(r)
         self.table.save()
         br = BlueprintSpecification.objects.create(blueprint_component=self.table, quantity=1)
 
-        self.tableset = Blueprint.objects.create(name='tableset')
+
+        self.tableset = Build.objects.create(name='tableset')
         self.tableset.blueprint_requirements.add(br)
         self.tableset.save()
 
