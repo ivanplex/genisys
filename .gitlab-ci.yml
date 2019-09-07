@@ -6,6 +6,9 @@ services:
 variables:
   POSTGRES_DB: ci
 
+codecov:
+  token: 88cd9b2b-9031-4530-9a77-aaa1578e46d8
+
 cache:
   paths:
   - ~/.cache/pip/
