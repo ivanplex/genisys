@@ -16,7 +16,7 @@ class AtomicSpecification(TimestampedModel):
         return True if self.atomic_prereq.min_quantity <= self.quantity <= self.atomic_prereq.max_quantity else False
 
     def __str__(self):
-        return "AtomicSpecification: {}: {}".format(self.atomic_component.stock_code, self.quantity)
+        return "AtomicSpecification: {}: {}".format(self.atomic_prereq.atomic_component.stock_code, self.quantity)
 
 
 class BlueprintSpecification(TimestampedModel):
@@ -51,9 +51,13 @@ class Build(TimestampedModel):
                 return False
         return True
 
+    def ifFulfilPrerequisite(self):
+
+        return [x for x in self.blueprint.getLocalAtomicPrerequisites() if x not in self.getLocalAtomicPrerequisites()]
+
     # def available(self):
     # 	results = []
-    # 	for atm_req in self.atomic_requirements.all():
+    # 	for atm_req in self.atomic_prerequisites.all():
     # 		results.append(atm_req.available())
     #
     # 	return all(results)
@@ -74,6 +78,19 @@ class Build(TimestampedModel):
         l = []
         for req in self.atomic_specifications.all():
             l.append(req)
+        return l
+
+    def getLocalAtomicPrerequisites(self):
+        """
+        Return a list of AtomicPrerequsites
+        specified by all atomicSpecifications
+        in the blueprint
+
+        :return: list[AtomicPrerequsites]
+        """
+        l = []
+        for spec in self.atomic_specifications.all():
+            l.append(spec.atomic_prereq)
         return l
 
     def listAtomicDependencies(self):

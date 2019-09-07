@@ -25,22 +25,22 @@ class BlueprintPrerequisite(BlueprintPrerequisiteModel):
 class Blueprint(TimestampedModel):
 
 	name = models.CharField(max_length=250)
-	atomic_requirements = models.ManyToManyField(AtomicPrerequisite, related_name='requirements', symmetrical=False)
-	blueprint_requirements = models.ManyToManyField(BlueprintPrerequisite, related_name='requirements', symmetrical=False)
+	atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='requirements', symmetrical=False)
+	blueprint_prerequisites = models.ManyToManyField(BlueprintPrerequisite, related_name='requirements', symmetrical=False)
 
 	def isEmpty(self):
-		if len(self.atomic_requirements.all()) == 0 and len(self.blueprint_requirements.all()) == 0:
+		if len(self.atomic_prerequisites.all()) == 0 and len(self.blueprint_prerequisites.all()) == 0:
 			return True
 		else:
 			return False
 
-	def getLocalAtomicDependencies(self):
+	def getLocalAtomicPrerequisites(self):
 		"""
 		Return local AtomicRequirement only
 		:return: list[AtomicRequirement]
 		"""
 		l = []
-		for req in self.atomic_requirements.all():
+		for req in self.atomic_prerequisites.all():
 			l.append(req)
 		return l
 
@@ -51,12 +51,12 @@ class Blueprint(TimestampedModel):
 
 		:return: list[AtomicRequirement]
 		"""
-		if len(self.blueprint_requirements.all()) == 0:
+		if len(self.blueprint_prerequisites.all()) == 0:
 			# If no further blueprint dependencies
-			return self.getLocalAtomicDependencies()
+			return self.getLocalAtomicPrerequisites()
 		else:
-			atomicReq = self.getLocalAtomicDependencies()
-			for bpReq in self.blueprint_requirements.all():
+			atomicReq = self.getLocalAtomicPrerequisites()
+			for bpReq in self.blueprint_prerequisites.all():
 				atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
 			return atomicReq
 

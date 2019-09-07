@@ -23,7 +23,7 @@ class Blueprint_assign_atomic_only_TestCase(TestCase):
 
         try:
             b = Blueprint.objects.create(name="Table")
-            b.atomic_requirements.add(ar)
+            b.atomic_prerequisites.add(ar)
             b.save()
         except:
             self.fail('Creation of Blueprint object failed.')
@@ -49,7 +49,7 @@ class Blueprint_assign_multiple_atomic_TestCase(TestCase):
 
             # Add all AtomicComponent requirements to Blueprint
             for req in c_req:
-                b.atomic_requirements.add(req)
+                b.atomic_prerequisites.add(req)
 
             b.save()
         except:
@@ -64,12 +64,12 @@ class Blueprint_assign_blueprint_TestCase(TestCase):
             a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", availability=700)
             ar = AtomicPrerequisite.objects.create(atomic_component=a, min_quantity=4, max_quantity=4)
             b = Blueprint.objects.create(name="Table")
-            b.atomic_requirements.add(ar)
+            b.atomic_prerequisites.add(ar)
             b.save()
 
             b_set = Blueprint.objects.create(name="Table_set")
             b_set_req = BlueprintPrerequisite.objects.create(blueprint_component=b, min_quantity=2, max_quantity=2)
-            b_set.blueprint_requirements.add(b_set_req)
+            b_set.blueprint_prerequisites.add(b_set_req)
             b_set.save()
         except:
             self.fail('Creation of Blueprint object failed.')
@@ -91,7 +91,7 @@ class Blueprint_FalseEmpty_1_TestCase(TestCase):
     def setUp(self):
         self.table = Blueprint.objects.create(name='table')
         r = AtomicPrerequisite.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), min_quantity=2, max_quantity=2)
-        self.table.atomic_requirements.add(r)
+        self.table.atomic_prerequisites.add(r)
         self.table.save()
 
     def test(self):
@@ -106,11 +106,11 @@ class Blueprint_FalseEmpty_2_TestCase(TestCase):
         self.tableset = Blueprint.objects.create(name='tableset')
         self.table = Blueprint.objects.create(name='table')
         r = AtomicPrerequisite.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), min_quantity=2, max_quantity=2)
-        self.table.atomic_requirements.add(r)
+        self.table.atomic_prerequisites.add(r)
         self.table.save()
         br = BlueprintPrerequisite.objects.create(blueprint_component=self.table, min_quantity=1, max_quantity=1)
 
-        self.tableset.blueprint_requirements.add(br)
+        self.tableset.blueprint_prerequisites.add(br)
         self.tableset.save()
 
     def test(self):
@@ -127,12 +127,12 @@ class Blueprint_FalseEmpty_3_TestCase(TestCase):
         r1 = AtomicPrerequisite.objects.create(atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), min_quantity=2, max_quantity=2)
         r2 = AtomicPrerequisite.objects.create(
             atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), min_quantity=2, max_quantity=2)
-        self.table.atomic_requirements.add(r1)
+        self.table.atomic_prerequisites.add(r1)
         self.table.save()
         br = BlueprintPrerequisite.objects.create(blueprint_component=self.table, min_quantity=1, max_quantity=1)
 
-        self.tableset.blueprint_requirements.add(br)
-        self.tableset.atomic_requirements.add(r2)
+        self.tableset.blueprint_prerequisites.add(br)
+        self.tableset.atomic_prerequisites.add(r2)
         self.tableset.save()
 
     def test(self):
@@ -171,7 +171,7 @@ class Blueprint_recursive_atomic_aggragate_TestCase(TestCase):
         ]
         self.tableBlueprint = Blueprint.objects.create(name="table")
         for req in tableRequirements:
-            self.tableBlueprint.atomic_requirements.add(req)
+            self.tableBlueprint.atomic_prerequisites.add(req)
         self.tableBlueprint.save()
 
         # Chair
@@ -182,7 +182,7 @@ class Blueprint_recursive_atomic_aggragate_TestCase(TestCase):
         ]
         self.chairBlueprint = Blueprint.objects.create(name="chair")
         for req in chairRequirements:
-            self.chairBlueprint.atomic_requirements.add(req)
+            self.chairBlueprint.atomic_prerequisites.add(req)
         self.chairBlueprint.save()
 
         # Table set
@@ -192,9 +192,9 @@ class Blueprint_recursive_atomic_aggragate_TestCase(TestCase):
             BlueprintPrerequisite.objects.create(blueprint_component=self.tableBlueprint, min_quantity=1, max_quantity=1),
             BlueprintPrerequisite.objects.create(blueprint_component=self.chairBlueprint, min_quantity=1, max_quantity=4)
         ]
-        self.tableset.atomic_requirements.add(tablesetAtomicRequirement)
+        self.tableset.atomic_prerequisites.add(tablesetAtomicRequirement)
         for bpReq in tablesetBlueprintRequirement:
-            self.tableset.blueprint_requirements.add(bpReq)
+            self.tableset.blueprint_prerequisites.add(bpReq)
         self.tableset.save()
 
         # create a list of all requirements
