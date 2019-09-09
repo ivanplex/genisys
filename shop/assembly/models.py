@@ -1,11 +1,11 @@
 from django.db import models
 from shop.models import TimestampedModel
-from shop.concept.models import Blueprint, AtomicPrerequisite, BlueprintPrerequisite
+from shop.concept.models import Blueprint, AtomicPrerequisite, BlueprintPrerequisite, PrerequisiteAudit
+
 
 class AtomicSpecification(TimestampedModel):
-
     atomic_prereq = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
-                                           null=False)
+                                      null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
     def validate(self):
@@ -20,9 +20,8 @@ class AtomicSpecification(TimestampedModel):
 
 
 class BlueprintSpecification(TimestampedModel):
-
     blueprint_prereq = models.ForeignKey(BlueprintPrerequisite, on_delete=models.PROTECT, related_name='build_with',
-                                            null=False)
+                                         null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
     def __str__(self):
@@ -43,7 +42,7 @@ class Build(TimestampedModel):
         Valiate quantity following prerequisite constraint
         :return: Bool
         """
-        #TODO: Make this recursive
+        # TODO: Make this recursive
         for spec in self.atomic_specifications.all():
             if spec.validate():
                 continue
@@ -51,9 +50,15 @@ class Build(TimestampedModel):
                 return False
         return True
 
-    def ifFulfilPrerequisite(self):
+    def prerequisiteAudit(self):
 
-        return [x for x in self.blueprint.getLocalAtomicPrerequisites() if x not in self.getLocalAtomicPrerequisites()]
+        deficit = PrerequisiteAudit()
+
+        deficit.deficit = [x for x in self.blueprint.getLocalAtomicPrerequisites()
+                     if x not in self.getLocalAtomicPrerequisites()]
+        deficit.surplus = [x for x in self.getLocalAtomicPrerequisites()
+                     if x not in self.blueprint.getLocalAtomicPrerequisites()]
+        return deficit
 
     # def available(self):
     # 	results = []

@@ -110,7 +110,7 @@ class Build_validate_illegal_multiple_atomic_spec(TestCase):
     def test(self):
         self.assertEqual(self.build.validate(), False)
 
-class Build_fulfilment_prerequisite(TestCase):
+class Build_Audit_prerequisite(TestCase):
 
     def setUp(self):
 
@@ -139,11 +139,11 @@ class Build_fulfilment_prerequisite(TestCase):
         self.build.save()
 
     def test(self):
-        self.assertEqual(self.build.ifFulfilPrerequisite(), [])
+        self.assertEqual(self.build.prerequisiteAudit().fulfilled(), True)
 
-class Build_fulfilment_missing_spec_prerequisite(TestCase):
+class Build_Audit_prerequisite_deficit(TestCase):
     """
-    When a build is missing crucial specification
+    Prerequisite Audit with a deficit
     """
 
     def setUp(self):
@@ -172,7 +172,91 @@ class Build_fulfilment_missing_spec_prerequisite(TestCase):
         self.build.save()
 
     def test(self):
-        self.assertEqual(self.build.ifFulfilPrerequisite(), [self.atomic_prereqs[1]])
+        self.assertEqual(self.build.prerequisiteAudit().fulfilled(), False)
+        self.assertEqual(self.build.prerequisiteAudit().deficit, [self.atomic_prereqs[1]])
+        self.assertEqual(self.build.prerequisiteAudit().surplus, [])
+
+class Build_Audit_prerequisite_surplus(TestCase):
+    """
+    Prerequisite Audit with a surplus
+    """
+
+    def setUp(self):
+
+        self.blueprint = Blueprint.objects.create(name="Table")
+        self.atomic_prereqs = [
+            AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300),
+            min_quantity=4, max_quantity=8),
+            AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='T-Bolt', availability=300),
+            min_quantity=4, max_quantity=8)
+        ]
+
+        for prereq in self.atomic_prereqs:
+            self.blueprint.atomic_prerequisites.add(prereq)
+        self.blueprint.save()
+
+        self.build = Build.objects.create(name='Table', blueprint=self.blueprint)
+
+        self.additional_pre = AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='C-Bolt', availability=300),
+            min_quantity=4, max_quantity=8)
+
+        self.atomic_specs = [
+            AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[0], quantity=6),
+            AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[1], quantity=6),
+            AtomicSpecification.objects.create(atomic_prereq=self.additional_pre, quantity=6)
+        ]
+        for spec in self.atomic_specs:
+            self.build.atomic_specifications.add(spec)
+        self.build.save()
+
+    def test(self):
+        self.assertEqual(self.build.prerequisiteAudit().fulfilled(), False)
+        self.assertEqual(self.build.prerequisiteAudit().deficit, [])
+        self.assertEqual(self.build.prerequisiteAudit().surplus, [self.additional_pre])
+
+class Build_Audit_prerequisite_surplus(TestCase):
+    """
+    Prerequisite Audit with both deficit and surplus
+    """
+
+    def setUp(self):
+
+        self.blueprint = Blueprint.objects.create(name="Table")
+        self.atomic_prereqs = [
+            AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300),
+            min_quantity=4, max_quantity=8),
+            AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='T-Bolt', availability=300),
+            min_quantity=4, max_quantity=8)
+        ]
+
+        for prereq in self.atomic_prereqs:
+            self.blueprint.atomic_prerequisites.add(prereq)
+        self.blueprint.save()
+
+        self.build = Build.objects.create(name='Table', blueprint=self.blueprint)
+
+        self.additional_pre = AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='C-Bolt', availability=300),
+            min_quantity=4, max_quantity=8)
+
+        self.atomic_specs = [
+            AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[0], quantity=6),
+            AtomicSpecification.objects.create(atomic_prereq=self.additional_pre, quantity=6)
+        ]
+        for spec in self.atomic_specs:
+            self.build.atomic_specifications.add(spec)
+        self.build.save()
+
+    def test(self):
+        self.assertEqual(self.build.prerequisiteAudit().fulfilled(), False)
+        self.assertEqual(self.build.prerequisiteAudit().deficit, [self.atomic_prereqs[1]])
+        self.assertEqual(self.build.prerequisiteAudit().surplus, [self.additional_pre])
+
 
 # class Build_fulfilment_additional_spec_prerequisite(TestCase):
 #     """
