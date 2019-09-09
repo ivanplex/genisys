@@ -26,8 +26,8 @@ class BlueprintPrerequisite(BlueprintPrerequisiteModel):
 
 class Blueprint(TimestampedModel):
     name = models.CharField(max_length=250)
-    atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='requirements', symmetrical=False)
-    blueprint_prerequisites = models.ManyToManyField(BlueprintPrerequisite, related_name='requirements',
+    atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements', symmetrical=False)
+    blueprint_prerequisites = models.ManyToManyField(BlueprintPrerequisite, related_name='blueprint_requirements',
                                                      symmetrical=False)
 
     def isEmpty(self):

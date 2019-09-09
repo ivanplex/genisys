@@ -297,6 +297,66 @@ class Build_Audit_fulfillment_surplus(TestCase):
     def test(self):
         self.assertEqual(self.audit.fulfilled(), False)
 
+class Build_Audit_prerequisite_recursive(TestCase):
 
+    def setUp(self):
+
+        # Define atomic variables
+        a_table_top = AtomicComponent.objects.create(stock_code='Table-Top', availability=50)
+        a_table_leg = AtomicComponent.objects.create(stock_code='Table-leg', availability=700)
+        a_chair = AtomicComponent.objects.create(stock_code='chair', availability=300)
+
+        ####
+        # Concept
+        ####
+
+        # Table
+        tableBlueprint = Blueprint.objects.create(name="Table")
+
+        AP_table_top = AtomicPrerequisite.objects.create(atomic_component=a_table_top, min_quantity=1, max_quantity=1)
+        AP_table_leg = AtomicPrerequisite.objects.create(atomic_component=a_table_leg, min_quantity=4, max_quantity=8)
+        table_atomic_prereqs = [AP_table_top, AP_table_leg]
+
+        for prereq in table_atomic_prereqs:
+            tableBlueprint.atomic_prerequisites.add(prereq)
+        tableBlueprint.save()
+
+        # Table Set
+        tableSetBlueprint = Blueprint.objects.create(name="tableSet")
+        tableSetBlueprintPrereq = BlueprintPrerequisite.objects.create(
+                blueprint_component=tableBlueprint, min_quantity=1, max_quantity=1)
+        tableSetAtomicPrereq = AtomicPrerequisite.objects.create(
+                atomic_component=a_chair, min_quantity=2, max_quantity=4)
+        tableSetBlueprint.blueprint_prerequisites.add(tableSetBlueprintPrereq)
+        tableSetBlueprint.atomic_prerequisites.add(tableSetAtomicPrereq)
+        tableSetBlueprint.save()
+
+        ####
+        # Builds
+        ####
+
+        # Table
+        tableBuild = Build.objects.create(name='Table', blueprint=tableBlueprint)
+        AS_table_top = AtomicSpecification.objects.create(atomic_prereq=AP_table_top, quantity=1)
+        AS_table_leg = AtomicSpecification.objects.create(atomic_prereq=AP_table_leg, quantity=4)
+        tableBuild_atomic_spec = [AS_table_top, AS_table_leg]
+        for spec in tableBuild_atomic_spec:
+            tableBuild.atomic_specifications.add(spec)
+        tableBuild.save()
+
+        # Table-set assembly
+        self.tableSetBuild = Build.objects.create(name='TableSet', blueprint=tableSetBlueprint)
+        AS_tableset_chairs = AtomicSpecification.objects.create(atomic_prereq=tableSetAtomicPrereq, quantity=4)
+        self.tableSetBuild.atomic_specifications.add(AS_tableset_chairs)
+
+        self.tableSetBuild.blueprint_specifications.add(
+            BlueprintSpecification.objects.create(blueprint_prereq=tableBlueprint, quantity=1)
+        )
+        self.tableSetBuild.save()
+
+
+    def test(self):
+        # self.assertEqual(self.tableSetBuild.prerequisiteAudit().fulfilled(), True)
+        self.assertEqual(True, True)
 
 #TODO: Check if atomic variables are available

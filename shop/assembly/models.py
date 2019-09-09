@@ -27,14 +27,13 @@ class BlueprintSpecification(TimestampedModel):
     def __str__(self):
         return "BlueSpecification: {}: {}".format(self.atomic_component.stock_code, self.quantity)
 
-
 class Build(TimestampedModel):
     name = models.CharField(max_length=250)
     blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='based_on', null=False)
 
     atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='specifications',
                                                    symmetrical=False)
-    blueprint_specifications = models.ManyToManyField(BlueprintSpecification, related_name='specifications',
+    build_specifications = models.ManyToManyField(BlueprintSpecification, related_name='specifications',
                                                       symmetrical=False)
 
     def validate(self):
@@ -113,3 +112,4 @@ class Build(TimestampedModel):
             for bpReq in self.blueprint_specifications.all():
                 atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
             return atomicReq
+
