@@ -1,8 +1,6 @@
 from django.test import TestCase
-from shop.models import AtomicComponent
-from shop.concept.models import Blueprint, AtomicPrerequisite, BlueprintPrerequisite, PrerequisiteAudit
-from .models import AtomicSpecification, Build, BlueprintSpecification
-
+from .models import Blueprint, Build, BuildSpecification, BuildPrerequisite, PrerequisiteAudit
+from shop.atomic.models import AtomicComponent, AtomicSpecification, AtomicPrerequisite
 
 class Build_validate_legal_atomic_spec(TestCase):
 
@@ -286,7 +284,7 @@ class Build_Audit_fulfillment_deficit(TestCase):
 
     def test(self):
         self.assertEqual(self.audit.fulfilled(), False)
-
+#
 class Build_Audit_fulfillment_surplus(TestCase):
 
     def setUp(self):
@@ -298,7 +296,6 @@ class Build_Audit_fulfillment_surplus(TestCase):
         self.assertEqual(self.audit.fulfilled(), False)
 
 class Build_Audit_prerequisite_recursive(TestCase):
-
     def setUp(self):
 
         # Define atomic variables
@@ -306,11 +303,7 @@ class Build_Audit_prerequisite_recursive(TestCase):
         a_table_leg = AtomicComponent.objects.create(stock_code='Table-leg', availability=700)
         a_chair = AtomicComponent.objects.create(stock_code='chair', availability=300)
 
-        ####
-        # Concept
-        ####
-
-        # Table
+        # define table
         tableBlueprint = Blueprint.objects.create(name="Table")
 
         AP_table_top = AtomicPrerequisite.objects.create(atomic_component=a_table_top, min_quantity=1, max_quantity=1)
@@ -321,21 +314,7 @@ class Build_Audit_prerequisite_recursive(TestCase):
             tableBlueprint.atomic_prerequisites.add(prereq)
         tableBlueprint.save()
 
-        # Table Set
-        tableSetBlueprint = Blueprint.objects.create(name="tableSet")
-        tableSetBlueprintPrereq = BlueprintPrerequisite.objects.create(
-                blueprint_component=tableBlueprint, min_quantity=1, max_quantity=1)
-        tableSetAtomicPrereq = AtomicPrerequisite.objects.create(
-                atomic_component=a_chair, min_quantity=2, max_quantity=4)
-        tableSetBlueprint.blueprint_prerequisites.add(tableSetBlueprintPrereq)
-        tableSetBlueprint.atomic_prerequisites.add(tableSetAtomicPrereq)
-        tableSetBlueprint.save()
-
-        ####
-        # Builds
-        ####
-
-        # Table
+        # Build table
         tableBuild = Build.objects.create(name='Table', blueprint=tableBlueprint)
         AS_table_top = AtomicSpecification.objects.create(atomic_prereq=AP_table_top, quantity=1)
         AS_table_leg = AtomicSpecification.objects.create(atomic_prereq=AP_table_leg, quantity=4)
@@ -344,19 +323,49 @@ class Build_Audit_prerequisite_recursive(TestCase):
             tableBuild.atomic_specifications.add(spec)
         tableBuild.save()
 
-        # Table-set assembly
+        # define table-set
+        tableSetBlueprint = Blueprint.objects.create(name="tableSet")
+        tableSetBuildPrereq = BuildPrerequisite.objects.create(
+            build=tableBuild, min_quantity=1, max_quantity=1)
+        tableSetAtomicPrereq = AtomicPrerequisite.objects.create(
+            atomic_component=a_chair, min_quantity=2, max_quantity=4)
+        tableSetBlueprint.build_prerequisites.add(tableSetBuildPrereq)
+        tableSetBlueprint.atomic_prerequisites.add(tableSetAtomicPrereq)
+        tableSetBlueprint.save()
+
+        # build table-set
         self.tableSetBuild = Build.objects.create(name='TableSet', blueprint=tableSetBlueprint)
         AS_tableset_chairs = AtomicSpecification.objects.create(atomic_prereq=tableSetAtomicPrereq, quantity=4)
         self.tableSetBuild.atomic_specifications.add(AS_tableset_chairs)
 
-        self.tableSetBuild.blueprint_specifications.add(
-            BlueprintSpecification.objects.create(blueprint_prereq=tableBlueprint, quantity=1)
+        self.tableSetBuild.build_specifications.add(
+            BuildSpecification.objects.create(build_prereq=tableSetBuildPrereq, quantity=1)
         )
         self.tableSetBuild.save()
 
+    def test(self):
+        self.assertEqual(self.tableSetBuild.prerequisiteAudit().fulfilled(), True)
+
+class Build_has_prerequsite(TestCase):
+    def setUp(self):
+        b2_Blueprint = Blueprint.objects.create(name="LowerBlueprint")
+        b2 = Build.objects.create(name="LowerBuild", blueprint=b2_Blueprint)
+
+        b1_Blueprint = Blueprint.objects.create(name="UpperBlueprint")
+        b1_build_prereq = BuildPrerequisite.objects.create(build=b2, min_quantity=1, max_quantity=1)
+        b1_Blueprint.build_prerequisites.add(b1_build_prereq)
+
+        self.b1 = Build.objects.create(name="UpperBuild", blueprint=b1_Blueprint)
 
     def test(self):
-        # self.assertEqual(self.tableSetBuild.prerequisiteAudit().fulfilled(), True)
-        self.assertEqual(True, True)
+        self.assertEqual(self.b1.hasBuildPrerequisite(), True)
+
+class Build_has_no_prerequsite(TestCase):
+    def setUp(self):
+        b2_Blueprint = Blueprint.objects.create(name="LowerBlueprint")
+        self.b2 = Build.objects.create(name="LowerBuild", blueprint=b2_Blueprint)
+
+    def test(self):
+        self.assertEqual(self.b2.hasBuildPrerequisite(), False)
 
 #TODO: Check if atomic variables are available

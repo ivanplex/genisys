@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop',
-    'shop.concept',
+    'shop.atomic',
     'shop.assembly',
 ]
 

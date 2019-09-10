@@ -9,7 +9,7 @@ def generate_url_include(name):
     return url(regex, to_include, name=namespace)
 
 namespaces_to_include = [
-    # "concept",
+    # "atomic",
 ]
 
 namespaced_urls = [

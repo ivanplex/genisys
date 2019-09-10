@@ -1,40 +1,71 @@
 from django.db import models
 from shop.models import TimestampedModel
-from shop.concept.models import Blueprint, AtomicPrerequisite, BlueprintPrerequisite, PrerequisiteAudit
+from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
+
+class Blueprint(TimestampedModel):
+    name = models.CharField(max_length=250)
+    atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements', symmetrical=False)
+    build_prerequisites = models.ManyToManyField('BuildPrerequisite', related_name='blueprint_requirements',
+                                                     symmetrical=False)
+
+    def isEmpty(self):
+        if len(self.atomic_prerequisites.all()) == 0 and len(self.build_prerequisites.all()) == 0:
+            return True
+        else:
+            return False
+
+    def getLocalAtomicPrerequisites(self):
+        """
+        Return local AtomicRequirement only
+        :return: list[AtomicRequirement]
+        """
+        l = []
+        for req in self.atomic_prerequisites.all():
+            l.append(req)
+        return l
+
+    def listAtomicDependencies(self):
+        """
+        Return all atomic dependencies recursively
+        return list instead of queryset
+
+        :return: list[AtomicRequirement]
+        """
+        if len(self.build_prerequisites.all()) == 0:
+            # If no further blueprint dependencies
+            return self.getLocalAtomicPrerequisites()
+        else:
+            atomicReq = self.getLocalAtomicPrerequisites()
+            for bpReq in self.build_prerequisites.all():
+                atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
+            return atomicReq
+
+class BuildPrerequisite(TimestampedModel):
+    build = models.ForeignKey('Build', on_delete=models.PROTECT, related_name='requires',
+                              null=False)
+
+    min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
+    max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
 
-class AtomicSpecification(TimestampedModel):
-    atomic_prereq = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
-                                      null=False)
+class BuildSpecification(TimestampedModel):
+    build_prereq = models.ForeignKey(BuildPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+                                     null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
-    def validate(self):
-        """
-        Valiate quantity following prerequisite constraint
-        :return: Bool
-        """
-        return True if self.atomic_prereq.min_quantity <= self.quantity <= self.atomic_prereq.max_quantity else False
-
-    def __str__(self):
-        return "AtomicSpecification: {}: {}".format(self.atomic_prereq.atomic_component.stock_code, self.quantity)
-
-
-class BlueprintSpecification(TimestampedModel):
-    blueprint_prereq = models.ForeignKey(BlueprintPrerequisite, on_delete=models.PROTECT, related_name='build_with',
-                                         null=False)
-    quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
-
-    def __str__(self):
-        return "BlueSpecification: {}: {}".format(self.atomic_component.stock_code, self.quantity)
 
 class Build(TimestampedModel):
     name = models.CharField(max_length=250)
+    sku = models.CharField(max_length=3)
+    availability = models.IntegerField(null=False, default=0)
+
     blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='based_on', null=False)
 
-    atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='specifications',
-                                                   symmetrical=False)
-    build_specifications = models.ManyToManyField(BlueprintSpecification, related_name='specifications',
-                                                      symmetrical=False)
+    atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='atomic_specification', symmetrical=False)
+    build_specifications = models.ManyToManyField(BuildSpecification, related_name='build_specification', symmetrical=False)
+
+    def hasBuildPrerequisite(self):
+        return False if not self.blueprint.build_prerequisites.all() else True
 
     def validate(self):
         """
@@ -112,4 +143,17 @@ class Build(TimestampedModel):
             for bpReq in self.blueprint_specifications.all():
                 atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
             return atomicReq
+
+class PrerequisiteAudit:
+    """
+    Prerequisite auditing for builds
+    """
+    deficit = []
+    surplus = []
+
+    def fulfilled(self):
+        if not self.deficit and not self.surplus:
+            return True
+        else:
+            return False
 
