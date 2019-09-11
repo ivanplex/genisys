@@ -109,12 +109,7 @@ class Build(TimestampedModel):
         :return: Bool
         """
         # TODO: Make this recursive
-        for spec in self.atomic_specifications.all():
-            if spec.validate():
-                continue
-            else:
-                return False
-        return True
+        return self.prerequisiteAudit().fulfilled()
 
     def prerequisiteAudit(self):
 

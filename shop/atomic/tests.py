@@ -462,4 +462,34 @@ class Blueprint_map_prerequisites_recursively(TestCase):
         self.maxDiff = None
         self.assertDictEqual(self.tablesetBuildprint.map_prerequisites(), full_mapping)
 
+class Build_auditing(TestCase):
+    def setUp(self):
+        # Atomic
+        self.manual = AtomicComponent.objects.create(stock_code="man", availability=5)
+        self.tabletop = AtomicComponent.objects.create(stock_code="tabletop", availability=20)
+        self.leg = AtomicComponent.objects.create(stock_code="leg", availability=60)
+        self.screws = AtomicComponent.objects.create(stock_code="screws", availability=8000)
+        self.backplate = AtomicComponent.objects.create(stock_code="backplate", availability=15)
 
+        # Define table
+        tableBlueprint = Blueprint.objects.create(name="table")
+        table_AP_1 = AtomicPrerequisite.objects.create(atomic_component=self.tabletop, min_quantity=1, max_quantity=1)
+        table_AP_2 = AtomicPrerequisite.objects.create(atomic_component=self.leg, min_quantity=4, max_quantity=4)
+        table_AP_3 = AtomicPrerequisite.objects.create(atomic_component=self.screws, min_quantity=4, max_quantity=4)
+        self.tableAtomicPrereq = [table_AP_1, table_AP_2, table_AP_3]
+        for req in self.tableAtomicPrereq:
+            tableBlueprint.atomic_prerequisites.add(req)
+        tableBlueprint.save()
+
+        # Build table
+        self.tableBuild = Build.objects.create(name='table', blueprint=tableBlueprint)
+        table_AS_1 = AtomicSpecification.objects.create(atomic_prereq=table_AP_1, quantity=1)
+        table_AS_2 = AtomicSpecification.objects.create(atomic_prereq=table_AP_2, quantity=4)
+        table_AS_3 = AtomicSpecification.objects.create(atomic_prereq=table_AP_3, quantity=4)
+        tableBuildSpec = [table_AS_1, table_AS_2, table_AS_3]
+        for spec in tableBuildSpec:
+            self.tableBuild.atomic_specifications.add(spec)
+        self.tableBuild.save()
+
+    def test(self):
+        self.assertTrue(self.tableBuild.validate())
