@@ -16,17 +16,17 @@ class Blueprint(TimestampedModel):
 
     def getLocalAtomicPrerequisites(self):
         """
-        Return local AtomicRequirement only
+        Return local AtomicPrerequisite only
         :return: list[AtomicRequirement]
         """
         l = []
-        for req in self.atomic_prerequisites.all():
-            l.append(req)
+        for prereq in self.atomic_prerequisites.all():
+            l.append(prereq)
         return l
 
-    def listAtomicDependencies(self):
+    def allAtomicPrerequisites(self):
         """
-        Return all atomic dependencies recursively
+        Return all atomic prerequisites recursively
         return list instead of queryset
 
         :return: list[AtomicRequirement]
@@ -37,8 +37,44 @@ class Blueprint(TimestampedModel):
         else:
             atomicReq = self.getLocalAtomicPrerequisites()
             for bpReq in self.build_prerequisites.all():
-                atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
+                atomicReq.extend(bpReq.build.blueprint.allAtomicPrerequisites())
             return atomicReq
+
+    def getLocalBuildPrerequisites(self):
+        """
+        Return local BuildPrerequisite only
+        :return: list[AtomicRequirement]
+        """
+        l = []
+        for prereq in self.build_prerequisites.all():
+            l.append(prereq)
+        return l
+
+    def allBuildPrerequisites(self):
+        """
+        Return all build prerequisites recursively
+        return list instead of queryset
+
+        :return: list[AtomicRequirement]
+        """
+        if len(self.build_prerequisites.all()) == 0:
+            # If no further blueprint dependencies
+            return []
+        else:
+            buildPrereq = self.getLocalBuildPrerequisites()
+            for prereq in self.build_prerequisites.all():
+                buildPrereq.extend(prereq.build.blueprint.getLocalBuildPrerequisites())
+            return buildPrereq
+
+    def map_prerequisites(self):
+        struct = {}
+        struct['name'] = self.name
+        struct['atomic_prereq'] = self.getLocalAtomicPrerequisites()
+        struct['build_prereq'] = []
+
+        for prereq in self.build_prerequisites.all():
+            struct['build_prereq'].append(prereq.build.blueprint.map_prerequisites())
+        return struct
 
 class BuildPrerequisite(TimestampedModel):
     build = models.ForeignKey('Build', on_delete=models.PROTECT, related_name='requires',
