@@ -22,7 +22,7 @@ class Build_validate_legal_atomic_spec(TestCase):
         self.build.save()
 
     def test(self):
-        self.assertEqual(self.build.validate(), True)
+        self.assertEqual(self.build.validate_spec(), True)
 
 class Build_validate_illegal_atomic_spec(TestCase):
 
@@ -44,7 +44,7 @@ class Build_validate_illegal_atomic_spec(TestCase):
         self.build.save()
 
     def test(self):
-        self.assertEqual(self.build.validate(), False)
+        self.assertEqual(self.build.validate_spec(), False)
 
 class Build_validate_legal_multiple_atomic_spec(TestCase):
 
@@ -75,7 +75,7 @@ class Build_validate_legal_multiple_atomic_spec(TestCase):
         self.build.save()
 
     def test(self):
-        self.assertEqual(self.build.validate(), True)
+        self.assertEqual(self.build.validate_spec(), True)
 
 class Build_validate_illegal_multiple_atomic_spec(TestCase):
 
@@ -106,7 +106,7 @@ class Build_validate_illegal_multiple_atomic_spec(TestCase):
         self.build.save()
 
     def test(self):
-        self.assertEqual(self.build.validate(), False)
+        self.assertEqual(self.build.validate_spec(), False)
 
 class Build_Audit_prerequisite(TestCase):
 

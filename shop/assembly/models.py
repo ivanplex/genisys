@@ -89,6 +89,13 @@ class BuildSpecification(TimestampedModel):
                                      null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
+    def validate(self):
+        """
+        Valiate quantity following prerequisite constraint
+        :return: Bool
+        """
+        return True if self.build_prereq.min_quantity <= self.quantity <= self.build_prereq.max_quantity else False
+
 
 class Build(TimestampedModel):
     name = models.CharField(max_length=250)
@@ -103,13 +110,28 @@ class Build(TimestampedModel):
     def hasBuildPrerequisite(self):
         return False if not self.blueprint.build_prerequisites.all() else True
 
+
     def validate(self):
+        """
+        Validate the following
+        - Prerequisite compliance
+        - Prerequisite quantity constraints
+        :return:
+        """
+        return True if self.validate_spec() and self.prerequisiteAudit().fulfilled() else False
+
+    def validate_spec(self):
         """
         Valiate quantity following prerequisite constraint
         :return: Bool
         """
         # TODO: Make this recursive
-        return self.prerequisiteAudit().fulfilled()
+        for spec in self.atomic_specifications.all():
+            if spec.validate():
+                continue
+            else:
+                return False
+        return True
 
     def prerequisiteAudit(self):
 
@@ -120,13 +142,6 @@ class Build(TimestampedModel):
         deficit.surplus = [x for x in self.getLocalAtomicPrerequisites()
                      if x not in self.blueprint.getLocalAtomicPrerequisites()]
         return deficit
-
-    # def available(self):
-    # 	results = []
-    # 	for atm_req in self.atomic_prerequisites.all():
-    # 		results.append(atm_req.available())
-    #
-    # 	return all(results)
 
     def available(self):
         for requirement in self.listAtomicDependencies():
@@ -159,21 +174,21 @@ class Build(TimestampedModel):
             l.append(spec.atomic_prereq)
         return l
 
-    def listAtomicDependencies(self):
-        """
-        Return all atomic dependencies recursively
-        return list instead of queryset
-
-        :return: list[AtomicSpecification]
-        """
-        if len(self.blueprint_specifications.all()) == 0:
-            # If no further blueprint dependencies
-            return self.getLocalAtomicSpecifications()
-        else:
-            atomicReq = self.getLocalAtomicSpecifications()
-            for bpReq in self.blueprint_specifications.all():
-                atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
-            return atomicReq
+    # def listAtomicDependencies(self):
+    #     """
+    #     Return all atomic dependencies recursively
+    #     return list instead of queryset
+    #
+    #     :return: list[AtomicSpecification]
+    #     """
+    #     if len(self.build_specifications.all()) == 0:
+    #         # If no further blueprint dependencies
+    #         return self.getLocalAtomicSpecifications()
+    #     else:
+    #         atomicReq = self.getLocalAtomicSpecifications()
+    #         for bpReq in self.build_specifications.all():
+    #             atomicReq.extend(bpReq.blueprint_component.listAtomicDependencies())
+    #         return atomicReq
 
 class PrerequisiteAudit:
     """

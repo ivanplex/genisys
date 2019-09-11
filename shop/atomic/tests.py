@@ -492,4 +492,4 @@ class Build_auditing(TestCase):
         self.tableBuild.save()
 
     def test(self):
-        self.assertTrue(self.tableBuild.validate())
+        self.assertTrue(self.tableBuild.prerequisiteAudit().fulfilled())
