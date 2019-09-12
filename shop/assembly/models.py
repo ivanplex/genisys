@@ -5,11 +5,11 @@ from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecif
 class Blueprint(TimestampedModel):
     name = models.CharField(max_length=250)
     atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements', symmetrical=False)
-    build_prerequisites = models.ManyToManyField('BuildPrerequisite', related_name='blueprint_requirements',
-                                                     symmetrical=False)
+    product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
+                                                   symmetrical=False)
 
     def isEmpty(self):
-        if len(self.atomic_prerequisites.all()) == 0 and len(self.build_prerequisites.all()) == 0:
+        if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
             return True
         else:
             return False
@@ -31,14 +31,14 @@ class Blueprint(TimestampedModel):
 
         :return: list[AtomicRequirement]
         """
-        if len(self.build_prerequisites.all()) == 0:
+        if len(self.product_prerequisites.all()) == 0:
             # If no further blueprint dependencies
             return self.getLocalAtomicPrerequisites()
         else:
-            atomicReq = self.getLocalAtomicPrerequisites()
-            for bpReq in self.build_prerequisites.all():
-                atomicReq.extend(bpReq.build.blueprint.allAtomicPrerequisites())
-            return atomicReq
+            atomic_prereq = self.getLocalAtomicPrerequisites()
+            for prereq in self.product_prerequisites.all():
+                atomic_prereq.extend(prereq.product.blueprint.allAtomicPrerequisites())
+            return atomic_prereq
 
     def getLocalBuildPrerequisites(self):
         """
@@ -46,47 +46,47 @@ class Blueprint(TimestampedModel):
         :return: list[AtomicRequirement]
         """
         l = []
-        for prereq in self.build_prerequisites.all():
+        for prereq in self.product_prerequisites.all():
             l.append(prereq)
         return l
 
     def allBuildPrerequisites(self):
         """
-        Return all build prerequisites recursively
+        Return all product prerequisites recursively
         return list instead of queryset
 
         :return: list[AtomicRequirement]
         """
-        if len(self.build_prerequisites.all()) == 0:
+        if len(self.product_prerequisites.all()) == 0:
             # If no further blueprint dependencies
             return []
         else:
-            buildPrereq = self.getLocalBuildPrerequisites()
-            for prereq in self.build_prerequisites.all():
-                buildPrereq.extend(prereq.build.blueprint.getLocalBuildPrerequisites())
-            return buildPrereq
+            productPrereq = self.getLocalBuildPrerequisites()
+            for prereq in self.product_prerequisites.all():
+                productPrereq.extend(prereq.product.blueprint.getLocalBuildPrerequisites())
+            return productPrereq
 
     def map_prerequisites(self):
         struct = {}
         struct['name'] = self.name
         struct['atomic_prereq'] = self.getLocalAtomicPrerequisites()
-        struct['build_prereq'] = []
+        struct['product_prereq'] = []
 
-        for prereq in self.build_prerequisites.all():
-            struct['build_prereq'].append(prereq.build.blueprint.map_prerequisites())
+        for prereq in self.product_prerequisites.all():
+            struct['product_prereq'].append(prereq.product.blueprint.map_prerequisites())
         return struct
 
-class BuildPrerequisite(TimestampedModel):
-    build = models.ForeignKey('Build', on_delete=models.PROTECT, related_name='requires',
-                              null=False)
+class ProductPrerequisite(TimestampedModel):
+    product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
+                                null=False)
 
     min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
     max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
 
-class BuildSpecification(TimestampedModel):
-    build_prereq = models.ForeignKey(BuildPrerequisite, on_delete=models.PROTECT, related_name='build_with',
-                                     null=False)
+class ProductSpecification(TimestampedModel):
+    product_prereq = models.ForeignKey(ProductPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+                                       null=False)
     quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
     def validate(self):
@@ -94,10 +94,10 @@ class BuildSpecification(TimestampedModel):
         Valiate quantity following prerequisite constraint
         :return: Bool
         """
-        return True if self.build_prereq.min_quantity <= self.quantity <= self.build_prereq.max_quantity else False
+        return True if self.product_prereq.min_quantity <= self.quantity <= self.product_prereq.max_quantity else False
 
 
-class Build(TimestampedModel):
+class Product(TimestampedModel):
     name = models.CharField(max_length=250)
     sku = models.CharField(max_length=3)
     availability = models.IntegerField(null=False, default=0)
@@ -105,10 +105,10 @@ class Build(TimestampedModel):
     blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='based_on', null=False)
 
     atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='atomic_specification', symmetrical=False)
-    build_specifications = models.ManyToManyField(BuildSpecification, related_name='build_specification', symmetrical=False)
+    product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification', symmetrical=False)
 
-    def hasBuildPrerequisite(self):
-        return False if not self.blueprint.build_prerequisites.all() else True
+    def hasProductPrerequisite(self):
+        return False if not self.blueprint.product_prerequisites.all() else True
 
 
     def validate(self):
@@ -143,7 +143,7 @@ class Build(TimestampedModel):
                      if x not in self.blueprint.getLocalAtomicPrerequisites()]
 
         # Add blueprint deficit
-        blueprint_spec_prereq = [x.build_prereq for x in self.getLocalBuildSpecifications()]
+        blueprint_spec_prereq = [x.product_prereq for x in self.getLocalBuildSpecifications()]
         blueprint_deficit = [x for x in self.blueprint.getLocalBuildPrerequisites()
                      if x not in blueprint_spec_prereq]
 
@@ -183,7 +183,7 @@ class Build(TimestampedModel):
         :return: list[AtomicSpecification]
         """
         l = []
-        for spec in self.build_specifications.all():
+        for spec in self.product_specifications.all():
             l.append(spec)
         return l
 
@@ -191,20 +191,21 @@ class Build(TimestampedModel):
         struct = {}
         struct['name'] = self.name
         struct['atomic_spec'] = self.getLocalAtomicSpecifications()
-        struct['build_spec'] = []
+        struct['product_spec'] = []
         struct['audit'] = self.prerequisiteAudit().__str__()
 
-        for spec in self.build_specifications.all():
-            struct['build_spec'].append(spec.build_prereq.build.map_spec())
+        for spec in self.product_specifications.all():
+            struct['product_spec'].append(spec.product_prereq.product.map_spec())
         return struct
 
 #TODO: Redefine how to handle Audits
 class PrerequisiteAudit:
     """
-    Prerequisite auditing for builds
+    Prerequisite auditing for products
     """
-    deficit = []
-    surplus = []
+    def __init__(self):
+        self.deficit = []
+        self.surplus = []
 
     def fulfilled(self):
         if not self.deficit and not self.surplus:
