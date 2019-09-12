@@ -154,15 +154,6 @@ class Build(TimestampedModel):
 
         return deficit
 
-
-    # def available(self):
-    #     for requirement in self.listAtomicDependencies():
-    #         if requirement.atomic_component.availability >= requirement.quantity:
-    #             continue
-    #         else:
-    #             return False
-    #     return True
-
     def getLocalAtomicSpecifications(self):
         """
         Return local AtomicSpecification only

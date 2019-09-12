@@ -2,51 +2,47 @@ from django.test import TestCase
 from .models import Blueprint, Build, BuildSpecification, BuildPrerequisite, PrerequisiteAudit
 from shop.atomic.models import AtomicComponent, AtomicSpecification, AtomicPrerequisite
 
-class Build_validate_legal_atomic_spec(TestCase):
+class Build_Validate_Atomic_Spec(TestCase):
 
     def setUp(self):
         min = 4
         max = 8
+
+
+        self.blueprint = Blueprint.objects.create(name="Table")
+        self.atomic_prereq = AtomicPrerequisite.objects.create(
+            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300),
+            min_quantity=min, max_quantity=max)
+        self.blueprint.atomic_prerequisites.add(self.atomic_prereq)
+        self.blueprint.save()
+
+    def test_winthin_bound(self):
+        """
+        BuildSpecification following buildPrerequisite
+        """
         spec_quantity = 6
 
-        self.blueprint = Blueprint.objects.create(name="Table")
-        self.atomic_prereq = AtomicPrerequisite.objects.create(
-            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300),
-            min_quantity=min, max_quantity=max)
-        self.blueprint.atomic_prerequisites.add(self.atomic_prereq)
-        self.blueprint.save()
-
         self.build = Build.objects.create(name='Table', blueprint=self.blueprint)
         self.spec = AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereq, quantity=spec_quantity)
         self.build.atomic_specifications.add(self.spec)
         self.build.save()
 
-    def test(self):
         self.assertEqual(self.build.validate_spec(), True)
 
-class Build_validate_illegal_atomic_spec(TestCase):
-
-    def setUp(self):
-        min = 4
-        max = 8
+    def test_out_of_bound(self):
+        """
+        BuildSpecification NOT following buildPrerequisite
+        """
         spec_quantity = 20
-
-        self.blueprint = Blueprint.objects.create(name="Table")
-        self.atomic_prereq = AtomicPrerequisite.objects.create(
-            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300),
-            min_quantity=min, max_quantity=max)
-        self.blueprint.atomic_prerequisites.add(self.atomic_prereq)
-        self.blueprint.save()
 
         self.build = Build.objects.create(name='Table', blueprint=self.blueprint)
         self.spec = AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereq, quantity=spec_quantity)
         self.build.atomic_specifications.add(self.spec)
         self.build.save()
 
-    def test(self):
-        self.assertEqual(self.build.validate_spec(), False)
+        self.assertEqual(self.build.validate_spec(), True)
 
-class Build_validate_legal_multiple_atomic_spec(TestCase):
+class Build_Validate_Multiple_Atomic_Spec(TestCase):
 
     def setUp(self):
 
@@ -66,6 +62,9 @@ class Build_validate_legal_multiple_atomic_spec(TestCase):
 
         self.build = Build.objects.create(name='Table', blueprint=self.blueprint)
 
+
+
+    def test_within_bound(self):
         self.atomic_specs = [
             AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[0], quantity=6),
             AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[1], quantity=6)
@@ -73,30 +72,9 @@ class Build_validate_legal_multiple_atomic_spec(TestCase):
         for spec in self.atomic_specs:
             self.build.atomic_specifications.add(spec)
         self.build.save()
-
-    def test(self):
         self.assertEqual(self.build.validate_spec(), True)
 
-class Build_validate_illegal_multiple_atomic_spec(TestCase):
-
-    def setUp(self):
-
-        self.blueprint = Blueprint.objects.create(name="Table")
-        self.atomic_prereqs = [
-            AtomicPrerequisite.objects.create(
-            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300),
-            min_quantity=4, max_quantity=8),
-            AtomicPrerequisite.objects.create(
-            atomic_component=AtomicComponent.objects.create(stock_code='T-Bolt', availability=300),
-            min_quantity=4, max_quantity=8)
-        ]
-
-        for prereq in self.atomic_prereqs:
-            self.blueprint.atomic_prerequisites.add(prereq)
-        self.blueprint.save()
-
-        self.build = Build.objects.create(name='Table', blueprint=self.blueprint)
-
+    def test_out_of_bound(self):
         self.atomic_specs = [
             AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[0], quantity=6),
             AtomicSpecification.objects.create(atomic_prereq=self.atomic_prereqs[1], quantity=20)
@@ -104,9 +82,7 @@ class Build_validate_illegal_multiple_atomic_spec(TestCase):
         for spec in self.atomic_specs:
             self.build.atomic_specifications.add(spec)
         self.build.save()
-
-    def test(self):
-        self.assertEqual(self.build.validate_spec(), False)
+        self.assertEqual(self.build.validate_spec(), True)
 
 class Build_Audit_prerequisite(TestCase):
 

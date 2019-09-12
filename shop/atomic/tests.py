@@ -495,19 +495,6 @@ class Build_auditing(TestCase):
         self.assertTrue(self.tableBuild.prerequisiteAudit().fulfilled())
 
 class Build_map(TestCase):
-    """
-    Test aggregation of all atomic specification recursively under build
-
-    Scenario: Ikea table set
-
-    Table-set contains 1 table (blueprint) and 4 chairs (blueprint)
-    and a instruction manual (atomic)
-
-    A table contains 1 table-top, 4 legs, 4 screws
-    A chair contains a backplate and 4 legs, 4 screws
-
-    Validate
-    """
 
     def setUp(self):
 
@@ -586,8 +573,17 @@ class Build_map(TestCase):
 
     def test(self):
         """
-        Test recursive collection of all AtomicRequirements of a Blueprint
-        :return:
+        Test aggregation of all atomic specification recursively under build
+
+        Scenario: Ikea table set
+
+        Table-set contains 1 table (blueprint) and 4 chairs (blueprint)
+        and a instruction manual (atomic)
+
+        A table contains 1 table-top, 4 legs, 4 screws
+        A chair contains a backplate and 4 legs, 4 screws
+
+        Validate
         """
         struc = {
             'name': 'tableSet',
