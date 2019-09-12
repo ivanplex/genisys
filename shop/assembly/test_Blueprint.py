@@ -137,7 +137,7 @@ class BlueprintEmptinessTestCase(TestCase):
         self.assertEqual(self.tableset.isEmpty(), False)
 
 
-class BlueprintAccountPrerequisiteTestCase(TestCase):
+class IkeaTableSetTestCase(TestCase):
     """
     Scenario: Ikea table set
 
@@ -156,22 +156,22 @@ class BlueprintAccountPrerequisiteTestCase(TestCase):
         self.backplate = AtomicComponent.objects.create(stock_code="backplate", availability=15)
 
         # Define table
-        tableBlueprint = Blueprint.objects.create(name="table")
+        self.tableBlueprint = Blueprint.objects.create(name="table")
         table_AP_1 = AtomicPrerequisite.objects.create(atomic_component=self.tabletop, min_quantity=1, max_quantity=1)
         table_AP_2 = AtomicPrerequisite.objects.create(atomic_component=self.leg, min_quantity=4, max_quantity=4)
         table_AP_3 = AtomicPrerequisite.objects.create(atomic_component=self.screws, min_quantity=4, max_quantity=4)
         self.tableAtomicPrereq = [table_AP_1, table_AP_2, table_AP_3]
         for req in self.tableAtomicPrereq:
-            tableBlueprint.atomic_prerequisites.add(req)
-        tableBlueprint.save()
+            self.tableBlueprint.atomic_prerequisites.add(req)
+        self.tableBlueprint.save()
 
         # Build table
-        self.tableBuild = Product.objects.create(name='table', blueprint=tableBlueprint)
+        self.tableBuild = Product.objects.create(name='table', blueprint=self.tableBlueprint)
         table_AS_1 = AtomicSpecification.objects.create(atomic_prereq=table_AP_1, quantity=1)
         table_AS_2 = AtomicSpecification.objects.create(atomic_prereq=table_AP_2, quantity=4)
         table_AS_3 = AtomicSpecification.objects.create(atomic_prereq=table_AP_3, quantity=4)
-        tableBuildSpec = [table_AS_1, table_AS_2, table_AS_3]
-        for spec in tableBuildSpec:
+        self.tableAtomicSpec = [table_AS_1, table_AS_2, table_AS_3]
+        for spec in self.tableAtomicSpec:
             self.tableBuild.atomic_specifications.add(spec)
         self.tableBuild.save()
 
@@ -190,43 +190,20 @@ class BlueprintAccountPrerequisiteTestCase(TestCase):
         chair_AS_1 = AtomicSpecification.objects.create(atomic_prereq=chair_AP_1, quantity=1)
         chair_AS_2 = AtomicSpecification.objects.create(atomic_prereq=chair_AP_2, quantity=4)
         chair_AS_3 = AtomicSpecification.objects.create(atomic_prereq=chair_AP_3, quantity=4)
-        chairAtomicSpec = [chair_AS_1, chair_AS_2, chair_AS_3]
-        for spec in chairAtomicSpec:
+        self.chairAtomicSpec = [chair_AS_1, chair_AS_2, chair_AS_3]
+        for spec in self.chairAtomicSpec:
             self.chairBuild.atomic_specifications.add(spec)
         self.chairBuild.save()
 
-    def test_atomic_prerequisite_account(self):
-        """
-        Test aggregation of all atomic dependency recursively under blueprint
-        """
         # define table-set
         self.tablesetBuildprint = Blueprint.objects.create(name="tableset")
-        tablesetAtomicPrereq = AtomicPrerequisite.objects.create(atomic_component=self.manual, min_quantity=1,
-                                                                 max_quantity=1)
-        tablesetBuildPrereq = [
-            ProductPrerequisite.objects.create(product=self.tableBuild, min_quantity=1, max_quantity=1),
-            ProductPrerequisite.objects.create(product=self.chairBuild, min_quantity=1, max_quantity=4)
-        ]
-        self.tablesetBuildprint.atomic_prerequisites.add(tablesetAtomicPrereq)
-        for bpReq in tablesetBuildPrereq:
-            self.tablesetBuildprint.product_prerequisites.add(bpReq)
-        self.tablesetBuildprint.save()
-
-        # create a list of all requirements
-        self.allAtomicRequirements = self.tableAtomicPrereq + self.chairAtomicPrereq + [tablesetAtomicPrereq]
-
-        self.assertEqual(set(self.tablesetBuildprint.allAtomicPrerequisites()), set(self.allAtomicRequirements))
-
-    def test_blueprint_prerequisite_account(self):
-        # define table-set
-        self.tablesetBuildprint = Blueprint.objects.create(name="tableset")
-        tablesetAtomicPrereq = AtomicPrerequisite.objects.create(atomic_component=self.manual, min_quantity=1,
+        self.tablesetAtomicPrereq = AtomicPrerequisite.objects.create(atomic_component=self.manual, min_quantity=1,
                                                                  max_quantity=1)
         tableSet_BP_1 = ProductPrerequisite.objects.create(product=self.tableBuild, min_quantity=1, max_quantity=1)
         tableSet_BP_2 = ProductPrerequisite.objects.create(product=self.chairBuild, min_quantity=1, max_quantity=4)
-        tablesetBuildPrereq = [tableSet_BP_1, tableSet_BP_2]
-        self.tablesetBuildprint.atomic_prerequisites.add(tablesetAtomicPrereq)
-        for bpReq in tablesetBuildPrereq:
+        self.tablesetBuildPrereq = [tableSet_BP_1, tableSet_BP_2]
+        self.tablesetBuildprint.atomic_prerequisites.add(self.tablesetAtomicPrereq)
+        for bpReq in self.tablesetBuildPrereq:
             self.tablesetBuildprint.product_prerequisites.add(bpReq)
         self.tablesetBuildprint.save()
 
@@ -234,12 +211,62 @@ class BlueprintAccountPrerequisiteTestCase(TestCase):
         self.tablesetBuild = Product.objects.create(name="tableSet", blueprint=self.tablesetBuildprint)
         tableset_BS_1 = ProductSpecification.objects.create(product_prereq=tableSet_BP_1, quantity=1)
         tableset_BS_2 = ProductSpecification.objects.create(product_prereq=tableSet_BP_2, quantity=4)
+        self.tableset_AS_1 = AtomicSpecification.objects.create(atomic_prereq=self.tablesetAtomicPrereq, quantity=1)
         tablesetBuildSpec = [tableset_BS_1, tableset_BS_2]
         for spec in tablesetBuildSpec:
             self.tablesetBuild.product_specifications.add(spec)
+        self.tablesetBuild.atomic_specifications.add(self.tableset_AS_1)
         self.tablesetBuild.save()
 
+    def test_agg_blueprint_atomic_prerequisite(self):
+        """
+        Test aggregation of all atomic prerequisite recursively under blueprint
+        """
         # create a list of all requirements
-        self.allBuildPrereq = tablesetBuildPrereq
+        self.allAtomicRequirements = self.tableAtomicPrereq + self.chairAtomicPrereq + [self.tablesetAtomicPrereq]
+
+        self.assertEqual(set(self.tablesetBuildprint.allAtomicPrerequisites()), set(self.allAtomicRequirements))
+
+    def test_agg_blueprint_prerequisite(self):
+        """
+        Test aggregation of all blueprint prerequisite recursively under blueprint
+        """
+        # create a list of all requirements
+        self.allBuildPrereq = self.tablesetBuildPrereq
 
         self.assertEqual(set(self.tablesetBuildprint.allBuildPrerequisites()), set(self.allBuildPrereq))
+
+    def test_blueprint_single_layer_tree_diagram(self):
+        """
+        Map single layer blueprint
+        """
+        mapping = {
+            'name': 'table',
+            'atomic_prereq': self.tableAtomicPrereq,
+            'product_prereq': []
+        }
+        self.assertDictEqual(self.tableBlueprint.map_prerequisites(), mapping)
+
+    def test_blueprint_in_tree_diagram(self):
+        """
+        Print Blueprint
+        """
+        full_mapping = {
+            'name': 'tableset',
+            'atomic_prereq': [self.tablesetAtomicPrereq],
+            'product_prereq':[
+                {
+                    'name': 'table',
+                    'atomic_prereq': self.tableAtomicPrereq,
+                    'product_prereq': []
+                },
+                {
+                    'name': 'chair',
+                    'atomic_prereq': self.chairAtomicPrereq,
+                    'product_prereq': []
+                }
+            ]
+        }
+        self.maxDiff = None
+        self.assertDictEqual(self.tablesetBuildprint.map_prerequisites(), full_mapping)
+
