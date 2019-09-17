@@ -14,15 +14,7 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
     class Meta:
         model = AtomicComponent
         fields = (
-            'id',
-            'stock_code',
-            'part_code',
-            'description',
-            'warehouse_location',
-            'material',
-            'weight',
-            'image',
-            'availability',
+            '__all__'
         )
 
 
@@ -33,7 +25,5 @@ class AtomicPrerequisiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = AtomicPrerequisite
         fields = (
-            'atomic_component',
-            'min_quantity',
-            'max_quantity'
+            '__all__'
         )
