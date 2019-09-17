@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from shop.models import TimestampedModel
 
+
 class AtomicComponent(TimestampedModel):
     stock_code = models.CharField(max_length=255, null=False)
     part_code = models.CharField(max_length=255, null=True)
@@ -17,6 +18,7 @@ class AtomicComponent(TimestampedModel):
             raise ValidationError('stock_code cannot be empty.')
         else:
             super(AtomicComponent, self).save(*args, **kwargs)
+
 
 class AtomicPrerequisite(TimestampedModel):
     atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',

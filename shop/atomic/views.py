@@ -1,8 +1,4 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
-# from django.views.generic import ListView
-# # from shop.models import Blueprint
-# #
-# # class BlueprintList(ListView):
-# #     model = Blueprint
+def view(request):
+    return HttpResponse("This is a generic view")
