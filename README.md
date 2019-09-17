@@ -28,8 +28,6 @@ After defining the atomic components, abstract layer helps to define rules for c
 
 Both prerequisites specify a range of quantity in which a blueprint can request. In cases like a table set, the BuildPrerequisite for chairs could be between 2 to 4. 
 
-![alt text](docs/img/abstract_classes.png "Construct")
-
 ##### Build Layer:
 `Build` defines a blueprint with a particular specification. Build should comply with the rule according to the blueprint by attaching Atomic/Build Specifications to meet each prerequisite defined in blueprint.
 
