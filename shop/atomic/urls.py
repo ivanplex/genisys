@@ -1,11 +1,17 @@
 from django.conf.urls import url
 
 from shop.atomic.api import (
+    # Component
     AtomicComponentList,
     AtomicComponentDetails,
     AtomicComponentCreate,
     AtomicComponentUpdate,
     AtomicComponentDestroy,
+    # Prerequisite
+    AtomicPrerequisiteDetails,
+    AtomicPrerequisiteCreate,
+    AtomicPrerequisiteUpdate,
+    AtomicPrerequisiteDestroy,
 )
 
 from shop.atomic.views import (
@@ -15,6 +21,7 @@ from shop.atomic.views import (
 namespace_prefix = "shop.atomic."
 
 urlpatterns = [
+    # Component
     url(r'^component/$', AtomicComponentList.as_view(),
             name=namespace_prefix + "component.list"),
     url(r'^component/view/(?P<pk>\d+)/$', AtomicComponentDetails.as_view(),
@@ -25,6 +32,16 @@ urlpatterns = [
             name=namespace_prefix + "component.update"),
     url(r'^component/delete/(?P<pk>\d+)/$', AtomicComponentDestroy.as_view(),
             name=namespace_prefix + "component.destory"),
+    # Prerequisite
+    url(r'^prerequisite/view/(?P<pk>\d+)/$', AtomicPrerequisiteDetails.as_view(),
+            name=namespace_prefix + "prerequisite.detail"),
+    url(r'^prerequisite/create/$', AtomicPrerequisiteCreate.as_view(),
+            name=namespace_prefix + "prerequisite.create"),
+    url(r'^prerequisite/update/(?P<pk>\d+)/$', AtomicPrerequisiteUpdate.as_view(),
+            name=namespace_prefix + "prerequisite.update"),
+    url(r'^prerequisite/delete/(?P<pk>\d+)/$', AtomicPrerequisiteDestroy.as_view(),
+            name=namespace_prefix + "prerequisite.destory"),
+
     url(r'view/$', view,
                 name=namespace_prefix + "view"),
 ]
