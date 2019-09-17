@@ -56,26 +56,3 @@ class AtomicPrerequisiteDetails(RetrieveAPIView):
     queryset = AtomicPrerequisite.objects.all()
     serializer_class = AtomicPrerequisiteSerializer
 
-
-class AtomicPrerequisiteCreate(CreateAPIView):
-    """
-        Create AtomicPrerequisite
-    """
-    queryset = AtomicPrerequisite.objects.all()
-    serializer_class = AtomicPrerequisiteSerializer
-
-
-class AtomicPrerequisiteUpdate(RetrieveUpdateDestroyAPIView):
-    """
-        Update AtomicPrerequisite
-    """
-    queryset = AtomicPrerequisite.objects.all()
-    serializer_class = AtomicPrerequisiteSerializer
-
-
-class AtomicPrerequisiteDestroy(DestroyAPIView):
-    """
-        Destroy AtomicPrerequisite
-    """
-    queryset = AtomicPrerequisite.objects.all()
-    serializer_class = AtomicPrerequisiteSerializer

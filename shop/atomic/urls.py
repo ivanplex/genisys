@@ -9,9 +9,6 @@ from shop.atomic.api import (
     AtomicComponentDestroy,
     # Prerequisite
     AtomicPrerequisiteDetails,
-    AtomicPrerequisiteCreate,
-    AtomicPrerequisiteUpdate,
-    AtomicPrerequisiteDestroy,
 )
 
 from shop.atomic.views import (
@@ -35,12 +32,6 @@ urlpatterns = [
     # Prerequisite
     url(r'^prerequisite/view/(?P<pk>\d+)/$', AtomicPrerequisiteDetails.as_view(),
             name=namespace_prefix + "prerequisite.detail"),
-    url(r'^prerequisite/create/$', AtomicPrerequisiteCreate.as_view(),
-            name=namespace_prefix + "prerequisite.create"),
-    url(r'^prerequisite/update/(?P<pk>\d+)/$', AtomicPrerequisiteUpdate.as_view(),
-            name=namespace_prefix + "prerequisite.update"),
-    url(r'^prerequisite/delete/(?P<pk>\d+)/$', AtomicPrerequisiteDestroy.as_view(),
-            name=namespace_prefix + "prerequisite.destory"),
 
     url(r'view/$', view,
                 name=namespace_prefix + "view"),
