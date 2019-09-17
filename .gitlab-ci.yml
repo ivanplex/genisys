@@ -10,6 +10,11 @@ cache:
   paths:
   - ~/.cache/pip/
 
+deploy:
+  only:
+    refs:
+      - master
+
 before_script:
   - python -V
   - pip install -r requirements.txt
