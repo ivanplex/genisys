@@ -4,6 +4,7 @@ from rest_framework import status
 
 from shop.atomic.models import AtomicComponent
 from shop.assembly.models import Blueprint
+from shop.assembly.serializers import BlueprintSerializer
 
 
 class AtomicComponentTests(APITestCase):
@@ -47,6 +48,23 @@ class AtomicComponentTests(APITestCase):
             "product_prerequisites": []
         }
 
+        self.invalid_payload = {
+            "name": "Table",
+            "atomic_prerequisites": [
+                {
+                    "unknown": "parameter",
+                    "min_quantity": 1,
+                    "max_quantity": 1,
+                },
+                {
+                    "atomic_component": atom_leg.id,
+                    "min_quantity": 4,
+                    "max_quantity": 4,
+                }
+            ],
+            "product_prerequisites": []
+        }
+
     def test_create(self):
         """
         Ensure we can create AtomicComponent
@@ -56,4 +74,18 @@ class AtomicComponentTests(APITestCase):
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Blueprint.objects.count(), 1)
-        # self.assertEqual(AtomicComponent.objects.get().stock_code, 'p_bolt')
+        self.assertEqual(Blueprint.objects.get().name, 'Table')
+
+    def test_invalid_create(self):
+        """
+        Invalid creation
+        Payload contains invalid prerequisite which is created
+        simultaneously
+        """
+        url = '/assembly/blueprint/create/'
+        data = json.dumps(self.invalid_payload)
+        response = self.client.post(url, data, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+
