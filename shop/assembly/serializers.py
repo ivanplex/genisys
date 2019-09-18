@@ -6,9 +6,14 @@ from shop.assembly.models import (
     ProductSpecification,
 )
 
-from shop.atomic.models import AtomicPrerequisite
+from shop.atomic.models import (
+    AtomicPrerequisite,
+    AtomicSpecification,
+)
+
 from shop.atomic.serializers import (
-    AtomicPrerequisiteSerializer
+    AtomicPrerequisiteSerializer,
+    AtomicSpecificationSerializer,
 )
 
 
@@ -18,6 +23,16 @@ class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductPrerequisite
+        fields = (
+            '__all__'
+        )
+
+
+class ProductSpecificationSerializer(serializers.ModelSerializer):
+    product_prereq = serializers.PrimaryKeyRelatedField(queryset=ProductPrerequisite.objects.all())
+
+    class Meta:
+        model = ProductSpecification
         fields = (
             '__all__'
         )
@@ -48,12 +63,17 @@ class BlueprintSerializer(serializers.ModelSerializer):
         return blueprint
 
 
-# class ProductSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Product
-#         fields = (
-#             '__all__'
-#         )
+class ProductSerializer(serializers.ModelSerializer):
+
+    blueprint = serializers.PrimaryKeyRelatedField(queryset=Blueprint.objects.all())
+    atomic_specifications = AtomicSpecificationSerializer(many=True, read_only=False)
+    product_specifications = ProductSpecificationSerializer(many=True, read_only=False)
+
+    class Meta:
+        model = Product
+        fields = (
+            '__all__'
+        )
 
 
 

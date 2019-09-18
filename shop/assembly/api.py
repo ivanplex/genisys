@@ -8,10 +8,12 @@ from rest_framework.generics import (
 )
 from shop.assembly.models import (
     Blueprint,
+    Product
 )
 
 from shop.assembly.serializers import (
     BlueprintSerializer,
+    ProductSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -56,3 +58,42 @@ class BlueprintDestroy(DestroyAPIView):
     queryset = Blueprint.objects.all()
     serializer_class = BlueprintSerializer
 
+
+class ProductList(ListAPIView):
+    """
+        Returns list of Product
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDetails(RetrieveAPIView):
+    """
+        Returns detail of a Product
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductCreate(CreateAPIView):
+    """
+        Create Product
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductUpdate(RetrieveUpdateDestroyAPIView):
+    """
+        Update Product
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDestroy(DestroyAPIView):
+    """
+        Destroy Product
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
