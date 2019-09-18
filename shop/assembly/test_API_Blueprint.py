@@ -87,5 +87,22 @@ class AtomicComponentTests(APITestCase):
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_view(self):
+        blueprint = Blueprint.objects.create(name="table")
+        response = self.client.get(f'/assembly/blueprint/view/{blueprint.id}/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, BlueprintSerializer(instance=blueprint).data)
 
+    def test_delete(self):
+        blueprint = Blueprint.objects.create(name="table")
+        response = self.client.delete(f'/assembly/blueprint/delete/{blueprint.id}/')
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Blueprint.objects.count(), 0)
+
+    def test_update(self):
+        blueprint = Blueprint.objects.create(name="table")
+        response = self.client.patch(f'/assembly/blueprint/update/{blueprint.id}/', data={'name': 'chair'})
+        blueprint.refresh_from_db()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(blueprint.name, 'chair')
 
