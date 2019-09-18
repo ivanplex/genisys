@@ -24,8 +24,8 @@ class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
 class BlueprintSerializer(serializers.ModelSerializer):
 
-    atomic_prerequisites = AtomicPrerequisiteSerializer(many=True)
-    product_prerequisites = ProductPrerequisiteSerializer(many=True)
+    atomic_prerequisites = AtomicPrerequisiteSerializer(many=True, read_only=True)
+    product_prerequisites = ProductPrerequisiteSerializer(many=True, read_only=True)
 
     class Meta:
         model = Blueprint
