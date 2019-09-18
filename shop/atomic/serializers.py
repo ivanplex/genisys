@@ -24,7 +24,8 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
 
 class AtomicPrerequisiteSerializer(serializers.ModelSerializer):
 
-    atomic_component = serializers.PrimaryKeyRelatedField(read_only=True)
+    atomic_component = serializers.PrimaryKeyRelatedField(read_only=False)
+    # atomic_component = AtomicComponentSerializer()
 
     class Meta:
         model = AtomicPrerequisite

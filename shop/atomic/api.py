@@ -63,6 +63,14 @@ class AtomicComponentDestroy(DestroyAPIView):
     serializer_class = AtomicComponentSerializer
 
 
+class AtomicPrerequisiteList(ListAPIView):
+    """
+        Returns list of AtomicPrerequisite
+    """
+    queryset = AtomicPrerequisite.objects.all()
+    serializer_class = AtomicPrerequisiteSerializer
+
+
 class AtomicPrerequisiteDetails(RetrieveAPIView):
     queryset = AtomicPrerequisite.objects.all()
     serializer_class = AtomicPrerequisiteSerializer

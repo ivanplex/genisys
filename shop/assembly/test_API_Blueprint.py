@@ -9,32 +9,43 @@ from shop.assembly.models import Blueprint
 class AtomicComponentTests(APITestCase):
 
     def setUp(self):
+        atom_table_top = AtomicComponent.objects.create(
+            stock_code="table_top",
+            part_code="",
+            description="table top surface",
+            warehouse_location="2001",
+            material="wood",
+            weight=450,
+            image="/img/table_top.png",
+            availability=2,
+        )
+        atom_leg = AtomicComponent.objects.create(
+            stock_code="table_leg",
+            part_code="",
+            description="legs",
+            warehouse_location="2002",
+            material="wood",
+            weight=180,
+            image="/img/leg.png",
+            availability=10,
+        )
+
         self.valid_payload = {
             "name": "Table",
             "atomic_prerequisites": [
                 {
-                    "atomic_component": {
-                        'stock_code': 'p_bolt',
-                        'part_code': 'p_bolt',
-                        'description': 'General purpose Philip bolt',
-                        'warehouse_location': '2000',
-                        'weight': 3,
-                        'image': '/img/bolt.png',
-                        'availability': 6000,
-                    },
+                    "atomic_component": atom_table_top.id,
                     "min_quantity": 1,
                     "max_quantity": 1,
+                },
+                {
+                    "atomic_component": atom_leg.id,
+                    "min_quantity": 4,
+                    "max_quantity": 4,
                 }
             ],
             "product_prerequisites": []
         }
-        # self.invalid_payload = {
-        #     'part_code': 'p_bolt',
-        #     'description': 'General purpose Philip bolt',
-        #     'warehouse_location': '2000',
-        #     'weight': 3,
-        #     'image': '/img/bolt.png',
-        # }
 
     def test_create(self):
         """
