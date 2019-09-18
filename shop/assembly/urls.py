@@ -12,7 +12,7 @@ from shop.assembly.api import (
 namespace_prefix = "shop.assembly."
 
 urlpatterns = [
-    # Component
+    # Blueprint
     url(r'^blueprint/$', BlueprintList.as_view(),
             name=namespace_prefix + "blueprint.list"),
     url(r'^blueprint/view/(?P<pk>\d+)/$', BlueprintDetails.as_view(),

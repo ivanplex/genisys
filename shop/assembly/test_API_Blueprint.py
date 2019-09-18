@@ -7,7 +7,7 @@ from shop.assembly.models import Blueprint
 from shop.assembly.serializers import BlueprintSerializer
 
 
-class AtomicComponentTests(APITestCase):
+class BlueprintTests(APITestCase):
 
     def setUp(self):
         atom_table_top = AtomicComponent.objects.create(

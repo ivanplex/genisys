@@ -100,7 +100,43 @@ class AtomicPrerequisiteDestroy(DestroyAPIView):
     serializer_class = AtomicPrerequisiteSerializer
 
 
-class AtomicSpecificationDetails(RetrieveAPIView):
+class AtomicSpecificationList(ListAPIView):
+    """
+        Returns list of AtomicSpecification
+    """
     queryset = AtomicSpecification.objects.all()
     serializer_class = AtomicSpecificationSerializer
+
+
+class AtomicSpecificationDetails(RetrieveAPIView):
+    """
+        View AtomicSpecification
+    """
+    queryset = AtomicSpecification.objects.all()
+    serializer_class = AtomicSpecificationSerializer
+
+
+class AtomicSpecificationCreate(CreateAPIView):
+    """
+        Create AtomicSpecification
+    """
+    queryset = AtomicPrerequisite.objects.all()
+    serializer_class = AtomicPrerequisiteSerializer
+
+
+class AtomicSpecificationUpdate(RetrieveUpdateDestroyAPIView):
+    """
+        Update AtomicSpecification
+    """
+    queryset = AtomicSpecification.objects.all()
+    serializer_class = AtomicSpecificationSerializer
+
+
+class AtomicSpecificationDestroy(DestroyAPIView):
+    """
+        Destroy AtomicSpecification
+    """
+    queryset = AtomicSpecification.objects.all()
+    serializer_class = AtomicSpecificationSerializer
+
 
