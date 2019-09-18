@@ -15,7 +15,11 @@ from shop.atomic.api import (
     AtomicPrerequisiteDestroy,
 
     # Specification
+    AtomicSpecificationList,
     AtomicSpecificationDetails,
+    AtomicSpecificationCreate,
+    AtomicSpecificationUpdate,
+    AtomicSpecificationDestroy,
 )
 
 from shop.atomic.views import (
@@ -46,10 +50,18 @@ urlpatterns = [
     url(r'^prerequisite/update/(?P<pk>\d+)/$', AtomicPrerequisiteUpdate.as_view(),
         name=namespace_prefix + "prerequisite.update"),
     url(r'^prerequisite/delete/(?P<pk>\d+)/$', AtomicPrerequisiteDestroy.as_view(),
-        name=namespace_prefix + "prerequisite.destory"),
+        name=namespace_prefix + "prerequisite.destroy"),
     # Specification
+    url(r'^specification/$', AtomicSpecificationList.as_view(),
+        name=namespace_prefix + "specification.list"),
     url(r'^specification/view/(?P<pk>\d+)/$', AtomicSpecificationDetails.as_view(),
             name=namespace_prefix + "specification.detail"),
+    url(r'^specification/create/$', AtomicSpecificationCreate.as_view(),
+        name=namespace_prefix + "specification.create"),
+    url(r'^specification/update/(?P<pk>\d+)/$', AtomicSpecificationUpdate.as_view(),
+        name=namespace_prefix + "specification.update"),
+    url(r'^specification/delete/(?P<pk>\d+)/$', AtomicSpecificationDestroy.as_view(),
+        name=namespace_prefix + "specification.destroy"),
 
     url(r'view/$', view,
                 name=namespace_prefix + "view"),
