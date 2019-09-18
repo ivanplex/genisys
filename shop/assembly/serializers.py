@@ -14,7 +14,8 @@ from shop.atomic.serializers import (
 
 class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
-    product = serializers.PrimaryKeyRelatedField(read_only=True)
+    # product = serializers.PrimaryKeyRelatedField(read_only=True)
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
         model = ProductPrerequisite
@@ -25,8 +26,8 @@ class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
 class BlueprintSerializer(serializers.ModelSerializer):
 
-    atomic_prerequisites = AtomicPrerequisiteSerializer(many=True)
-    product_prerequisites = ProductPrerequisiteSerializer(many=True)
+    atomic_prerequisites = AtomicPrerequisiteSerializer(many=True, read_only=False)
+    product_prerequisites = ProductPrerequisiteSerializer(many=True, read_only=False)
 
     class Meta:
         model = Blueprint
@@ -39,10 +40,12 @@ class BlueprintSerializer(serializers.ModelSerializer):
         product_prerequisites_data = validated_data.pop('product_prerequisites')
         blueprint = Blueprint.objects.create(**validated_data)
         for ap_data in atomic_prerequisites_data:
-            print(atomic_prerequisites_data)
-            AtomicPrerequisite.objects.create(**ap_data)
+            a = AtomicPrerequisite.objects.create(**ap_data)
+            blueprint.atomic_prerequisites.add(a)
         for pp_data in product_prerequisites_data:
-            ProductPrerequisite.objects.create(**pp_data)
+            p = ProductPrerequisite.objects.create(**pp_data)
+            blueprint.product_prerequisites.add(p)
+        blueprint.save()
         return blueprint
 
 
