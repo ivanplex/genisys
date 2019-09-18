@@ -1,4 +1,6 @@
 import logging
+
+
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -6,10 +8,16 @@ from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView
 )
-from shop.atomic.models import AtomicComponent, AtomicPrerequisite
+from shop.atomic.models import (
+    AtomicComponent,
+    AtomicPrerequisite,
+    AtomicSpecification,
+)
+
 from shop.atomic.serializers import (
     AtomicComponentSerializer,
     AtomicPrerequisiteSerializer,
+    AtomicSpecificationSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -24,6 +32,9 @@ class AtomicComponentList(ListAPIView):
 
 
 class AtomicComponentDetails(RetrieveAPIView):
+    """
+        Returns detail of an AtomicComponent
+    """
     queryset = AtomicComponent.objects.all()
     serializer_class = AtomicComponentSerializer
 
@@ -55,4 +66,33 @@ class AtomicComponentDestroy(DestroyAPIView):
 class AtomicPrerequisiteDetails(RetrieveAPIView):
     queryset = AtomicPrerequisite.objects.all()
     serializer_class = AtomicPrerequisiteSerializer
+
+
+class AtomicPrerequisiteCreate(CreateAPIView):
+    """
+        Create AtomicPrerequisite
+    """
+    queryset = AtomicPrerequisite.objects.all()
+    serializer_class = AtomicPrerequisiteSerializer
+
+
+class AtomicPrerequisiteUpdate(RetrieveUpdateDestroyAPIView):
+    """
+        Update AtomicPrerequisite
+    """
+    queryset = AtomicPrerequisite.objects.all()
+    serializer_class = AtomicPrerequisiteSerializer
+
+
+class AtomicPrerequisiteDestroy(DestroyAPIView):
+    """
+        Destroy AtomicPrerequisite
+    """
+    queryset = AtomicPrerequisite.objects.all()
+    serializer_class = AtomicPrerequisiteSerializer
+
+
+class AtomicSpecificationDetails(RetrieveAPIView):
+    queryset = AtomicSpecification.objects.all()
+    serializer_class = AtomicSpecificationSerializer
 

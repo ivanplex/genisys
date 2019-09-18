@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from shop.atomic.models import AtomicComponent, AtomicPrerequisite
+from shop.atomic.models import (
+    AtomicComponent,
+    AtomicPrerequisite,
+    AtomicSpecification
+)
 
 
 class AtomicComponentSerializer(serializers.ModelSerializer):
@@ -20,10 +24,21 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
 
 class AtomicPrerequisiteSerializer(serializers.ModelSerializer):
 
-    atomic_component = AtomicComponentSerializer()
+    atomic_component = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = AtomicPrerequisite
+        fields = (
+            '__all__'
+        )
+
+
+class AtomicSpecificationSerializer(serializers.ModelSerializer):
+
+    atomic_component = AtomicComponentSerializer()
+
+    class Meta:
+        model = AtomicSpecification
         fields = (
             '__all__'
         )

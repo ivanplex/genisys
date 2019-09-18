@@ -1,11 +1,43 @@
+import json
 from rest_framework.test import APITestCase
+from rest_framework import status
 
 from shop.atomic.models import AtomicComponent
 from shop.atomic.serializers import AtomicComponentSerializer
 
 
 class AtomicComponentTests(APITestCase):
-    def test_can_get_product_details(self):
+
+    def setUp(self):
+        self.valid_payload = {
+            'stock_code': 'p_bolt',
+            'part_code': 'p_bolt',
+            'description': 'General purpose Philip bolt',
+            'warehouse_location': '2000',
+            'weight': 3,
+            'image': '/img/bolt.png',
+            'availability': 6000,
+        }
+        self.invalid_payload = {
+            'part_code': 'p_bolt',
+            'description': 'General purpose Philip bolt',
+            'warehouse_location': '2000',
+            'weight': 3,
+            'image': '/img/bolt.png',
+        }
+
+    def test_create(self):
+        """
+        Ensure we can create AtomicComponent
+        """
+        url = '/atomic/component/create/'
+        data = json.dumps(self.valid_payload)
+        response = self.client.post(url, data, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(AtomicComponent.objects.count(), 1)
+        self.assertEqual(AtomicComponent.objects.get().stock_code, 'p_bolt')
+
+    def test_view(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
             part_code="p_bolt",
@@ -20,7 +52,7 @@ class AtomicComponentTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, AtomicComponentSerializer(instance=atom).data)
 
-    def test_can_delete_product(self):
+    def test_delete(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
             part_code="p_bolt",
@@ -35,7 +67,7 @@ class AtomicComponentTests(APITestCase):
         self.assertEqual(response.status_code, 204)
         self.assertEqual(AtomicComponent.objects.count(), 0)
 
-    def test_can_update_product(self):
+    def test_update(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
             part_code="p_bolt",
