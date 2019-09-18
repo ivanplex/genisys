@@ -75,5 +75,18 @@ class ProductSerializer(serializers.ModelSerializer):
             '__all__'
         )
 
+    def create(self, validated_data):
+        atomic_specifications_data = validated_data.pop('atomic_specifications')
+        product_specifications_data = validated_data.pop('product_specifications')
+        product = Product.objects.create(**validated_data)
+        for as_data in atomic_specifications_data:
+            a = AtomicSpecification.objects.create(**as_data)
+            product.atomic_specifications.add(a)
+        for ps_data in product_specifications_data:
+            p = ProductPrerequisite.objects.create(**ps_data)
+            product.product_specifications.add(p)
+        product.save()
+        return product
+
 
 
