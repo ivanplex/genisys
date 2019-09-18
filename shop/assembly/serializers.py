@@ -14,7 +14,6 @@ from shop.atomic.serializers import (
 
 class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
-    # product = serializers.PrimaryKeyRelatedField(read_only=True)
     product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
