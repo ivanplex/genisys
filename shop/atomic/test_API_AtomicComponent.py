@@ -37,6 +37,15 @@ class AtomicComponentTests(APITestCase):
         self.assertEqual(AtomicComponent.objects.count(), 1)
         self.assertEqual(AtomicComponent.objects.get().stock_code, 'p_bolt')
 
+    def test_invalid_create(self):
+        """
+        Test create with missing required field
+        """
+        url = '/atomic/component/create/'
+        data = json.dumps(self.invalid_payload)
+        response = self.client.post(url, data, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_view(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
