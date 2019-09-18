@@ -2,6 +2,7 @@ from django.db import models
 from shop.models import TimestampedModel
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
 
+
 class Blueprint(TimestampedModel):
     name = models.CharField(max_length=250)
     atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements', symmetrical=False)
@@ -75,6 +76,7 @@ class Blueprint(TimestampedModel):
         for prereq in self.product_prerequisites.all():
             struct['product_prereq'].append(prereq.product.blueprint.map_prerequisites())
         return struct
+
 
 class ProductPrerequisite(TimestampedModel):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',

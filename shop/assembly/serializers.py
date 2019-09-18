@@ -87,6 +87,3 @@ class ProductSerializer(serializers.ModelSerializer):
             product.product_specifications.add(p)
         product.save()
         return product
-
-
-
