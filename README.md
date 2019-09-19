@@ -5,6 +5,7 @@ Generic hierarchical assembly tree for a manufacturing system
 [![codecov](https://codecov.io/gh/ivanplex/genisys/branch/master/graph/badge.svg)](https://codecov.io/gh/ivanplex/genisys)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c996e20d01c68b2d30a8/maintainability)](https://codeclimate.com/github/ivanplex/genisys/maintainability)
 
+![Banner](docs/img/banner.png)
 
 Genisys is a Django based generic hierarchical assembly platform that allows the freedom to define and create any product using sub-assemblies. Products could be sold individually or they could be assembled with other products (sub-assembly) to create yet another product (assembly) to be listed on the e-commerce store. In an example of an IKEA table-set, a table or chairs could be sold individually, or they could be assembled and create a product on its own. The goal is not to hardcode these products and product assemblies, but to allow staff to define these relations (blueprints) on a web portal and allow clients to customise bespoke items. 
 
