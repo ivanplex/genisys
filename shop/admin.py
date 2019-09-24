@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-# from .models import AtomicComponent
+# from shop.atomic.models import AtomicComponent
 #
 # admin.site.register(AtomicComponent)
