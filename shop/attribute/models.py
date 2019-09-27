@@ -9,9 +9,8 @@ class KeyValueAttribute(TimestampedModel):
     key = models.CharField(max_length=255, blank=False, null=False)
     value = models.CharField(max_length=255, blank=False, null=False)
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    class Meta:
+        abstract = True
 
     def get_key(self):
         return self.key
