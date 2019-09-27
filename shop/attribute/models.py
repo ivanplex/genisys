@@ -1,6 +1,7 @@
 from django.db import models
 from shop.models import TimestampedModel
 from shop.assembly.models import Blueprint
+from shop.atomic.models import AtomicComponent
 
 
 class KeyValueAttribute(TimestampedModel):
@@ -29,5 +30,5 @@ class BlueprintAttribute(KeyValueAttribute):
 
 
 class AtomicAttribute(KeyValueAttribute):
-    atomic_component = models.ForeignKey(Blueprint, on_delete=models.CASCADE,
+    atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.CASCADE,
                                   related_name='atom_attribute', null=False)
