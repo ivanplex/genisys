@@ -7,7 +7,7 @@ from .models import BlueprintAttribute
 class BlueprintAttributeTestCase(APITestCase):
 
     def setUp(self):
-        self.blueprint = Blueprint.objects.create('Table')
+        self.blueprint = Blueprint.objects.create(name='Table')
 
     def test_creation(self):
         attr = BlueprintAttribute(blueprint=self.blueprint, key='color', value='white')
