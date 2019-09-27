@@ -28,6 +28,6 @@ class BlueprintAttribute(KeyValueAttribute):
                                   related_name='blueprint_attribute', null=False)
 
 
-class AtomAttribute(KeyValueAttribute):
+class AtomicAttribute(KeyValueAttribute):
     atomic_component = models.ForeignKey(Blueprint, on_delete=models.CASCADE,
                                   related_name='atom_attribute', null=False)
