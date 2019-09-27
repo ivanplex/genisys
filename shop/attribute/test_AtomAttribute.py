@@ -7,8 +7,13 @@ class AtomAttributeTestCase(APITestCase):
 
     def setUp(self):
         self.atom = AtomicComponent.objects.create(stock_code='screw')
+        self.attr_1 = AtomicAttribute.objects.create(atomic_component=self.atom, key='length', value='500')
+        self.attr_2 = AtomicAttribute.objects.create(atomic_component=self.atom, key='color', value='black')
 
     def test_creation(self):
-        attr = AtomicAttribute(atomic_component=self.atom, key='length', value='500')
-        self.assertEqual(attr.get_key(), 'length')
-        self.assertEqual(attr.get_value(), '500')
+        self.assertEqual(self.attr_1.get_key(), 'length')
+        self.assertEqual(self.attr_1.get_value(), '500')
+
+    def test_fetch(self):
+        print(self.atom.attribute())
+        self.assertTrue(True)
