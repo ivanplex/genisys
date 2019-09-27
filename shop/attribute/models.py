@@ -1,8 +1,6 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
-
 from shop.models import TimestampedModel
+from shop.assembly.models import Blueprint
 
 
 class KeyValueAttribute(TimestampedModel):
@@ -23,3 +21,13 @@ class KeyValueAttribute(TimestampedModel):
 
     def set_value(self, value):
         self.value = value
+
+
+class BlueprintAttribute(KeyValueAttribute):
+    blueprint = models.ForeignKey(Blueprint, on_delete=models.CASCADE,
+                                  related_name='blueprint_attribute', null=False)
+
+
+class AtomAttribute(KeyValueAttribute):
+    blueprint = models.ForeignKey(Blueprint, on_delete=models.CASCADE,
+                                  related_name='atom_attribute', null=False)
