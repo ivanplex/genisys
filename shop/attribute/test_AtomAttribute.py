@@ -1,7 +1,6 @@
 from rest_framework.test import APITestCase
 
-from shop.atomic.models import AtomicComponent
-from .models import AtomicAttribute
+from shop.atomic.models import AtomicComponent, AtomicAttribute
 
 
 class AtomAttributeTestCase(APITestCase):
