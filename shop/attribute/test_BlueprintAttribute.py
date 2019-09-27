@@ -6,9 +6,14 @@ from shop.assembly.models import Blueprint, BlueprintAttribute
 class BlueprintAttributeTestCase(APITestCase):
 
     def setUp(self):
-        self.blueprint = Blueprint.objects.create(name='Table')
+        self.blueprint = Blueprint.objects.create(name='table')
+        self.attr_1 = BlueprintAttribute.objects.create(blueprint=self.blueprint, key='width', value='500')
+        self.attr_2 = BlueprintAttribute.objects.create(blueprint=self.blueprint, key='color', value='black')
 
     def test_creation(self):
-        attr = BlueprintAttribute(blueprint=self.blueprint, key='color', value='white')
-        self.assertEqual(attr.get_key(), 'color')
-        self.assertEqual(attr.get_value(), 'white')
+        self.assertEqual(self.attr_1.get_key(), 'width')
+        self.assertEqual(self.attr_1.get_value(), '500')
+
+    def test_fetch(self):
+        print(self.blueprint.attribute())
+        self.assertTrue(True)
