@@ -20,6 +20,13 @@ from shop.atomic.api import (
     AtomicSpecificationCreate,
     AtomicSpecificationUpdate,
     AtomicSpecificationDestroy,
+
+    # Attribute
+    AtomicAttributeList,
+    AtomicAttributeDetails,
+    AtomicAttributeCreate,
+    AtomicAttributeUpdate,
+    AtomicAttributeDestroy,
 )
 
 from shop.atomic.views import (
@@ -62,6 +69,17 @@ urlpatterns = [
         name=namespace_prefix + "specification.update"),
     url(r'^specification/delete/(?P<pk>\d+)/$', AtomicSpecificationDestroy.as_view(),
         name=namespace_prefix + "specification.destroy"),
+    # Attribute
+    url(r'^attribute/$', AtomicAttributeList.as_view(),
+        name=namespace_prefix + "attribute.list"),
+    url(r'^attribute/view/(?P<pk>\d+)/$', AtomicAttributeDetails.as_view(),
+        name=namespace_prefix + "attribute.detail"),
+    url(r'^attribute/create/$', AtomicAttributeCreate.as_view(),
+        name=namespace_prefix + "attribute.create"),
+    url(r'^attribute/update/(?P<pk>\d+)/$', AtomicAttributeUpdate.as_view(),
+        name=namespace_prefix + "attribute.update"),
+    url(r'^attribute/delete/(?P<pk>\d+)/$', AtomicAttributeDestroy.as_view(),
+        name=namespace_prefix + "attribute.destroy"),
 
     url(r'view/$', view,
         name=namespace_prefix + "view"),
