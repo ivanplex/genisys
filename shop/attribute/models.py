@@ -23,9 +23,5 @@ class KeyValueAttribute(TimestampedModel):
     def set_value(self, value):
         self.value = value
 
-#
-# class BlueprintAttribute(KeyValueAttribute):
-#     blueprint = models.ForeignKey(Blueprint, on_delete=models.CASCADE,
-#                                   related_name='blueprint_attribute', null=False)
 
 

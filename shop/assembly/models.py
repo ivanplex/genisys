@@ -1,6 +1,12 @@
 from django.db import models
 from shop.models import TimestampedModel
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
+from shop.attribute.models import KeyValueAttribute
+
+
+class BlueprintAttribute(KeyValueAttribute):
+    blueprint = models.ForeignKey('Blueprint', on_delete=models.CASCADE,
+                                  related_name='blueprint_attribute', null=False)
 
 
 class Blueprint(TimestampedModel):
@@ -8,6 +14,10 @@ class Blueprint(TimestampedModel):
     atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements', symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
                                                    symmetrical=False)
+
+    def attribute(self):
+        attr = BlueprintAttribute.objects.filter(blueprint=self)
+        return attr
 
     def isEmpty(self):
         if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
