@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'shop',
     'shop.atomic',
     'shop.assembly',
+    'shop.attribute',
 ]
 
 MIDDLEWARE = [
