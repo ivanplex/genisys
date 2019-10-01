@@ -7,6 +7,12 @@ from shop.group.api import (
     AtomicGroupCreate,
     AtomicGroupUpdate,
     AtomicGroupDestroy,
+    # ProductGroup
+    ProductGroupList,
+    ProductGroupDetails,
+    ProductGroupCreate,
+    ProductGroupUpdate,
+    ProductGroupDestroy,
 )
 
 namespace_prefix = "shop.group."
@@ -23,4 +29,15 @@ urlpatterns = [
         name=namespace_prefix + "atomic.update"),
     url(r'^atomic/delete/(?P<pk>\d+)/$', AtomicGroupDestroy.as_view(),
         name=namespace_prefix + "atomic.destroy"),
+    # Product Group
+    url(r'^product/$', ProductGroupList.as_view(),
+        name=namespace_prefix + "product.list"),
+    url(r'^product/view/(?P<pk>\d+)/$', ProductGroupDetails.as_view(),
+        name=namespace_prefix + "product.detail"),
+    url(r'^product/create/$', ProductGroupCreate.as_view(),
+        name=namespace_prefix + "product.create"),
+    url(r'^product/update/(?P<pk>\d+)/$', ProductGroupUpdate.as_view(),
+        name=namespace_prefix + "product.update"),
+    url(r'^product/delete/(?P<pk>\d+)/$', ProductGroupDestroy.as_view(),
+        name=namespace_prefix + "product.destroy"),
 ]
