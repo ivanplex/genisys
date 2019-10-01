@@ -11,6 +11,7 @@ def generate_url_include(name):
 namespaces_to_include = [
     "atomic",
     "assembly",
+    "group",
 ]
 
 namespaced_urls = [
