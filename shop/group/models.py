@@ -1,13 +1,19 @@
 from django.db import models
 from shop.models import TimestampedModel
 from shop.atomic.models import AtomicComponent
-from shop.assembly.models import Product
+from shop.assembly.models import Product, Blueprint
 
 
 class AtomicGroup(TimestampedModel):
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.CharField(max_length=100)
     members = models.ManyToManyField(AtomicComponent, related_name='members')
+
+
+class BlueprintGroup(TimestampedModel):
+    name = models.CharField(max_length=100, null=False, blank=False)
+    description = models.CharField(max_length=100)
+    members = models.ManyToManyField(Blueprint, related_name='members')
 
 
 class ProductGroup(TimestampedModel):
