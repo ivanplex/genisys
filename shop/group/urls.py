@@ -7,6 +7,12 @@ from shop.group.api import (
     AtomicGroupCreate,
     AtomicGroupUpdate,
     AtomicGroupDestroy,
+    # BlueprintGroup
+    BlueprintGroupList,
+    BlueprintGroupDetails,
+    BlueprintGroupCreate,
+    BlueprintGroupUpdate,
+    BlueprintGroupDestroy,
     # ProductGroup
     ProductGroupList,
     ProductGroupDetails,
@@ -29,6 +35,17 @@ urlpatterns = [
         name=namespace_prefix + "atomic.update"),
     url(r'^atomic/delete/(?P<pk>\d+)/$', AtomicGroupDestroy.as_view(),
         name=namespace_prefix + "atomic.destroy"),
+    # Blueprint Group
+    url(r'^blueprint/$', BlueprintGroupList.as_view(),
+        name=namespace_prefix + "blueprint.list"),
+    url(r'^blueprint/view/(?P<pk>\d+)/$', BlueprintGroupDetails.as_view(),
+        name=namespace_prefix + "blueprint.detail"),
+    url(r'^blueprint/create/$', BlueprintGroupCreate.as_view(),
+        name=namespace_prefix + "blueprint.create"),
+    url(r'^blueprint/update/(?P<pk>\d+)/$', BlueprintGroupUpdate.as_view(),
+        name=namespace_prefix + "blueprint.update"),
+    url(r'^blueprint/delete/(?P<pk>\d+)/$', BlueprintGroupDestroy.as_view(),
+        name=namespace_prefix + "blueprint.destroy"),
     # Product Group
     url(r'^product/$', ProductGroupList.as_view(),
         name=namespace_prefix + "product.list"),
