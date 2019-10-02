@@ -10,15 +10,15 @@ cache:
   paths:
   - ~/.cache/pip/
 
-before_script:
+.before_script:
   - python -V
   - pip install -r requirements.txt
   - pip install --user codecov
 
-after_script:
+.after_script:
   - codecov
 
-test:
+.test:
   only:
   - master
   script:
