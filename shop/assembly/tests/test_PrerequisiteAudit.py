@@ -1,6 +1,6 @@
 from django.test import TestCase
 from shop.atomic.models import AtomicComponent, AtomicSpecification, AtomicPrerequisite
-from .models import PrerequisiteAudit, Blueprint, Product, ProductPrerequisite, ProductSpecification
+from shop.assembly.models import PrerequisiteAudit, Blueprint, Product, ProductPrerequisite, ProductSpecification
 
 
 class PrerequisiteAuditTestCase(TestCase):

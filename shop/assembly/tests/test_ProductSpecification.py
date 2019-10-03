@@ -1,6 +1,6 @@
 from django.test import TestCase
 from shop.atomic.models import AtomicComponent, AtomicSpecification, AtomicPrerequisite
-from .models import Blueprint, Product
+from shop.assembly.models import Blueprint, Product
 
 
 class ProductSpecificationValidationTestCase(TestCase):
