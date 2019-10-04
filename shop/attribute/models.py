@@ -1,7 +1,7 @@
 from django.db import models
 from shop.models import TimestampedModel
-# from shop.assembly.models import Blueprint
-# from shop.atomic.models import AtomicComponent
+# from shop.assembly.model import Blueprint
+# from shop.atomic.model import AtomicComponent
 
 
 class KeyValueAttribute(TimestampedModel):

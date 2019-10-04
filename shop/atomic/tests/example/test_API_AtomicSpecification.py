@@ -1,5 +1,5 @@
 """
-Test BlueprintPrerequisites using API
+Test AtomicSpecification using API
 """
 
 import json
@@ -10,7 +10,7 @@ from shop.atomic.models import AtomicComponent, AtomicPrerequisite
 from shop.assembly.models import Blueprint
 
 
-class BlueprintPrerequisiteTestCase(APITestCase):
+class AtomicSpecificationTestCase(APITestCase):
 
     def setUp(self):
         self.rod = AtomicComponent.objects.create(
@@ -102,32 +102,29 @@ class BlueprintPrerequisiteTestCase(APITestCase):
 
     def test_baseline(self):
         """
-        Create a product without choosing options
+        Specify a product without choosing options
         """
-        url = '/assembly/blueprint/create/'
+        url = '/assembly/product/create/'
         payload = {
             "name": "gas spring",
-            "product_prereq": [
+            "sku": "GSP",
+            "availability": 20,
+            "blueprint": Blueprint.objects.filter(name="gas spring").first().id,
+            "atomic_specifications": [
                 {
-                    "atomic_component": self.rod.id,
-                    "required": True,
-                    "min_quantity": 100000,  # 100mm
-                    "max_quantity": 800000,  # 800mm
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.rod).first().id,
+                    "quantity": 200000,  # 100mm
                 },
                 {
-                    "atomic_component": self.tube.id,
-                    "required": True,
-                    "min_quantity": 100000,  # 100mm
-                    "max_quantity": 800000,  # 800mm
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.tube).first().id,
+                    "quantity": 200000  # 100mm
                 },
                 {
-                    "atomic_component": self.seal.id,
-                    "required": True,
-                    "min_quantity": 1,
-                    "max_quantity": 1,
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.seal).first().id,
+                    "quantity": 1
                 }
             ],
-            "product_prerequisites": []
+            "product_specifications": []
         }
         data = json.dumps(payload)
         response = self.client.post(url, data, content_type='application/json')
@@ -135,39 +132,37 @@ class BlueprintPrerequisiteTestCase(APITestCase):
 
     def test_create_with_options(self):
         """
-        Create Gas Sprint with optional endfitting
+        Specify Gas Sprint with optional endfitting
         """
         url = '/assembly/product/create/'
         payload = {
             "name": "gas spring",
-            "atomic_prerequisites": [
+            "sku": "GSP",
+            "availability": 20,
+            "blueprint": Blueprint.objects.filter(name="gas spring").first().id,
+            "atomic_specifications": [
                 {
-                    "atomic_component": self.rod.id,
-                    "min_quantity": 100000,  # 100mm
-                    "max_quantity": 800000,  # 800mm
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.rod).first().id,
+                    "quantity": 200000,  # 100mm
                 },
                 {
-                    "atomic_component": self.tube.id,
-                    "min_quantity": 100000,  # 100mm
-                    "max_quantity": 800000,  # 800mm
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.tube).first().id,
+                    "quantity": 200000  # 100mm
                 },
                 {
-                    "atomic_component": self.seal.id,
-                    "min_quantity": 1,
-                    "max_quantity": 1,
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.seal).first().id,
+                    "quantity": 1
                 },
                 {
-                    "atomic_component": self.endfitting1.id,
-                    "min_quantity": 0,
-                    "max_quantity": 1,
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.endfitting1).first().id,
+                    "quantity": 0
                 },
                 {
-                    "atomic_component": self.endfitting2.id,
-                    "min_quantity": 0,
-                    "max_quantity": 1,
+                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.endfitting2).first().id,
+                    "quantity": 1
                 }
             ],
-            "product_prerequisites": []
+            "product_specifications": []
         }
         data = json.dumps(payload)
         response = self.client.post(url, data, content_type='application/json')

@@ -1,5 +1,5 @@
 """
-Test BlueprintPrerequisites using API
+Test AtomicPrerequisites using API
 """
 
 import json
@@ -9,7 +9,7 @@ from rest_framework import status
 from shop.atomic.models import AtomicComponent
 
 
-class BlueprintPrerequisiteTestCase(APITestCase):
+class AtomicPrerequisiteTestCase(APITestCase):
 
     def setUp(self):
         self.rod = AtomicComponent.objects.create(
