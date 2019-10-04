@@ -68,6 +68,7 @@ graphene-django==2.5.0
 graphene-django-optimizer==0.6.0
 graphql-core==2.2.1
 graphql-relay==2.0.0
+gunicorn==19.9.0
 html-to-draftjs==1.0.1
 html5lib==1.0.1
 idna==2.8

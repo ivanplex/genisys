@@ -10,3 +10,6 @@ WORKDIR /genisys
 ADD ./requirements.txt	/genisys/requirements.txt
 RUN pip install -r requirements.txt
 COPY . /genisys/
+
+CMD ["gunicorn", "-w 2", "-b 0.0.0.0", "genisys.wsgi"]
+EXPOSE 8080
