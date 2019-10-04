@@ -13,7 +13,3 @@ class AtomAttributeTestCase(APITestCase):
     def test_creation(self):
         self.assertEqual(self.attr_1.get_key(), 'length')
         self.assertEqual(self.attr_1.get_value(), '500')
-
-    def test_fetch(self):
-        print(self.atom.attribute())
-        self.assertTrue(True)

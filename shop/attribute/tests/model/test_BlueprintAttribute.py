@@ -13,7 +13,3 @@ class BlueprintAttributeTestCase(APITestCase):
     def test_creation(self):
         self.assertEqual(self.attr_1.get_key(), 'width')
         self.assertEqual(self.attr_1.get_value(), '500')
-
-    def test_fetch(self):
-        print(self.blueprint.attribute())
-        self.assertTrue(True)
