@@ -6,7 +6,8 @@ import json
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from shop.atomic.models import AtomicComponent
+from shop.atomic.models import AtomicComponent, AtomicPrerequisite
+from shop.assembly.models import Blueprint, Product, ProductPrerequisite
 
 
 class BlueprintPrerequisiteTestCase(APITestCase):
@@ -15,7 +16,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         data = json.dumps(payload)
         return self.client.post(url, data, content_type='application/json')
 
-    def test_create_atomic_component(self):
+    def test(self):
         tableTop = {
             'stock_code': 'TBT',
             'part_code': 'tableTop',
@@ -85,19 +86,168 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             response = self.submit(url, comp)
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        print(AtomicComponent.objects.filter(stock_code='CEF'))
+        ###
+        # Create Blueprints
+        ###
 
-    def test_create_blueprint(self):
-        tableTop = {
+        table_blueprint = {
             'name': 'Table',
             'atomic_prerequisites': [
                 {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='TBT').first().id,
+                    'min_quantity': 1,
+                    'max_quantity': 1
+                },
+                {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='TBL').first().id,
+                    'min_quantity': 4,
+                    'max_quantity': 4
+                },
+                {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                    'min_quantity': 8,
+                    'max_quantity': 8
+                }
+            ],
+            'product_prerequisites': []
+        }
+        chair_blueprint = {
+            'name': 'Chair',
+            'atomic_prerequisites': [
+                {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='CPT').first().id,
+                    'min_quantity': 1,
+                    'max_quantity': 1
+                },
+                {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='CLG').first().id,
+                    'min_quantity': 4,
+                    'max_quantity': 4
+                },
+                {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                    'min_quantity': 4,
+                    'max_quantity': 4
+                }
+            ],
+            'product_prerequisites': []
+        }
 
+        blueprints = [table_blueprint, chair_blueprint]
+        for blueprint in blueprints:
+            url = '/assembly/blueprint/create/'
+            response = self.submit(url, blueprint)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        ###
+        # Create Product table and chair
+        ###
+
+        table_product = {
+            'name': 'Table',
+            'sku': 'TBL',
+            'availability': 0,
+            'blueprint': Blueprint.objects.filter(name='Table').first().id,
+            'atomic_specifications': [
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBT').first().id,
+                    'quantity': 1
+                },
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBL').first().id,
+                    'quantity': 4
+                },
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                    'quantity': 8
+                }
+            ],
+            'product_specifications': []
+        }
+        chair_product = {
+            'name': 'Chair',
+            'sku': 'CHR',
+            'availability': 10,
+            'blueprint': Blueprint.objects.filter(name='Chair').first().id,
+            'atomic_specifications': [
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CPT').first().id,
+                    'quantity': 1
+                },
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CLG').first().id,
+                    'quantity': 4
+                },
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                    'quantity': 4
+                }
+            ],
+            'product_specifications': []
+        }
+        products = [table_product, chair_product]
+        for product in products:
+            url = '/assembly/product/create/'
+            response = self.submit(url, product)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        ###
+        # Build Table-set Blueprint
+        ###
+        table_set_blueprint = {
+            'name': 'Table Set',
+            'atomic_prerequisites': [
+                {
+                    'atomic_component': AtomicComponent.objects.filter(stock_code='MNU').first().id,
+                    'min_quantity': 1,
+                    'max_quantity': 1
+                }
+            ],
+            'product_prerequisites': [
+                {
+                    'product': Product.objects.filter(name='Table').first().id,
+                    'min_quantity': 1,
+                    'max_quantity': 1
+                },
+                {
+                    'product': Product.objects.filter(name='Chair').first().id,
+                    'min_quantity': 2,
+                    'max_quantity': 4
                 }
             ]
         }
+        url = '/assembly/blueprint/create/'
+        response = self.submit(url, table_set_blueprint)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-
+        ###
+        # Build Table-set Product
+        ###
+        table_set_product = {
+            'name': 'Table Set',
+            'sku': 'TBS',
+            'availability': 10,
+            'blueprint': Blueprint.objects.filter(name='Table Set').first().id,
+            'atomic_specifications': [
+                {
+                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='MNU').first().id,
+                    'quantity': 4
+                }
+            ],
+            'product_specifications': [
+                {
+                    'product_prereq': ProductPrerequisite.objects.filter(product__name='Table').first().id,
+                    'quantity': 1
+                },
+                {
+                    'product_prereq': ProductPrerequisite.objects.filter(product__name='Chair').first().id,
+                    'quantity': 4
+                }
+            ]
+        }
+        url = '/assembly/product/create/'
+        response = self.submit(url, table_set_product)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     # def test_baseline_create(self):
     #     """
