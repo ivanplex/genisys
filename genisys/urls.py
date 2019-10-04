@@ -20,7 +20,13 @@ namespaced_urls = [
 ]
 
 urlpatterns = [
+    url(r'^api/v1/', include([
+        # url(r'^docs/', SwaggerSchemaView.as_view()),
+        url(r'', include(namespaced_urls))
+    ],
+    ))
+]
+
+urlpatterns += [
     url(r'^admin/', admin.site.urls),
-    # url(r'^shop/', include('shop.urls')),
-    url(r'', include(namespaced_urls)),
 ]
