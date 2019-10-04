@@ -11,15 +11,13 @@ from rest_framework.generics import (
 from shop.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
-    AtomicSpecification,
-    AtomicAttribute,
+    AtomicSpecification
 )
 
 from shop.atomic.serializers import (
     AtomicComponentSerializer,
     AtomicPrerequisiteSerializer,
-    AtomicSpecificationSerializer,
-    AtomicAttributeSerializer,
+    AtomicSpecificationSerializer
 )
 
 logger = logging.getLogger(__name__)
@@ -140,48 +138,3 @@ class AtomicSpecificationDestroy(DestroyAPIView):
     """
     queryset = AtomicSpecification.objects.all()
     serializer_class = AtomicSpecificationSerializer
-
-
-#######
-# AtomicAttribute
-#######
-
-class AtomicAttributeList(ListAPIView):
-    """
-        Returns list of AtomicAttribute
-    """
-    queryset = AtomicAttribute.objects.all()
-    serializer_class = AtomicAttributeSerializer
-
-
-class AtomicAttributeDetails(RetrieveAPIView):
-    """
-        View AtomicAttribute
-    """
-    queryset = AtomicSpecification.objects.all()
-    serializer_class = AtomicSpecificationSerializer
-
-
-class AtomicAttributeCreate(CreateAPIView):
-    """
-        Create AtomicAttribute
-    """
-    queryset = AtomicAttribute.objects.all()
-    serializer_class = AtomicAttributeSerializer
-
-
-class AtomicAttributeUpdate(RetrieveUpdateDestroyAPIView):
-    """
-        Update AtomicAttribute
-    """
-    queryset = AtomicAttribute.objects.all()
-    serializer_class = AtomicAttributeSerializer
-
-
-class AtomicAttributeDestroy(DestroyAPIView):
-    """
-        Destroy AtomicAttribute
-    """
-    queryset = AtomicAttribute.objects.all()
-    serializer_class = AtomicAttributeSerializer
-

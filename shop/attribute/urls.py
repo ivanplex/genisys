@@ -1,7 +1,13 @@
 from django.conf.urls import url
 
-from shop.assembly.api import (
-    #Blueprint Attribute
+from shop.attribute.api import (
+    # Attribute
+    AtomicAttributeList,
+    AtomicAttributeDetails,
+    AtomicAttributeCreate,
+    AtomicAttributeUpdate,
+    AtomicAttributeDestroy,
+    # Blueprint Attribute
     BlueprintAttributeList,
     BlueprintAttributeDetails,
     BlueprintAttributeCreate,
@@ -18,6 +24,17 @@ from shop.assembly.api import (
 namespace_prefix = "shop.attribute."
 
 urlpatterns = [
+    # Atomic Attribute
+    url(r'^atomic/$', AtomicAttributeList.as_view(),
+        name=namespace_prefix + "attribute.list"),
+    url(r'^atomic/view/(?P<pk>\d+)/$', AtomicAttributeDetails.as_view(),
+        name=namespace_prefix + "attribute.detail"),
+    url(r'^atomic/create/$', AtomicAttributeCreate.as_view(),
+        name=namespace_prefix + "attribute.create"),
+    url(r'^atomic/update/(?P<pk>\d+)/$', AtomicAttributeUpdate.as_view(),
+        name=namespace_prefix + "attribute.update"),
+    url(r'^atomic/delete/(?P<pk>\d+)/$', AtomicAttributeDestroy.as_view(),
+        name=namespace_prefix + "attribute.destroy"),
     # Blueprint Attribute
     url(r'^blueprint/$', BlueprintAttributeList.as_view(),
         name=namespace_prefix + "blueprint.list"),
