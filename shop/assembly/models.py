@@ -91,7 +91,7 @@ class Blueprint(TimestampedModel):
 class ProductPrerequisite(TimestampedModel):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
                                 null=False)
-
+    required = models.BooleanField(default=True)
     min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
     max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
