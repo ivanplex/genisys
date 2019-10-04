@@ -83,7 +83,7 @@ class ProductSerializer(serializers.ModelSerializer):
             a = AtomicSpecification.objects.create(**as_data)
             product.atomic_specifications.add(a)
         for ps_data in product_specifications_data:
-            p = ProductPrerequisite.objects.create(**ps_data)
+            p = ProductSpecification.objects.create(**ps_data)
             product.product_specifications.add(p)
         product.save()
         return product
