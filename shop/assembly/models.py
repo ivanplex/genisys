@@ -108,6 +108,11 @@ class ProductSpecification(TimestampedModel):
         return True if self.product_prereq.min_quantity <= self.quantity <= self.product_prereq.max_quantity else False
 
 
+class ProductAttribute(KeyValueAttribute):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE,
+                                  related_name='product_attribute', null=False)
+
+
 class Product(TimestampedModel):
     name = models.CharField(max_length=250)
     sku = models.CharField(max_length=3)

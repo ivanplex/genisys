@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from shop.assembly.models import (
     Blueprint,
+    BlueprintAttribute,
     Product,
     ProductPrerequisite,
     ProductSpecification,
+    ProductAttribute
 )
 
 from shop.atomic.models import (
@@ -63,6 +65,16 @@ class BlueprintSerializer(serializers.ModelSerializer):
         return blueprint
 
 
+class BlueprintAttributeSerializer(serializers.ModelSerializer):
+    blueprint = serializers.PrimaryKeyRelatedField(queryset=Blueprint.objects.all())
+
+    class Meta:
+        model = BlueprintAttribute
+        fields = (
+            '__all__'
+        )
+
+
 class ProductSerializer(serializers.ModelSerializer):
 
     blueprint = serializers.PrimaryKeyRelatedField(queryset=Blueprint.objects.all())
@@ -87,3 +99,13 @@ class ProductSerializer(serializers.ModelSerializer):
             product.product_specifications.add(p)
         product.save()
         return product
+
+
+class ProductAttributeSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+
+    class Meta:
+        model = ProductAttribute
+        fields = (
+            '__all__'
+        )

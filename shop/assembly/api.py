@@ -8,12 +8,16 @@ from rest_framework.generics import (
 )
 from shop.assembly.models import (
     Blueprint,
-    Product
+    Product,
+    BlueprintAttribute,
+    ProductAttribute
 )
 
 from shop.assembly.serializers import (
     BlueprintSerializer,
     ProductSerializer,
+    BlueprintAttributeSerializer,
+    ProductAttributeSerializer
 )
 
 logger = logging.getLogger(__name__)
@@ -97,3 +101,87 @@ class ProductDestroy(DestroyAPIView):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+###
+# Blueprint Attribute
+###
+class BlueprintAttributeList(ListAPIView):
+    """
+        Returns list of BlueprintAttribute
+    """
+    queryset = BlueprintAttribute.objects.all()
+    serializer_class = BlueprintAttributeSerializer
+
+
+class BlueprintAttributeDetails(RetrieveAPIView):
+    """
+        Returns detail of a BlueprintAttribute
+    """
+    queryset = BlueprintAttribute.objects.all()
+    serializer_class = BlueprintAttributeSerializer
+
+
+class BlueprintAttributeCreate(CreateAPIView):
+    """
+        Create BlueprintAttribute
+    """
+    queryset = BlueprintAttribute.objects.all()
+    serializer_class = BlueprintAttributeSerializer
+
+
+class BlueprintAttributeUpdate(RetrieveUpdateDestroyAPIView):
+    """
+        Update BlueprintAttribute
+    """
+    queryset = BlueprintAttribute.objects.all()
+    serializer_class = BlueprintAttributeSerializer
+
+
+class BlueprintAttributeDestroy(DestroyAPIView):
+    """
+        Destroy BlueprintAttribute
+    """
+    queryset = BlueprintAttribute.objects.all()
+    serializer_class = BlueprintAttributeSerializer
+
+###
+# Product Attribute
+###
+class ProductAttributeList(ListAPIView):
+    """
+        Returns list of ProductAttribute
+    """
+    queryset = ProductAttribute.objects.all()
+    serializer_class = ProductAttributeSerializer
+
+
+class ProductAttributeDetails(RetrieveAPIView):
+    """
+        Returns detail of a ProductAttribute
+    """
+    queryset = ProductAttribute.objects.all()
+    serializer_class = ProductAttributeSerializer
+
+
+class ProductAttributeCreate(CreateAPIView):
+    """
+        Create ProductAttribute
+    """
+    queryset = ProductAttribute.objects.all()
+    serializer_class = ProductAttributeSerializer
+
+
+class ProductAttributeUpdate(RetrieveUpdateDestroyAPIView):
+    """
+        Update ProductAttribute
+    """
+    queryset = ProductAttribute.objects.all()
+    serializer_class = ProductAttributeSerializer
+
+
+class ProductAttributeDestroy(DestroyAPIView):
+    """
+        Destroy ProductAttribute
+    """
+    queryset = ProductAttribute.objects.all()
+    serializer_class = ProductAttributeSerializer
