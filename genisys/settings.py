@@ -1,17 +1,18 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$(j5#6dcn53*2(^b^q_djgl%d3kpnd6-%law0fg!!9%ekq$8=x'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -71,12 +72,12 @@ WSGI_APPLICATION = 'genisys.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'genisys',
-        'USER': 'superuser',
-        'PASSWORD': 'bh%Gvg88-9^6_XVa',
-        'HOST': '35.242.172.131',
-        'PORT': '5432',
+        'ENGINE': os.getenv('PRODUCTION_DATABASE_ENGINE'),
+        'NAME': os.getenv('PRODUCTION_DATABASE_NAME'),
+        'USER': os.getenv('PRODUCTION_DATABASE_USER'),
+        'PASSWORD': os.getenv('PRODUCTION_DATABASE_PASSWORD'),
+        'HOST': os.getenv('PRODUCTION_DATABASE_HOST'),
+        'PORT': os.getenv('PRODUCTION_DATABASE_PORT'),
     }
 }
 
