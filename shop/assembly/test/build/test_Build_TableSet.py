@@ -17,6 +17,9 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         return self.client.post(url, data, content_type='application/json')
 
     def test(self):
+
+        self.URL_VERSION = '/api/v1'
+
         tableTop = {
             'stock_code': 'TBT',
             'part_code': 'tableTop',
@@ -82,7 +85,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
 
         #Create each atomic component using API calls
         for comp in atomic_comp:
-            url = '/atomic/component/create/'
+            url = self.URL_VERSION + '/atomic/component/create/'
             response = self.submit(url, comp)
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -135,7 +138,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
 
         blueprints = [table_blueprint, chair_blueprint]
         for blueprint in blueprints:
-            url = '/assembly/blueprint/create/'
+            url = self.URL_VERSION + '/assembly/blueprint/create/'
             response = self.submit(url, blueprint)
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -187,7 +190,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         }
         products = [table_product, chair_product]
         for product in products:
-            url = '/assembly/product/create/'
+            url = self.URL_VERSION + '/assembly/product/create/'
             response = self.submit(url, product)
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -216,7 +219,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
                 }
             ]
         }
-        url = '/assembly/blueprint/create/'
+        url = self.URL_VERSION + '/assembly/blueprint/create/'
         response = self.submit(url, table_set_blueprint)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -245,79 +248,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
                 }
             ]
         }
-        url = '/assembly/product/create/'
+        url = self.URL_VERSION + '/assembly/product/create/'
         response = self.submit(url, table_set_product)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    # def test_baseline_create(self):
-    #     """
-    #     Create gas spring only
-    #     """
-    #     url = '/assembly/blueprint/create/'
-    #     payload = {
-    #         "name": "gas spring",
-    #         "atomic_prerequisites": [
-    #             {
-    #                 "atomic_component": self.rod.id,
-    #                 "required": True,
-    #                 "min_quantity": 100000,  # 100mm
-    #                 "max_quantity": 800000,  # 800mm
-    #             },
-    #             {
-    #                 "atomic_component": self.tube.id,
-    #                 "required": True,
-    #                 "min_quantity": 100000,  # 100mm
-    #                 "max_quantity": 800000,  # 800mm
-    #             },
-    #             {
-    #                 "atomic_component": self.seal.id,
-    #                 "required": True,
-    #                 "min_quantity": 1,
-    #                 "max_quantity": 1,
-    #             }
-    #         ],
-    #         "product_prerequisites": []
-    #     }
-    #     data = json.dumps(payload)
-    #     response = self.client.post(url, data, content_type='application/json')
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #
-    # def test_create_with_options(self):
-    #     """
-    #     Create Gas Sprint with optional endfitting
-    #     """
-    #     url = '/assembly/blueprint/create/'
-    #     payload = {
-    #         "name": "gas spring",
-    #         "atomic_prerequisites": [
-    #             {
-    #                 "atomic_component": self.rod.id,
-    #                 "min_quantity": 100000,  # 100mm
-    #                 "max_quantity": 800000,  # 800mm
-    #             },
-    #             {
-    #                 "atomic_component": self.tube.id,
-    #                 "min_quantity": 100000,  # 100mm
-    #                 "max_quantity": 800000,  # 800mm
-    #             },
-    #             {
-    #                 "atomic_component": self.seal.id,
-    #                 "min_quantity": 1,
-    #                 "max_quantity": 1,
-    #             },
-    #             {
-    #                 "atomic_component": self.endfitting1.id,
-    #                 "min_quantity": 0,
-    #                 "max_quantity": 1,
-    #             },
-    #             {
-    #                 "atomic_component": self.endfitting2.id,
-    #                 "min_quantity": 0,
-    #                 "max_quantity": 1,
-    #             }
-    #         ],
-    #         "product_prerequisites": []
-    #     }
-    #     data = json.dumps(payload)
-    #     response = self.client.post(url, data, content_type='application/json')
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)

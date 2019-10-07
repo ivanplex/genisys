@@ -17,6 +17,9 @@ from shop.assembly.serializers import ProductSerializer
 class ProductTests(APITestCase):
 
     def setUp(self):
+
+        self.URL_VERSION = '/api/v1'
+
         self.blueprint_table = Blueprint.objects.create(name="Table")
         self.atom_table_top = AtomicComponent.objects.create(
             stock_code="table_top",
@@ -84,7 +87,7 @@ class ProductTests(APITestCase):
         """
         Ensure we can create AtomicComponent
         """
-        url = '/assembly/product/create/'
+        url = self.URL_VERSION + '/assembly/product/create/'
         data = json.dumps(self.valid_payload)
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -95,7 +98,7 @@ class ProductTests(APITestCase):
         """
         Missing specification
         """
-        url = '/assembly/product/create/'
+        url = self.URL_VERSION + '/assembly/product/create/'
         data = json.dumps(self.invalid_payload)
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -105,7 +108,7 @@ class ProductTests(APITestCase):
         product.atomic_specifications.add(self.table_AS_1)
         product.atomic_specifications.add(self.table_AS_2)
         product.save()
-        response = self.client.get(f'/assembly/product/view/{product.id}/')
+        response = self.client.get(self.URL_VERSION + f'/assembly/product/view/{product.id}/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, ProductSerializer(instance=product).data)
 
@@ -114,7 +117,7 @@ class ProductTests(APITestCase):
         product.atomic_specifications.add(self.table_AS_1)
         product.atomic_specifications.add(self.table_AS_2)
         product.save()
-        response = self.client.delete(f'/assembly/product/delete/{product.id}/')
+        response = self.client.delete(self.URL_VERSION + f'/assembly/product/delete/{product.id}/')
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Product.objects.count(), 0)
 
@@ -123,7 +126,7 @@ class ProductTests(APITestCase):
         product.atomic_specifications.add(self.table_AS_1)
         product.atomic_specifications.add(self.table_AS_2)
         product.save()
-        response = self.client.patch(f'/assembly/product/update/{product.id}/', data={'name': 'chair'})
+        response = self.client.patch(self.URL_VERSION + f'/assembly/product/update/{product.id}/', data={'name': 'chair'})
         product.refresh_from_db()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(product.name, 'chair')

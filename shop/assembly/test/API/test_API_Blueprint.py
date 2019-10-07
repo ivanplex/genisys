@@ -10,6 +10,9 @@ from shop.assembly.serializers import BlueprintSerializer
 class BlueprintTests(APITestCase):
 
     def setUp(self):
+
+        self.URL_VERSION = '/api/v1'
+
         atom_table_top = AtomicComponent.objects.create(
             stock_code="table_top",
             part_code="",
@@ -69,7 +72,7 @@ class BlueprintTests(APITestCase):
         """
         Ensure we can create AtomicComponent
         """
-        url = '/assembly/blueprint/create/'
+        url = self.URL_VERSION + '/assembly/blueprint/create/'
         data = json.dumps(self.valid_payload)
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -82,26 +85,26 @@ class BlueprintTests(APITestCase):
         Payload contains invalid prerequisite which is created
         simultaneously
         """
-        url = '/assembly/blueprint/create/'
+        url = self.URL_VERSION + '/assembly/blueprint/create/'
         data = json.dumps(self.invalid_payload)
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_view(self):
         blueprint = Blueprint.objects.create(name="table")
-        response = self.client.get(f'/assembly/blueprint/view/{blueprint.id}/')
+        response = self.client.get(self.URL_VERSION + f'/assembly/blueprint/view/{blueprint.id}/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, BlueprintSerializer(instance=blueprint).data)
 
     def test_delete(self):
         blueprint = Blueprint.objects.create(name="table")
-        response = self.client.delete(f'/assembly/blueprint/delete/{blueprint.id}/')
+        response = self.client.delete(self.URL_VERSION + f'/assembly/blueprint/delete/{blueprint.id}/')
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Blueprint.objects.count(), 0)
 
     def test_update(self):
         blueprint = Blueprint.objects.create(name="table")
-        response = self.client.patch(f'/assembly/blueprint/update/{blueprint.id}/', data={'name': 'chair'})
+        response = self.client.patch(self.URL_VERSION + f'/assembly/blueprint/update/{blueprint.id}/', data={'name': 'chair'})
         blueprint.refresh_from_db()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(blueprint.name, 'chair')
