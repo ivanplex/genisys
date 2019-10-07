@@ -1,3 +1,5 @@
 # raw file
 *.pyc
 .idea/
+
+.env
