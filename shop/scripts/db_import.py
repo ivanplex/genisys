@@ -1,4 +1,5 @@
 import pandas as pd
+import progressbar
 import math
 from shop.atomic.models import AtomicComponent, AtomicAttribute
 from shop.group.models import AtomicGroup
@@ -16,7 +17,18 @@ def run():
                      skiprows=1,
                      names=csv_headers)
 
+    # setup status bar
+    print("""
+        Importing all atomic components.
+    """)
+    bar = progressbar.ProgressBar(maxval=len(df.index),
+                                  widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+    bar.start()
+    bar_count = 0
+
     for k, parameters in df.iterrows():
+        bar_count = bar_count + 1
+        bar.update(bar_count)
 
         atom = AtomicComponent.objects.get_or_create(
             stock_code=parameters['Stock_code'],
@@ -41,3 +53,4 @@ def run():
     #     group.members.add(member)
     # group.save()
 
+    bar.finish()
