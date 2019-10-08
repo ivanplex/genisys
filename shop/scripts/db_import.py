@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 from shop.atomic.models import AtomicComponent, AtomicAttribute
 from shop.group.models import AtomicGroup
 
@@ -25,18 +26,18 @@ def run():
         )[0]
 
         for attributeHeaders in csv_headers[5:]:
-            if parameters[attributeHeaders] is not 0 and not None and not 'NULL':
+            if not math.isnan(parameters[attributeHeaders]) and parameters[attributeHeaders] != 0:
                 AtomicAttribute.objects.get_or_create(
                             atomic_component=atom,
                             key=attributeHeaders,
                             value=parameters[attributeHeaders]
                         )
 
-        # group = AtomicGroup.objects.get_or_create(
-        #     name='Endfittings',
-        #     description='List of endfittings for gas-springs'
-        # )[0]
-        # for member in endfittings:
-        #     group.members.add(member)
-        # group.save()
+    # group = AtomicGroup.objects.get_or_create(
+    #     name='Endfittings',
+    #     description='List of endfittings for gas-springs'
+    # )[0]
+    # for member in endfittings:
+    #     group.members.add(member)
+    # group.save()
 
