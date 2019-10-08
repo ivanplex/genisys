@@ -17,7 +17,7 @@ def run():
             print(', '.join(row))
             atom = AtomicComponent.objects.get_or_create(
                 stock_code=row[3],
-                part_code=row[2],
+                description=row[1],
                 warehouse_location=row[4],
                 type=row[0]
             )[0]
