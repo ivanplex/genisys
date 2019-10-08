@@ -11,9 +11,9 @@ class AtomicAttribute(KeyValueAttribute):
 
 class AtomicComponent(TimestampedModel):
     stock_code = models.CharField(max_length=255, null=False)
-    part_code = models.CharField(max_length=255, null=True)
     type = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    cost = models.FloatField(default=0)
     warehouse_location = models.IntegerField(blank=True, null=True)
     material = models.CharField(max_length=255, blank=True, null=True)
     weight = models.IntegerField(blank=True, null=True)
