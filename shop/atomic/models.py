@@ -14,7 +14,7 @@ class AtomicComponent(TimestampedModel):
     category = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     cost = models.FloatField(default=0)
-    warehouse_location = models.IntegerField(blank=True, null=True)
+    warehouse_location = models.CharField(blank=True, null=True, max_length=255)
     material = models.CharField(max_length=255, blank=True, null=True)
     weight = models.IntegerField(blank=True, null=True)
     image = models.CharField(max_length=1000, blank=True, null=True)
