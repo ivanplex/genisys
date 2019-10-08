@@ -1,6 +1,6 @@
 from django.db import models
 from shop.models import TimestampedModel
-from shop.atomic.models import AtomicComponent
+from shop.atomic.models import AtomicComponent, AtomicPrerequisite
 from shop.assembly.models import Product, Blueprint
 
 
