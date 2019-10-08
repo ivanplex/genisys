@@ -16,7 +16,6 @@ RUN set -ex \
     && apt-get update && apt-get install -y --no-install-recommends $RUN_DEPS \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /genisys
 ADD ./requirements/prod.txt	/genisys/requirements/prod.txt
 
 # Install build deps, then run `pip install`, then remove unneeded build deps all in a single step.
@@ -28,15 +27,14 @@ RUN set -ex \
         libpq-dev \
     " \
     && apt-get update && apt-get install -y --no-install-recommends $BUILD_DEPS \
-    && python3.7 -m venv /venv \
-    && /venv/bin/pip install -U pip \
-    && /venv/bin/pip install --no-cache-dir -r /genisys/requirements/prod.txt \
-    \
+    && pip install -U pip \
+    && pip install --no-cache-dir -r /genisys/requirements/prod.txt \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $BUILD_DEPS \
     && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /genisys
 COPY . /genisys/
 
-
-CMD ["./run.sh"]
 EXPOSE 8080
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+#CMD ["gunicorn", "genisys.wsgi", "-b", ":8080"]
