@@ -6,6 +6,7 @@ from shop.assembly.models import Product, Blueprint
 
 class AtomicGroup(TimestampedModel):
     name = models.CharField(max_length=100, null=False, blank=False)
+    auto_generated = models.BooleanField(default=False)
     description = models.CharField(max_length=100)
     members = models.ManyToManyField(AtomicComponent, related_name='members')
 
