@@ -19,7 +19,7 @@ class BlueprintAssignAtomicOnlyTestCase(TestCase):
         """
         Test assigning 1 atomic component
         """
-        a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", availability=700)
+        a = AtomicComponent.objects.create(stock_code="TEST", availability=700)
         ar = AtomicPrerequisite.objects.create(atomic_component=a, min_quantity=4, max_quantity=4)
 
         try:
@@ -37,9 +37,9 @@ class BlueprintAssignMultipleAtomicTestCase(TestCase):
         """
 
         component = [
-            AtomicComponent.objects.create(stock_code="Apple", part_code="Apple", availability=700),
-            AtomicComponent.objects.create(stock_code="Orange", part_code="Orange", availability=400),
-            AtomicComponent.objects.create(stock_code="Banana", part_code="Banana", availability=200)
+            AtomicComponent.objects.create(stock_code="Apple", availability=700),
+            AtomicComponent.objects.create(stock_code="Orange", availability=400),
+            AtomicComponent.objects.create(stock_code="Banana", availability=200)
         ]
 
         c_req = []
@@ -65,7 +65,7 @@ class BlueprintAssignBlueprintTestCase(TestCase):
         """
         try:
             # define
-            a = AtomicComponent.objects.create(stock_code="TEST", part_code="Test", availability=700)
+            a = AtomicComponent.objects.create(stock_code="TEST", availability=700)
             ar = AtomicPrerequisite.objects.create(atomic_component=a, min_quantity=4, max_quantity=4)
             b = Blueprint.objects.create(name="Table")
             b.atomic_prerequisites.add(ar)

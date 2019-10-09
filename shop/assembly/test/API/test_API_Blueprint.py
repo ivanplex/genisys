@@ -15,7 +15,6 @@ class BlueprintTests(APITestCase):
 
         atom_table_top = AtomicComponent.objects.create(
             stock_code="table_top",
-            part_code="",
             description="table top surface",
             warehouse_location="2001",
             material="wood",
@@ -25,7 +24,6 @@ class BlueprintTests(APITestCase):
         )
         atom_leg = AtomicComponent.objects.create(
             stock_code="table_leg",
-            part_code="",
             description="legs",
             warehouse_location="2002",
             material="wood",

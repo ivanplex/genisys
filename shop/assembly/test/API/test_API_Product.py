@@ -23,7 +23,6 @@ class ProductTests(APITestCase):
         self.blueprint_table = Blueprint.objects.create(name="Table")
         self.atom_table_top = AtomicComponent.objects.create(
             stock_code="table_top",
-            part_code="",
             description="table top surface",
             warehouse_location="2001",
             material="wood",
@@ -33,7 +32,6 @@ class ProductTests(APITestCase):
         )
         self.atom_leg = AtomicComponent.objects.create(
             stock_code="table_leg",
-            part_code="",
             description="legs",
             warehouse_location="2002",
             material="wood",

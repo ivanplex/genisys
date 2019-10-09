@@ -22,7 +22,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
 
         tableTop = {
             'stock_code': 'TBT',
-            'part_code': 'tableTop',
             'description': 'IKEA TABLE TOP',
             'warehouse_location': '2000',
             'weight': 100,
@@ -31,7 +30,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         }
         tableLeg = {
             'stock_code': 'TBL',
-            'part_code': 'tableLeg',
             'description': 'IKEA TABLE LEG',
             'warehouse_location': '2001',
             'weight': 40,
@@ -40,7 +38,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         }
         screws = {
             'stock_code': 'SRW',
-            'part_code': 'screw',
             'description': 'screws',
             'warehouse_location': '80000',
             'weight': 1,
@@ -49,7 +46,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         }
         chairPlate = {
             'stock_code': 'CPT',
-            'part_code': 'chairPlate',
             'description': 'IKEA Chair Back plate',
             'warehouse_location': '7000',
             'weight': 120,
@@ -58,7 +54,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         }
         chairleg = {
             'stock_code': 'CLG',
-            'part_code': 'chairLeg',
             'description': 'IKEA Chair Leg',
             'warehouse_location': '7001',
             'weight': 30,
@@ -67,7 +62,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         }
         manual = {
             'stock_code': 'MNU',
-            'part_code': 'manual',
             'description': 'IKEA assembly manual',
             'warehouse_location': '1',
             'weight': 15,
