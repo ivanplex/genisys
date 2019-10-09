@@ -2,6 +2,7 @@ from django.db import models
 from shop.models import TimestampedModel
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
 from shop.attribute.models import KeyValueAttribute
+from shop.group.models import Group
 
 
 class BlueprintAttribute(KeyValueAttribute):
@@ -213,6 +214,14 @@ class Product(TimestampedModel):
         for spec in self.product_specifications.all():
             struct['product_spec'].append(spec.product_prereq.product.map_spec())
         return struct
+
+class BlueprintGroup(Group):
+    members = models.ManyToManyField(Blueprint, related_name='members')
+
+
+class ProductGroup(Group):
+    members = models.ManyToManyField(Product, related_name='members')
+
 
 #TODO: Redefine how to handle Audits
 class PrerequisiteAudit:

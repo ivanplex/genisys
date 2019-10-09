@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from shop.models import TimestampedModel
 from shop.attribute.models import KeyValueAttribute
+from shop.group.models import Group
 
 
 class AtomicAttribute(KeyValueAttribute):
@@ -29,6 +30,10 @@ class AtomicComponent(TimestampedModel):
             raise ValidationError('stock_code cannot be empty.')
         else:
             super(AtomicComponent, self).save(*args, **kwargs)
+
+
+class AtomicGroup(Group):
+    members = models.ManyToManyField(AtomicComponent, related_name='members')
 
 
 class AtomicPrerequisite(TimestampedModel):

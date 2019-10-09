@@ -1,6 +1,5 @@
 import csv
-from shop.atomic.models import AtomicComponent, AtomicAttribute
-from shop.group.models import AtomicGroup
+from shop.atomic.models import AtomicComponent, AtomicAttribute, AtomicGroup
 
 
 def run():
@@ -13,9 +12,9 @@ def run():
             print(', '.join(row))
             atom = AtomicComponent.objects.get_or_create(
                 stock_code=row[3],
-                part_code=row[2],
+                description=row[2],
                 warehouse_location=row[4],
-                type=row[0]
+                category=row[0]
             )[0]
             endfittings.append(atom)
             AtomicAttribute.objects.get_or_create(
@@ -36,4 +35,3 @@ def run():
         for member in endfittings:
             group.members.add(member)
         group.save()
-

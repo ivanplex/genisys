@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Group',
+            name='KeyValueAttribute',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.CharField(max_length=100)),
+                ('key', models.CharField(max_length=255)),
+                ('value', models.CharField(max_length=255)),
             ],
             options={
                 'abstract': False,

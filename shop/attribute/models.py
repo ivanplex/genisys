@@ -1,15 +1,10 @@
 from django.db import models
 from shop.models import TimestampedModel
-# from shop.assembly.model import Blueprint
-# from shop.atomic.model import AtomicComponent
 
 
 class KeyValueAttribute(TimestampedModel):
     key = models.CharField(max_length=255, blank=False, null=False)
     value = models.CharField(max_length=255, blank=False, null=False)
-
-    class Meta:
-        abstract = True
 
     def get_key(self):
         return self.key
@@ -23,5 +18,5 @@ class KeyValueAttribute(TimestampedModel):
     def set_value(self, value):
         self.value = value
 
-
-
+    def get(self, key):
+        return self.objects.filter(key=key)

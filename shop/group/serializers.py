@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from shop.group.models import AtomicGroup, BlueprintGroup, ProductGroup
+from shop.assembly.models import BlueprintGroup, ProductGroup
+from shop.atomic.models import AtomicGroup
 from shop.atomic.serializers import AtomicComponentSerializer
 from shop.assembly.serializers import ProductSerializer, BlueprintSerializer
 
