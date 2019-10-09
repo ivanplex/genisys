@@ -2,7 +2,6 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from shop.models import TimestampedModel
 from shop.attribute.models import KeyValueAttribute
-from shop.group.models import AtomicGroup
 
 
 class AtomicAttribute(KeyValueAttribute):
@@ -33,8 +32,8 @@ class AtomicComponent(TimestampedModel):
 
 
 class AtomicPrerequisite(TimestampedModel):
-    options = models.ForeignKey(AtomicGroup, on_delete=models.PROTECT, related_name='options', null=True)
-    group_options = models.ManyToManyField(AtomicGroup, related_name='group_options', symmetrical=False)
+    atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',
+                                         null=False)
     min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
     max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
