@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'shop.atomic',
     'shop.assembly',
     'shop.attribute',
+    'shop.relations',
     'shop.group',
 ]
 

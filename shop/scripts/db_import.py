@@ -1,8 +1,7 @@
 import pandas as pd
 import progressbar
 import math
-from shop.atomic.models import AtomicComponent, AtomicAttribute
-from shop.group.models import AtomicGroup
+from shop.atomic.models import AtomicComponent, AtomicAttribute, AtomicGroup
 
 
 def run():

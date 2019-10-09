@@ -1,5 +1,6 @@
 from django.db import models
 from shop.models import TimestampedModel
+from shop.relations.models import Prerequisite, Specification
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
 from shop.attribute.models import KeyValueAttribute
 from shop.group.models import Group
@@ -89,17 +90,14 @@ class Blueprint(TimestampedModel):
         return struct
 
 
-class ProductPrerequisite(TimestampedModel):
+class ProductPrerequisite(Prerequisite):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
                                 null=False)
-    min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
-    max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
 
-class ProductSpecification(TimestampedModel):
+class ProductSpecification(Specification):
     product_prereq = models.ForeignKey(ProductPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                        null=False)
-    quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
     def validate(self):
         """

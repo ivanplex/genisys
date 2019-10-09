@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from shop.models import TimestampedModel
+from shop.relations.models import Prerequisite, Specification
 from shop.attribute.models import KeyValueAttribute
 from shop.group.models import Group
 
@@ -11,14 +12,14 @@ class AtomicAttribute(KeyValueAttribute):
 
 
 class AtomicComponent(TimestampedModel):
-    stock_code = models.CharField(max_length=255, null=False)
+    stock_code = models.CharField(max_length=255, null=False) # Req
     category = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True) # Req
     cost = models.FloatField(default=0)
     warehouse_location = models.CharField(blank=True, null=True, max_length=255)
     material = models.CharField(max_length=255, blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
-    image = models.CharField(max_length=1000, blank=True, null=True)
+    weight = models.IntegerField(default=0)
+    image = models.CharField(max_length=1000, blank=True, null=True) # Req
     availability = models.IntegerField(null=False, default=0)
 
     def attribute(self):
@@ -36,17 +37,14 @@ class AtomicGroup(Group):
     members = models.ManyToManyField(AtomicComponent, related_name='members')
 
 
-class AtomicPrerequisite(TimestampedModel):
+class AtomicPrerequisite(Prerequisite):
     atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',
                                          null=False)
-    min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
-    max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
 
-class AtomicSpecification(TimestampedModel):
+class AtomicSpecification(Specification):
     atomic_prereq = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                       null=False)
-    quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
     def validate(self):
         """
