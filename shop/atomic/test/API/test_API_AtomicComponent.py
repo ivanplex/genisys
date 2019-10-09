@@ -14,7 +14,6 @@ class AtomicComponentTests(APITestCase):
 
         self.valid_payload = {
             'stock_code': 'p_bolt',
-            'part_code': 'p_bolt',
             'description': 'General purpose Philip bolt',
             'warehouse_location': '2000',
             'weight': 3,
@@ -22,11 +21,11 @@ class AtomicComponentTests(APITestCase):
             'availability': 6000,
         }
         self.invalid_payload = {
-            'part_code': 'p_bolt',
             'description': 'General purpose Philip bolt',
             'warehouse_location': '2000',
             'weight': 3,
             'image': '/img/bolt.png',
+            'availability': 6000,
         }
 
     def test_create(self):
@@ -52,7 +51,6 @@ class AtomicComponentTests(APITestCase):
     def test_view(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
-            part_code="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -67,7 +65,6 @@ class AtomicComponentTests(APITestCase):
     def test_delete(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
-            part_code="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -82,7 +79,6 @@ class AtomicComponentTests(APITestCase):
     def test_update(self):
         atom = AtomicComponent.objects.create(
             stock_code="p_bolt",
-            part_code="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
