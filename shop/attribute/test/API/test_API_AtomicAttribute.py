@@ -14,7 +14,6 @@ class AtomicAttributeAPITests(APITestCase):
 
         self.atom = AtomicComponent.objects.create(
             stock_code="table_top",
-            part_code="",
             description="table top surface",
             warehouse_location="2001",
             material="wood",
