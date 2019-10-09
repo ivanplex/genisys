@@ -17,7 +17,6 @@ class AtomicPrerequisiteTestCase(APITestCase):
 
         self.rod = AtomicComponent.objects.create(
             stock_code="rod",
-            part_code="rod",
             description="rod of a gas spring",
             warehouse_location="2001",
             material="steel",
@@ -27,7 +26,6 @@ class AtomicPrerequisiteTestCase(APITestCase):
         )
         self.tube = AtomicComponent.objects.create(
             stock_code="tube",
-            part_code="tube",
             description="tube of a gas spring",
             warehouse_location="2003",
             material="steel",
@@ -37,7 +35,6 @@ class AtomicPrerequisiteTestCase(APITestCase):
         )
         self.seal = AtomicComponent.objects.create(
             stock_code="seal",
-            part_code="seal",
             description="seal of a gas spring",
             warehouse_location="1000",
             material="rubber",
@@ -47,7 +44,6 @@ class AtomicPrerequisiteTestCase(APITestCase):
         )
         self.endfitting1 = AtomicComponent.objects.create(
             stock_code="endfitting1",
-            part_code="endfitting1",
             description="endfitting of a gas spring",
             warehouse_location="30",
             material="steal",
@@ -57,7 +53,6 @@ class AtomicPrerequisiteTestCase(APITestCase):
         )
         self.endfitting2 = AtomicComponent.objects.create(
             stock_code="endfitting2",
-            part_code="endfitting2",
             description="endfitting of a gas spring",
             warehouse_location="31",
             material="steal",
