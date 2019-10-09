@@ -11,13 +11,12 @@ from shop.assembly.models import Blueprint, Product, ProductPrerequisite
 
 def submit(url, payload):
     data = json.dumps(payload)
-    return requests.post('https://dev-web-aw66scuunq-ew.a.run.app'+url, json=payload)
+    return requests.post('http://0.0.0.0:8080/api/v1'+url, json=payload)
 
 
 def run():
     tableTop = {
         'stock_code': 'TBT',
-        'part_code': 'tableTop',
         'description': 'IKEA TABLE TOP',
         'warehouse_location': '2000',
         'weight': 100,
@@ -26,7 +25,6 @@ def run():
     }
     tableLeg = {
         'stock_code': 'TBL',
-        'part_code': 'tableLeg',
         'description': 'IKEA TABLE LEG',
         'warehouse_location': '2001',
         'weight': 40,
@@ -35,7 +33,6 @@ def run():
     }
     screws = {
         'stock_code': 'SRW',
-        'part_code': 'screw',
         'description': 'screws',
         'warehouse_location': '80000',
         'weight': 1,
@@ -44,7 +41,6 @@ def run():
     }
     chairPlate = {
         'stock_code': 'CPT',
-        'part_code': 'chairPlate',
         'description': 'IKEA Chair Back plate',
         'warehouse_location': '7000',
         'weight': 120,
@@ -53,7 +49,6 @@ def run():
     }
     chairleg = {
         'stock_code': 'CLG',
-        'part_code': 'chairLeg',
         'description': 'IKEA Chair Leg',
         'warehouse_location': '7001',
         'weight': 30,
@@ -62,7 +57,6 @@ def run():
     }
     manual = {
         'stock_code': 'MNU',
-        'part_code': 'manual',
         'description': 'IKEA assembly manual',
         'warehouse_location': '1',
         'weight': 15,

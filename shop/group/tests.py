@@ -1,13 +1,11 @@
 from django.test import TestCase
-from shop.atomic.models import AtomicComponent
-from .models import AtomicGroup
+from shop.atomic.models import AtomicComponent, AtomicGroup
 
 
 class GroupClassTestCase(TestCase):
     def setUp(self):
         self.atom1 = AtomicComponent.objects.create(
             stock_code="p_bolt",
-            part_code="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -17,7 +15,6 @@ class GroupClassTestCase(TestCase):
         )
         self.atom2 = AtomicComponent.objects.create(
             stock_code="s_bolt",
-            part_code="s_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -27,7 +24,6 @@ class GroupClassTestCase(TestCase):
         )
         self.atom3 = AtomicComponent.objects.create(
             stock_code="t_bolt",
-            part_code="t_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
