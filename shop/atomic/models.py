@@ -37,13 +37,6 @@ class AtomicPrerequisite(TimestampedModel):
     min_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
     max_quantity = models.PositiveIntegerField(default=1, null=False, blank=False)
 
-    # def available(self):
-    # 	return True if self.quantity <= self.atomic_component.availability else False
-
-    def __str__(self):
-        return "AtomicRequirement: {}: {} - {}".format(self.atomic_component.stock_code, self.min_quantity,
-                                                       self.max_quantity)
-
 
 class AtomicSpecification(TimestampedModel):
     atomic_prereq = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
@@ -56,6 +49,3 @@ class AtomicSpecification(TimestampedModel):
         :return: Bool
         """
         return True if self.atomic_prereq.min_quantity <= self.quantity <= self.atomic_prereq.max_quantity else False
-
-    def __str__(self):
-        return "AtomicSpecification: {}: {}".format(self.atomic_prereq.atomic_component.stock_code, self.quantity)
