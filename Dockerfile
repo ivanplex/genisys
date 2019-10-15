@@ -36,5 +36,6 @@ WORKDIR /genisys
 COPY . /genisys/
 
 EXPOSE 8080
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+ENTRYPOINT ["/genisys/docker-entrypoint.sh"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
 #CMD ["gunicorn", "genisys.wsgi", "-b", ":8080"]
