@@ -8,12 +8,15 @@ python manage.py migrate                  # Apply database migrations
 #tail -n 0 -f /srv/logs/*.log &
 
 # Start Gunicorn processes
-echo Starting Gunicorn.
-exec gunicorn genisys.wsgi:application \
-    --name shop_API \
-    --bind 0.0.0.0:8080 \
-    --workers 3 \
-#    --log-level=info \
-#    --log-file=/srv/logs/gunicorn.log \
-#    --access-logfile=/srv/logs/access.log \
-    "$@"
+#echo Starting Gunicorn.
+#exec gunicorn genisys.wsgi:application \
+#    --name shop_API \
+#    --bind 0.0.0.0:8080 \
+#    --workers 3 \
+##    --log-level=info \
+##    --log-file=/srv/logs/gunicorn.log \
+##    --access-logfile=/srv/logs/access.log \
+#    "$@"
+
+# FOR DEVELOPMENT ONLY!
+python manage.py runserver 0.0.0.0:8080
