@@ -43,13 +43,28 @@ def run():
                             key=attributeHeaders,
                             value=parameters[attributeHeaders]
                         )
+    bar.finish()
 
-    # group = AtomicGroup.objects.get_or_create(
-    #     name='Endfittings',
-    #     description='List of endfittings for gas-springs'
-    # )[0]
-    # for member in endfittings:
-    #     group.members.add(member)
-    # group.save()
-
+    ##
+    # Create group for Endfittings
+    ##
+    print("""
+        Creating Endfitting group
+    """)
+    group = AtomicGroup.objects.get_or_create(
+        name='Endfittings',
+        description='List of endfittings for gas-springs'
+    )[0]
+    endfitting_ids = [627, 132, 192, 194, 195, 196, 199, 205, 214, 215, 217, 218, 225, 227, 228, 232, 233, 240, 241, 497, 122, 123, 127, 129, 133, 134, 136, 137, 138, 139, 141, 147, 148, 150, 805, 152, 154, 155, 158, 160, 180, 181, 186, 188, 222, 164, 170, 173, 528]
+    bar = progressbar.ProgressBar(maxval=len(endfitting_ids),
+                                  widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+    bar.start()
+    bar_count = 0
+    for id in endfitting_ids:
+        bar_count = bar_count + 1
+        bar.update(bar_count)
+        stock_code = df.loc[df['Id'] == id, 'Stock_code']
+        if len(stock_code.values) > 0:
+            group.members.add(AtomicComponent.objects.filter(stock_code=stock_code.values[0]).first())
+    group.save()
     bar.finish()
