@@ -39,7 +39,8 @@ class AtomicGroup(Group):
 
 class AtomicPrerequisite(Prerequisite):
     atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',
-                                         null=False)
+                                         null=True)
+    atomic_group = models.ForeignKey(AtomicGroup, on_delete=models.PROTECT, related_name='allowed_group', null=True)
 
 
 class AtomicSpecification(Specification):

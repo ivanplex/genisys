@@ -27,6 +27,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 100,
             'image': '/img/table_top.png',
             'availability': 80,
+            'attribute': [],
         }
         tableLeg = {
             'stock_code': 'TBL',
@@ -35,6 +36,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 40,
             'image': '/img/table_leg.png',
             'availability': 200,
+            'attribute': [],
         }
         screws = {
             'stock_code': 'SRW',
@@ -43,6 +45,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 1,
             'image': '/img/screws.png',
             'availability': 100000,
+            'attribute': [],
         }
         chairPlate = {
             'stock_code': 'CPT',
@@ -51,6 +54,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 120,
             'image': '/img/chair_back_plate.png',
             'availability': 20,
+            'attribute': [],
         }
         chairleg = {
             'stock_code': 'CLG',
@@ -59,6 +63,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 30,
             'image': '/img/chair_leg.png',
             'availability': 55,
+            'attribute': [],
         }
         manual = {
             'stock_code': 'MNU',
@@ -67,6 +72,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 15,
             'image': '/img/manual.png',
             'availability': 30,
+            'attribute': [],
         }
         atomic_comp = [
             tableTop,
