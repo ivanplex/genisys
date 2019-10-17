@@ -216,10 +216,11 @@ def run():
     blueprint.atomic_prerequisites.add(AP_2)
     blueprint.save()
 
+    print("     - creating product GS-8-18 M6 M6")
     product, created = Product.objects.get_or_create(name="GS-8-18 M6 M6",
-                                            sku="GS-8-18 M6 M6",
                                             availability=1,
                                             blueprint=blueprint)
+    print("     - adding endfitting specifications to GS-8-18 M6 M6")
     AS_1, created = AtomicSpecification.objects.get_or_create(name="Left End-fitting",
                                                      selected_component=AtomicComponent.objects.filter(description="Ball Joint PLS4M8").first(),
                                                      atomic_prereq=AP_1,
@@ -231,17 +232,19 @@ def run():
                                                      quantity=1)
     product.atomic_specifications.add(AS_1)
     product.atomic_specifications.add(AS_2)
+    print("     - adding product specifications to GS-8-18 M6 M6")
     PS_1, created = ProductSpecification.objects.get_or_create(name="GS-8-18 M6 M6 Parts",
                                                                selected_component=GS_product,
-                                                               product_prereq=PP_1,
+                                                               prerequisite=PP_1,
                                                                quantity=1)
     PS_2, created = ProductSpecification.objects.get_or_create(name="M8-18 General Parts",
                                                                selected_component=M8_product,
-                                                               product_prereq=PP_2,
+                                                               prerequisite=PP_2,
                                                                quantity=1)
     product.product_specifications.add(PS_1)
     product.product_specifications.add(PS_2)
     product.save()
+    print("")
 
 
 

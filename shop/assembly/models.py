@@ -13,7 +13,8 @@ class BlueprintAttribute(KeyValueAttribute):
 
 class Blueprint(TimestampedModel):
     name = models.CharField(max_length=250)
-    atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements', symmetrical=False)
+    atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements',
+                                                  symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
                                                    symmetrical=False)
 
@@ -96,8 +97,10 @@ class ProductPrerequisite(Prerequisite):
 
 
 class ProductSpecification(Specification):
-    product_prereq = models.ForeignKey(ProductPrerequisite, on_delete=models.PROTECT, related_name='build_with',
-                                       null=False)
+    selected_component = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='using',
+                                           null=True)
+    prerequisite = models.ForeignKey(ProductPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+                                     null=True)
 
     def validate(self):
         """
@@ -109,7 +112,7 @@ class ProductSpecification(Specification):
 
 class ProductAttribute(KeyValueAttribute):
     product = models.ForeignKey('Product', on_delete=models.CASCADE,
-                                  related_name='product_attribute', null=False)
+                                related_name='product_attribute', null=False)
 
 
 class Product(TimestampedModel):
@@ -119,12 +122,13 @@ class Product(TimestampedModel):
 
     blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='based_on', null=False)
 
-    atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='atomic_specification', symmetrical=False)
-    product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification', symmetrical=False)
+    atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='atomic_specification',
+                                                   symmetrical=False)
+    product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification',
+                                                    symmetrical=False)
 
     def hasProductPrerequisite(self):
         return False if not self.blueprint.product_prerequisites.all() else True
-
 
     def validate(self):
         """
@@ -153,17 +157,17 @@ class Product(TimestampedModel):
         deficit = PrerequisiteAudit()
 
         deficit.deficit = [x for x in self.blueprint.getLocalAtomicPrerequisites()
-                     if x not in self.getLocalAtomicPrerequisites()]
+                           if x not in self.getLocalAtomicPrerequisites()]
         deficit.surplus = [x for x in self.getLocalAtomicPrerequisites()
-                     if x not in self.blueprint.getLocalAtomicPrerequisites()]
+                           if x not in self.blueprint.getLocalAtomicPrerequisites()]
 
         # Add blueprint deficit
         blueprint_spec_prereq = [x.product_prereq for x in self.getLocalBuildSpecifications()]
         blueprint_deficit = [x for x in self.blueprint.getLocalBuildPrerequisites()
-                     if x not in blueprint_spec_prereq]
+                             if x not in blueprint_spec_prereq]
 
         blueprint_surplus = [x for x in blueprint_spec_prereq
-                     if x not in self.blueprint.getLocalBuildPrerequisites()]
+                             if x not in self.blueprint.getLocalBuildPrerequisites()]
         deficit.deficit.extend(blueprint_deficit)
         deficit.deficit.extend(blueprint_surplus)
 
@@ -222,11 +226,12 @@ class ProductGroup(Group):
     members = models.ManyToManyField(Product, related_name='members')
 
 
-#TODO: Redefine how to handle Audits
+# TODO: Redefine how to handle Audits
 class PrerequisiteAudit:
     """
     Prerequisite auditing for products
     """
+
     def __init__(self):
         self.deficit = []
         self.surplus = []
@@ -239,4 +244,3 @@ class PrerequisiteAudit:
 
     def __str__(self):
         return "Audit: Deficit-{}: Surplus-{}".format(len(self.deficit), len(self.surplus))
-
