@@ -1,5 +1,5 @@
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification, AtomicGroup
-from shop.assembly.models import Blueprint, Product, ProductPrerequisite
+from shop.assembly.models import Blueprint, Product, ProductPrerequisite, ProductSpecification
 
 
 def run():
@@ -208,11 +208,41 @@ def run():
             M8_EF_group.members.add(atom)
     M8_EF_group.save()
     print("     - add endfitting prerequisite for GS-8-18 M6 M6")
-    AP_1 = AtomicPrerequisite.objects.get_or_create(atomic_group=M8_EF_group, min_quantity=0, max_quantity=1)[0]
-    AP_2 = AtomicPrerequisite.objects.get_or_create(atomic_group=M8_EF_group, min_quantity=0, max_quantity=1)[0]
+    AP_1 = AtomicPrerequisite.objects.get_or_create(name="Left End-fitting", atomic_group=M8_EF_group,
+                                                    min_quantity=0, max_quantity=1)[0]
+    AP_2 = AtomicPrerequisite.objects.get_or_create(name="Right End-fitting", atomic_group=M8_EF_group,
+                                                    min_quantity=0, max_quantity=1)[0]
     blueprint.atomic_prerequisites.add(AP_1)
     blueprint.atomic_prerequisites.add(AP_2)
     blueprint.save()
+
+    product, created = Product.objects.get_or_create(name="GS-8-18 M6 M6",
+                                            sku="GS-8-18 M6 M6",
+                                            availability=1,
+                                            blueprint=blueprint)
+    AS_1, created = AtomicSpecification.objects.get_or_create(name="Left End-fitting",
+                                                     selected_component=AtomicComponent.objects.filter(description="Ball Joint PLS4M8").first(),
+                                                     atomic_prereq=AP_1,
+                                                     quantity=1)
+    AS_2, created = AtomicSpecification.objects.get_or_create(name="Right End-fitting",
+                                                     selected_component=AtomicComponent.objects.filter(
+                                                         description="Ball Joint PLS4M8").first(),
+                                                     atomic_prereq=AP_2,
+                                                     quantity=1)
+    product.atomic_specifications.add(AS_1)
+    product.atomic_specifications.add(AS_2)
+    PS_1, created = ProductSpecification.objects.get_or_create(name="GS-8-18 M6 M6 Parts",
+                                                               selected_component=GS_product,
+                                                               product_prereq=PP_1,
+                                                               quantity=1)
+    PS_2, created = ProductSpecification.objects.get_or_create(name="M8-18 General Parts",
+                                                               selected_component=M8_product,
+                                                               product_prereq=PP_2,
+                                                               quantity=1)
+    product.product_specifications.add(PS_1)
+    product.product_specifications.add(PS_2)
+    product.save()
+
 
 
 
