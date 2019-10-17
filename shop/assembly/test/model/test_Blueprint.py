@@ -3,33 +3,6 @@ from shop.assembly.models import Blueprint, ProductPrerequisite, Product, Produc
 from shop.atomic.models import AtomicPrerequisite, AtomicSpecification, AtomicComponent
 
 
-class BlueprintEmptyValidTestCase(TestCase):
-
-    def setUp(self):
-        self.b = Blueprint.objects.create(name="Table")
-    def test(self):
-        """
-        Test empty Blueprint
-        """
-        self.assertEqual(self.b.isEmpty(), True)
-
-
-class BlueprintAssignAtomicOnlyTestCase(TestCase):
-    def test(self):
-        """
-        Test assigning 1 atomic component
-        """
-        a = AtomicComponent.objects.create(stock_code="TEST", availability=700)
-        ar = AtomicPrerequisite.objects.create(atomic_component=a, min_quantity=4, max_quantity=4)
-
-        try:
-            b = Blueprint.objects.create(name="Table")
-            b.atomic_prerequisites.add(ar)
-            b.save()
-        except:
-            self.fail('Creation of Blueprint object failed.')
-
-
 class BlueprintAssignMultipleAtomicTestCase(TestCase):
     def test(self):
         """
@@ -73,7 +46,7 @@ class BlueprintAssignBlueprintTestCase(TestCase):
 
             # build
             tableBuild = Product.objects.create(name="table", blueprint=b)
-            tableBuildAtomicSpec = AtomicSpecification.objects.create(atomic_prereq=ar, quantity=4)
+            tableBuildAtomicSpec = AtomicSpecification.objects.create(selected_component=a, prerequisite=ar, quantity=4)
             tableBuild.atomic_specifications.add(tableBuildAtomicSpec)
 
             b_set = Blueprint.objects.create(name="Table_set")

@@ -4,6 +4,8 @@ from shop.relations.models import Prerequisite, Specification
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
 from shop.attribute.models import KeyValueAttribute
 from shop.group.models import Group
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class BlueprintAttribute(KeyValueAttribute):
@@ -22,74 +24,6 @@ class Blueprint(TimestampedModel):
         attr = BlueprintAttribute.objects.filter(blueprint=self)
         return attr
 
-    def isEmpty(self):
-        if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
-            return True
-        else:
-            return False
-
-    def getLocalAtomicPrerequisites(self):
-        """
-        Return local AtomicPrerequisite only
-        :return: list[AtomicRequirement]
-        """
-        l = []
-        for prereq in self.atomic_prerequisites.all():
-            l.append(prereq)
-        return l
-
-    def allAtomicPrerequisites(self):
-        """
-        Return all atomic prerequisites recursively
-        return list instead of queryset
-
-        :return: list[AtomicRequirement]
-        """
-        if len(self.product_prerequisites.all()) == 0:
-            # If no further blueprint dependencies
-            return self.getLocalAtomicPrerequisites()
-        else:
-            atomic_prereq = self.getLocalAtomicPrerequisites()
-            for prereq in self.product_prerequisites.all():
-                atomic_prereq.extend(prereq.product.blueprint.allAtomicPrerequisites())
-            return atomic_prereq
-
-    def getLocalBuildPrerequisites(self):
-        """
-        Return local BuildPrerequisite only
-        :return: list[AtomicRequirement]
-        """
-        l = []
-        for prereq in self.product_prerequisites.all():
-            l.append(prereq)
-        return l
-
-    def allBuildPrerequisites(self):
-        """
-        Return all product prerequisites recursively
-        return list instead of queryset
-
-        :return: list[AtomicRequirement]
-        """
-        if len(self.product_prerequisites.all()) == 0:
-            # If no further blueprint dependencies
-            return []
-        else:
-            productPrereq = self.getLocalBuildPrerequisites()
-            for prereq in self.product_prerequisites.all():
-                productPrereq.extend(prereq.product.blueprint.getLocalBuildPrerequisites())
-            return productPrereq
-
-    def map_prerequisites(self):
-        struct = {}
-        struct['name'] = self.name
-        struct['atomic_prereq'] = self.getLocalAtomicPrerequisites()
-        struct['product_prereq'] = []
-
-        for prereq in self.product_prerequisites.all():
-            struct['product_prereq'].append(prereq.product.blueprint.map_prerequisites())
-        return struct
-
 
 class ProductPrerequisite(Prerequisite):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
@@ -101,13 +35,6 @@ class ProductSpecification(Specification):
                                            null=True)
     prerequisite = models.ForeignKey(ProductPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                      null=True)
-
-    def validate(self):
-        """
-        Valiate quantity following prerequisite constraint
-        :return: Bool
-        """
-        return True if self.product_prereq.min_quantity <= self.quantity <= self.product_prereq.max_quantity else False
 
 
 class ProductAttribute(KeyValueAttribute):
@@ -132,90 +59,62 @@ class Product(TimestampedModel):
 
     def validate(self):
         """
-        Validate the following
-        - Prerequisite compliance
-        - Prerequisite quantity constraints
-        :return:
-        """
-        return True if self.validate_spec() and self.prerequisiteAudit().fulfilled() else False
-
-    def validate_spec(self):
-        """
         Valiate quantity following prerequisite constraint
         :return: Bool
         """
-        # TODO: Make this recursive
-        for spec in self.atomic_specifications.all():
-            if spec.validate():
-                continue
-            else:
-                return False
-        return True
+        # Atomic
+        prerequisite_list = [p for p in self.blueprint.atomic_prerequisites.all()]
+        specification_list = [s for s in self.atomic_specifications.all()]
+        for prerequisite in prerequisite_list:
+            # Keep track of all quantity specified for prerequisite
+            specified_quantity = 0
+            for specification in specification_list:
+                if specification.prerequisite == prerequisite:  # Matching specification
+                    # Check if specification's target atomic component is within
+                    # prerequisites bound
+                    if specification.selected_component != prerequisite.atomic_component:
+                        if prerequisite.atomic_group is None:
+                            # specification not pointed directly, and no group
+                            raise ValidationError(
+                                _('Invalid component: %(component)s'),
+                                code='invalid',
+                                params={'component': specification.selected_component.stock_code},
+                            )
+                        elif specification.selected_component not in prerequisite.atomic_group:
+                            # specification not pointed directly, not in assigned group
+                            raise ValidationError(
+                                _('Invalid component: %(component)s'),
+                                code='invalid',
+                                params={'component': specification.selected_component.stock_code},
+                            )
+                    else:
+                        specified_quantity += specification.quantity
 
-    def prerequisiteAudit(self):
+            # If specifications not met the minimum quantity
+            if specified_quantity < prerequisite.min_quantity:
+                raise ValidationError(
+                    _('Insufficient specification: %(component)s requires minimum of %(min)s, given %(num)s'),
+                    code='invalid',
+                    params={
+                        'component': prerequisite.atomic_component.stock_code,
+                        'min': prerequisite.min_quantity,
+                        'num': specified_quantity,
+                    }
+                )
 
-        deficit = PrerequisiteAudit()
+            # If specifications not met the minimum quantity
+            if specified_quantity > prerequisite.max_quantity:
+                raise ValidationError(
+                    _('Specifications exceeded maximum limit: %(component)s has a maximum of %(max)s, given %(num)s'),
+                    code='invalid',
+                    params={
+                        'component': prerequisite.atomic_component.stock_code,
+                        'max': prerequisite.max_quantity,
+                        'num': specified_quantity,
+                    }
+                )
 
-        deficit.deficit = [x for x in self.blueprint.getLocalAtomicPrerequisites()
-                           if x not in self.getLocalAtomicPrerequisites()]
-        deficit.surplus = [x for x in self.getLocalAtomicPrerequisites()
-                           if x not in self.blueprint.getLocalAtomicPrerequisites()]
-
-        # Add blueprint deficit
-        blueprint_spec_prereq = [x.product_prereq for x in self.getLocalBuildSpecifications()]
-        blueprint_deficit = [x for x in self.blueprint.getLocalBuildPrerequisites()
-                             if x not in blueprint_spec_prereq]
-
-        blueprint_surplus = [x for x in blueprint_spec_prereq
-                             if x not in self.blueprint.getLocalBuildPrerequisites()]
-        deficit.deficit.extend(blueprint_deficit)
-        deficit.deficit.extend(blueprint_surplus)
-
-        return deficit
-
-    def getLocalAtomicSpecifications(self):
-        """
-        Return local AtomicSpecification only
-        :return: list[AtomicSpecification]
-        """
-        l = []
-        for spec in self.atomic_specifications.all():
-            l.append(spec)
-        return l
-
-    def getLocalAtomicPrerequisites(self):
-        """
-        Return a list of AtomicPrerequsites
-        specified by all atomicSpecifications
-        in the blueprint
-
-        :return: list[AtomicPrerequsites]
-        """
-        l = []
-        for spec in self.atomic_specifications.all():
-            l.append(spec.atomic_prereq)
-        return l
-
-    def getLocalBuildSpecifications(self):
-        """
-        Return local BuildSpecification only
-        :return: list[AtomicSpecification]
-        """
-        l = []
-        for spec in self.product_specifications.all():
-            l.append(spec)
-        return l
-
-    def map_spec(self):
-        struct = {}
-        struct['name'] = self.name
-        struct['atomic_spec'] = self.getLocalAtomicSpecifications()
-        struct['product_spec'] = []
-        struct['audit'] = self.prerequisiteAudit().__str__()
-
-        for spec in self.product_specifications.all():
-            struct['product_spec'].append(spec.product_prereq.product.map_spec())
-        return struct
+        # TODO: VALIDATE PRODUCT
 
 
 class BlueprintGroup(Group):
@@ -225,22 +124,3 @@ class BlueprintGroup(Group):
 class ProductGroup(Group):
     members = models.ManyToManyField(Product, related_name='members')
 
-
-# TODO: Redefine how to handle Audits
-class PrerequisiteAudit:
-    """
-    Prerequisite auditing for products
-    """
-
-    def __init__(self):
-        self.deficit = []
-        self.surplus = []
-
-    def fulfilled(self):
-        if not self.deficit and not self.surplus:
-            return True
-        else:
-            return False
-
-    def __str__(self):
-        return "Audit: Deficit-{}: Surplus-{}".format(len(self.deficit), len(self.surplus))
