@@ -4,6 +4,7 @@ from shop.models import TimestampedModel
 from shop.relations.models import Prerequisite, Specification
 from shop.attribute.models import KeyValueAttribute
 from shop.group.models import Group
+from django.utils.translation import gettext_lazy as _
 
 
 class AtomicAttribute(KeyValueAttribute):
@@ -41,6 +42,14 @@ class AtomicPrerequisite(Prerequisite):
     atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',
                                          null=True)
     atomic_group = models.ForeignKey(AtomicGroup, on_delete=models.PROTECT, related_name='allowed_group', null=True)
+
+    def save(self, *args, **kwargs):
+        if self.atomic_component is None and self.atomic_group is None:
+            raise ValidationError(
+                _('AtomicPrerequisite has no assigned product or atomic-group'),
+                code='invalid',
+            )
+        super(AtomicPrerequisite, self).save(*args, **kwargs)
 
 
 class AtomicSpecification(Specification):

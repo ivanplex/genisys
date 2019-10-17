@@ -33,11 +33,11 @@ class ProductPrerequisite(Prerequisite):
     def save(self, *args, **kwargs):
         if self.product is None and self.product_group is None:
             raise ValidationError(
-                _('ProductPrerequiste has no assigned product or product-group'),
+                _('ProductPrerequisite has no assigned product or product-group'),
                 code='invalid',
             )
         super(ProductPrerequisite, self).save(*args, **kwargs)
-        
+
 
 class ProductSpecification(Specification):
     selected_component = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='using',
