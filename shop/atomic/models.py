@@ -58,9 +58,3 @@ class AtomicSpecification(Specification):
     prerequisite = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                       null=False)
 
-    def validate(self):
-        """
-        Valiate quantity following prerequisite constraint
-        :return: Bool
-        """
-        return True if self.atomic_prereq.min_quantity <= self.quantity <= self.atomic_prereq.max_quantity else False
