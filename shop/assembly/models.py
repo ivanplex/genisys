@@ -54,9 +54,6 @@ class Product(TimestampedModel):
     product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification',
                                                     symmetrical=False)
 
-    def hasProductPrerequisite(self):
-        return False if not self.blueprint.product_prerequisites.all() else True
-
     def validate(self):
         """
         Valiate quantity following prerequisite constraint
