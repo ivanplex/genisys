@@ -33,17 +33,17 @@ def run():
     print("     - add product specifications for GS-8-18 M6 M6 Parts")
     GS_AS_1 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="ROD08SSHCP/M6-8mm").first(),
-        prerequsite=GS_AP_1,
+        prerequisite=GS_AP_1,
         quantity=1
     )[0]
     GS_AS_2 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="TUB08SS").first(),
-        prerequsite=GS_AP_2,
+        prerequisite=GS_AP_2,
         quantity=1
     )[0]
     GS_AS_3 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="M8VBLKS6").first(),
-        prerequsite=GS_AP_3,
+        prerequisite=GS_AP_3,
         quantity=1
     )[0]
     GS_product.atomic_specifications.add(GS_AS_1)
@@ -124,52 +124,52 @@ def run():
     print("     - add specifications for M8-18 General Parts")
     M8_AS_1 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="BRGIGUS0810").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_2 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="OR08N1315").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=2
     )[0]
     M8_AS_3 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="OR107127N90").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_4 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="OUT8IGUS").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_5 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="PIS8A").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_6 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="PLUN06SS").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_7 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="PSEUDONYM RF 1mm").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_8 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="SEAL8163N").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_9 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="IN08S").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_10 = AtomicSpecification.objects.get_or_create(
         selected_component=AtomicComponent.objects.filter(stock_code="PLUG06A").first(),
-        prerequsite=M8_AP_1,
+        prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_product.atomic_specifications.add(M8_AS_1)
@@ -224,12 +224,12 @@ def run():
     AS_1, created = AtomicSpecification.objects.get_or_create(name="Left End-fitting",
                                                               selected_component=AtomicComponent.objects.filter(
                                                                 description="Ball Joint PLS4M8").first(),
-                                                              prerequsite=AP_1,
+                                                              prerequisite=AP_1,
                                                               quantity=1)
     AS_2, created = AtomicSpecification.objects.get_or_create(name="Right End-fitting",
                                                               selected_component=AtomicComponent.objects.filter(
                                                                 description="Ball Joint PLS4M8").first(),
-                                                              prerequsite=AP_2,
+                                                              prerequisite=AP_2,
                                                               quantity=1)
     product.atomic_specifications.add(AS_1)
     product.atomic_specifications.add(AS_2)
