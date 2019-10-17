@@ -4,6 +4,10 @@ from django.core.exceptions import ValidationError
 
 
 class AtomicPrerequisiteTestCase(TestCase):
+    """
+    Test case for AtomicPrerequisite. Ensure atomic_component and atomic_group
+    cannot be empty at the same time
+    """
     def setUp(self):
         self.atom = AtomicComponent.objects.create(stock_code="ATOM", description="ATOM")
 
@@ -39,7 +43,11 @@ class AtomicPrerequisiteTestCase(TestCase):
         except ValidationError:
             self.fail("AtomicPrerequisite raised ValidationError unexpectedly!")
 
-    def test_valid(self):
+    def test_invalid(self):
+        """
+        both empty
+        :return: ValidationError
+        """
         prerequisite = AtomicPrerequisite(min_quantity=1, max_quantity=1)
         with self.assertRaises(ValidationError) as context:
             prerequisite.save()

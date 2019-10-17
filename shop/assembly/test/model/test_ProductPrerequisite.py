@@ -1,16 +1,56 @@
 from django.test import TestCase
-from shop.assembly.models import ProductGroup
-from shop.atomic.models import AtomicPrerequisite, AtomicSpecification, AtomicComponent
+from shop.assembly.models import Blueprint, Product, ProductGroup, ProductPrerequisite
 from django.core.exceptions import ValidationError
 
+
 class ProductPrerequisiteTestCase(TestCase):
+    """
+    Test case for ProductPrerequisite. Ensure product and product_group
+    cannot be empty at the same time
+    """
     def setUp(self):
-        self.atom = AtomicComponent.objects.create(stock_code="ATOM", description="ATOM")
+        blueprint = Blueprint.objects.create(name="BLUEPRINT")
+        self.product = Product.objects.create(name="PRODUCT", blueprint=blueprint)
 
-        a1 = AtomicComponent.objects.create(stock_code="ATOM1", description="ATOM1")
-        a2 = AtomicComponent.objects.create(stock_code="ATOM2", description="ATOM2")
+        product1 = Product.objects.create(name="PRODUCT", blueprint=blueprint)
+        product2 = Product.objects.create(name="PRODUCT", blueprint=blueprint)
 
+        self.group = ProductGroup.objects.create(name="PRODUCT_GROUP")
+        self.group.members.add(product1)
+        self.group.members.add(product2)
+        self.group.save()
 
+    def test_valid_component_only(self):
+        prerequisite = ProductPrerequisite(min_quantity=1, max_quantity=1)
+        prerequisite.product = self.product
+        try:
+            prerequisite.save()
+        except ValidationError:
+            self.fail("ProductPrerequisite raised ValidationError unexpectedly!")
 
-    def test_valid(self):
-        prerequisite = AtomicPrerequisite.objects.create(atomic_component=self.atom, min_quantity=1, max_quantity=1)
+    def test_valid_group_only(self):
+        prerequisite = ProductPrerequisite(min_quantity=1, max_quantity=1)
+        prerequisite.product_group = self.group
+        try:
+            prerequisite.save()
+        except ValidationError:
+            self.fail("ProductPrerequisite raised ValidationError unexpectedly!")
+
+    def test_valid_component_and_group(self):
+        prerequisite = ProductPrerequisite(min_quantity=1, max_quantity=1)
+        prerequisite.product = self.product
+        prerequisite.product_group = self.group
+        try:
+            prerequisite.save()
+        except ValidationError:
+            self.fail("ProductPrerequisite raised ValidationError unexpectedly!")
+
+    def test_invalid(self):
+        """
+        both empty
+        :return: ValidationError
+        """
+        prerequisite = ProductPrerequisite(min_quantity=1, max_quantity=1)
+        with self.assertRaises(ValidationError) as context:
+            prerequisite.save()
+        self.assertTrue('ProductPrerequisite has no assigned product or product-group' in context.exception)
