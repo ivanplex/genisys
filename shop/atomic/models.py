@@ -46,7 +46,7 @@ class AtomicPrerequisite(Prerequisite):
 class AtomicSpecification(Specification):
     selected_component = models.ForeignKey(AtomicComponent,  on_delete=models.PROTECT, related_name='using',
                                          null=True)
-    atomic_prereq = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
+    prerequisite = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                       null=False)
 
     def validate(self):
