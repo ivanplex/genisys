@@ -118,7 +118,58 @@ class Product(TimestampedModel):
                     }
                 )
 
-        # TODO: VALIDATE PRODUCT
+        # Product
+        prerequisite_list = [p for p in self.blueprint.product_prerequisites.all()]
+        specification_list = [s for s in self.product_specifications.all()]
+        for prerequisite in prerequisite_list:
+            # Keep track of all quantity specified for prerequisite
+            specified_quantity = 0
+            for specification in specification_list:
+                if specification.prerequisite == prerequisite:  # Matching specification
+                    # Check if specification's target atomic component is within
+                    # prerequisites bound
+                    if specification.selected_component != prerequisite.product:
+                        if prerequisite.product_group is None:
+                            # specification not pointed directly, and no group
+                            raise ValidationError(
+                                _('Invalid component: %(component)s'),
+                                code='invalid',
+                                params={'component': specification.selected_component.name},
+                            )
+                        elif specification.selected_component not in prerequisite.product_group:
+                            # specification not pointed directly, not in assigned group
+                            raise ValidationError(
+                                _('Invalid component: %(component)s'),
+                                code='invalid',
+                                params={'component': specification.selected_component.name},
+                            )
+                    else:
+                        specified_quantity += specification.quantity
+
+            # If specifications not met the minimum quantity
+            if specified_quantity < prerequisite.min_quantity:
+                raise ValidationError(
+                    _('Insufficient specification: Prerequisite %(id)s requires minimum of %(min)s, given %(num)s'),
+                    code='invalid',
+                    params={
+                        'id': prerequisite.id,
+                        'min': prerequisite.min_quantity,
+                        'num': specified_quantity,
+                    }
+                )
+
+            # If specifications not met the minimum quantity
+            if specified_quantity > prerequisite.max_quantity:
+                raise ValidationError(
+                    _(
+                        'Specifications exceeded maximum limit: Prerequisite %(id)s has a maximum of %(max)s, given %(num)s'),
+                    code='invalid',
+                    params={
+                        'id': prerequisite.id,
+                        'max': prerequisite.max_quantity,
+                        'num': specified_quantity,
+                    }
+                )
 
 
 class BlueprintGroup(Group):
