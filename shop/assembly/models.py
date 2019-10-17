@@ -27,8 +27,17 @@ class Blueprint(TimestampedModel):
 
 class ProductPrerequisite(Prerequisite):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
-                                null=False)
+                                null=True)
+    product_group = models.ForeignKey('ProductGroup', on_delete=models.PROTECT, related_name='allowed_group', null=True)
 
+    def save(self, *args, **kwargs):
+        if self.product is None and self.product_group is None:
+            raise ValidationError(
+                _('ProductPrerequiste has no assigned product or product-group'),
+                code='invalid',
+            )
+        super(ProductPrerequisite, self).save(*args, **kwargs)
+        
 
 class ProductSpecification(Specification):
     selected_component = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='using',
@@ -46,9 +55,7 @@ class Product(TimestampedModel):
     name = models.CharField(max_length=250)
     sku = models.CharField(max_length=3)
     availability = models.IntegerField(null=False, default=0)
-
     blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='based_on', null=False)
-
     atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='atomic_specification',
                                                    symmetrical=False)
     product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification',
