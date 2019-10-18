@@ -1,5 +1,6 @@
 from django.db import models
 from shop.models import TimestampedModel
+from shop.assembly.models import Product
 
 
 class ECOMProductImage(TimestampedModel):
@@ -7,6 +8,9 @@ class ECOMProductImage(TimestampedModel):
 
 
 class ECOMProduct(TimestampedModel):
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                related_name='assembly_product', null=False)
 
     YES_NO = [
         ('yes', 'yes'),
@@ -28,12 +32,12 @@ class ECOMProduct(TimestampedModel):
         ('preorder', 'Pre-order'),
     ]
     availability = models.CharField(max_length=255, choices=AVAILABILITY_CHOICE, null=False)
-    availability_date = models.DateTimeField(max_length=25)
+    availability_date = models.DateTimeField(max_length=25, null=True)
     cost_of_goods_sold = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    expiration_date = models.DateTimeField(max_length=25)
+    expiration_date = models.DateTimeField(max_length=25, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     sale_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    sale_price_effective_date = models.DateTimeField(max_length=25)
+    sale_price_effective_date = models.DateTimeField(max_length=25, null=True)
     unit_pricing_measure = models.CharField(max_length=255, null=True, blank=True)
     unit_pricing_base_measure = models.CharField(max_length=255, null=True, blank=True)
     installment = models.CharField(max_length=255, null=True, blank=True)
@@ -52,7 +56,7 @@ class ECOMProduct(TimestampedModel):
     ]
     condition = models.CharField(max_length=255, null=False, choices=CONDITIONS)
     adult = models.CharField(max_length=3, choices=YES_NO, null=False)
-    multipack = models.CharField(max_length=255, null=False)
+    multipack = models.IntegerField(null=False, default=0)
     is_bundle = models.CharField(max_length=3, choices=YES_NO, null=False)
     ENERGY_EFFICIENCY = [
         ('A+++', 'A+++'),
@@ -128,6 +132,6 @@ class ECOMProduct(TimestampedModel):
     shipping_height = models.CharField(max_length=255, null=True, blank=True)
     transit_time_label = models.CharField(max_length=100, null=True, blank=True)
     max_handling_time = models.CharField(max_length=255, null=True, blank=True)
-    min_handling_time = models.IntegerField()
+    min_handling_time = models.IntegerField(null=True)
     tax = models.CharField(max_length=255, null=False)
     tax_category = models.CharField(max_length=100, null=True, blank=True)
