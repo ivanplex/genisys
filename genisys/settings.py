@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'shop.attribute',
     'shop.relations',
     'shop.group',
+    'shop.eCommerce',
 ]
 
 MIDDLEWARE = [
