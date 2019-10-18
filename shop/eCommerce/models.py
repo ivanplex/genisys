@@ -9,31 +9,31 @@ class ECOMProductImage(TimestampedModel):
 class ECOMProduct(TimestampedModel):
 
     YES_NO = [
-        'yes',
-        'no',
+        ('yes', 'yes'),
+        ('no', 'No'),
     ]
 
     title = models.CharField(max_length=150, null=False)
     description = models.TextField(blank=True, null=False)
     link = models.URLField(null=False)
     image_link = models.ForeignKey(ECOMProductImage, on_delete=models.CASCADE,
-                                   related_name='image_link', null=False)
-    additional_image_link = models.ManyToManyField(ECOMProductImage, related_name='additional_image_link',
+                                   related_name='link', null=False)
+    additional_image_link = models.ManyToManyField(ECOMProductImage, related_name='additional_link',
                                                    symmetrical=False, blank=True)
     mobile_link = models.URLField(blank=True, null=True)
 
     AVAILABILITY_CHOICE = [
-        'in stock',
-        'out of stock',
-        'preorder',
+        ('in stock', 'In Stock'),
+        ('out of stock', 'Out of Stock'),
+        ('preorder', 'Preorder'),
     ]
-    availability = models.CharField(choices=AVAILABILITY_CHOICE, null=False)
-    availability_date = models.DateTimeField(max_length=25, format='%Y-%m-%d %H:%M:%S')
+    availability = models.CharField(max_length=255, choices=AVAILABILITY_CHOICE, null=False)
+    availability_date = models.DateTimeField(max_length=25)
     cost_of_goods_sold = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    expiration_date = models.DateTimeField(max_length=25, format='%Y-%m-%d %H:%M:%S')
+    expiration_date = models.DateTimeField(max_length=25)
     price = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     sale_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    sale_price_effective_date = models.DateTimeField(max_length=25, format='%Y-%m-%d %H:%M:%S')
+    sale_price_effective_date = models.DateTimeField(max_length=25)
     unit_pricing_measure = models.CharField(max_length=255, null=True, blank=True)
     unit_pricing_base_measure = models.CharField(max_length=255, null=True, blank=True)
     installment = models.CharField(max_length=255, null=True, blank=True)
@@ -55,15 +55,15 @@ class ECOMProduct(TimestampedModel):
     multipack = models.CharField(max_length=255, null=False)
     is_bundle = models.CharField(max_length=3, choices=YES_NO, null=False)
     ENERGY_EFFICIENCY = [
-        'A+++',
-        'A++'
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
+        ('A+++', 'A+++'),
+        ('A++', 'A++'),
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D'),
+        ('E', 'E'),
+        ('F', 'F'),
+        ('G', 'G'),
     ]
     energy_efficiency_class = models.CharField(max_length=255, choices=ENERGY_EFFICIENCY)
     min_energy_efficiency_class = models.CharField(max_length=255, choices=ENERGY_EFFICIENCY)
@@ -78,9 +78,9 @@ class ECOMProduct(TimestampedModel):
     age_group = models.CharField(max_length=255, choices=AGE_GROUP_CHOICE, null=True, blank=True)
     color = models.CharField(max_length=100, null=True, blank=True)
     GENDER_CHOICES = [
-        'male',
-        'female',
-        'unisex',
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('unisex', 'Unisex'),
     ]
     gender = models.CharField(max_length=255, choices=GENDER_CHOICES)
     material = models.CharField(max_length=200, null=False)
@@ -93,19 +93,19 @@ class ECOMProduct(TimestampedModel):
         ('big and tall', 'Big and Tall'),
         ('maternity', 'Maternity'),
     ]
-    size_type = models.CharField(max_length=100, choice=SIZE_TYPE, null=True, blank=True)
+    size_type = models.CharField(max_length=100, choices=SIZE_TYPE, null=True, blank=True)
     SIZE_SYSTEM_CHOICES = [
-        'US',
-        'UK',
-        'EU',
-        'DE',
-        'FR',
-        'JP',
-        'CN (CHINA)',
-        'IT',
-        'BR',
-        'MEX',
-        'AU',
+        ('US', 'US'),
+        ('UK', 'UK'),
+        ('EU', 'EU'),
+        ('DE', 'DE'),
+        ('FR', 'FR'),
+        ('JP', 'JP'),
+        ('CN (CHINA)', 'CN (CHINA)'),
+        ('IT', 'IT'),
+        ('BR', 'BR'),
+        ('MEX', 'MEX'),
+        ('AU', 'AU'),
     ]
     size_system = models.CharField(max_length=255, choices=GENDER_CHOICES)
     item_group_id = models.CharField(max_length=50, null=False)
@@ -113,10 +113,10 @@ class ECOMProduct(TimestampedModel):
     custom_label_0 = models.CharField(max_length=100, null=True, blank=True)
     promotion_id = models.CharField(max_length=50, null=True, blank=True)
     ADVERTISING_DESTINATIONS = [
-        'Shopping Ads',
-        'Shopping Actions',
-        'Display Ads',
-        'Surface across Google',
+        ('Shopping Ads', 'Shopping Ads'),
+        ('Shopping Actions', 'Shopping Actions'),
+        ('Display Ads', 'Display Ads'),
+        ('Surface across Google', 'Surface across Google'),
     ]
     excluded_destination = models.CharField(max_length=255, choices=ADVERTISING_DESTINATIONS, null=True, blank=True)
     included_destination = models.CharField(max_length=255, choices=ADVERTISING_DESTINATIONS, null=True, blank=True)
