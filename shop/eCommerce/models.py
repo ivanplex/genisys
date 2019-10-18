@@ -25,7 +25,7 @@ class ECOMProduct(TimestampedModel):
     AVAILABILITY_CHOICE = [
         ('in stock', 'In Stock'),
         ('out of stock', 'Out of Stock'),
-        ('preorder', 'Preorder'),
+        ('preorder', 'Pre-order'),
     ]
     availability = models.CharField(max_length=255, choices=AVAILABILITY_CHOICE, null=False)
     availability_date = models.DateTimeField(max_length=25)
