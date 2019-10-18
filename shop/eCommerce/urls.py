@@ -7,12 +7,12 @@ from shop.eCommerce.api import (
     ECOMProductCreate,
     ECOMProductUpdate,
     ECOMProductDestroy,
-    # ECOMProductImage
-    ECOMProductImageList,
-    ECOMProductImageDetails,
-    ECOMProductImageCreate,
-    ECOMProductImageUpdate,
-    ECOMProductImageDestroy,
+
+    # ECOMProductImageList,
+    # ECOMProductImageDetails,
+    # ECOMProductImageCreate,
+    # ECOMProductImageUpdate,
+    # ECOMProductImageDestroy,
 )
 
 namespace_prefix = "shop.eCommerce."

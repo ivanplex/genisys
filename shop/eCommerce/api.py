@@ -62,41 +62,41 @@ class ECOMProductDestroy(DestroyAPIView):
 ######
 
 
-class ECOMProductImageList(ListAPIView):
-    """
-        Returns list of ECOMProductImage
-    """
-    queryset = ECOMProductImage.objects.all()
-    serializer_class = ECOMProductImageSerializer
-
-
-class ECOMProductImageDetails(RetrieveAPIView):
-    """
-        Returns detail of an ECOMProductImage
-    """
-    queryset = ECOMProductImage.objects.all()
-    serializer_class = ECOMProductImageSerializer
-
-
-class ECOMProductImageCreate(CreateAPIView):
-    """
-        Create ECOMProductImage
-    """
-    queryset = ECOMProductImage.objects.all()
-    serializer_class = ECOMProductImageSerializer
-
-
-class ECOMProductImageUpdate(RetrieveUpdateDestroyAPIView):
-    """
-        Update ECOMProductImage
-    """
-    queryset = ECOMProductImage.objects.all()
-    serializer_class = ECOMProductImageSerializer
-
-
-class ECOMProductImageDestroy(DestroyAPIView):
-    """
-        Destroy ECOMProductImage
-    """
-    queryset = ECOMProductImage.objects.all()
-    serializer_class = ECOMProductImageSerializer
+# class ECOMProductImageList(ListAPIView):
+#     """
+#         Returns list of ECOMProductImage
+#     """
+#     queryset = ECOMProductImage.objects.all()
+#     serializer_class = ECOMProductImageSerializer
+#
+#
+# class ECOMProductImageDetails(RetrieveAPIView):
+#     """
+#         Returns detail of an ECOMProductImage
+#     """
+#     queryset = ECOMProductImage.objects.all()
+#     serializer_class = ECOMProductImageSerializer
+#
+#
+# class ECOMProductImageCreate(CreateAPIView):
+#     """
+#         Create ECOMProductImage
+#     """
+#     queryset = ECOMProductImage.objects.all()
+#     serializer_class = ECOMProductImageSerializer
+#
+#
+# class ECOMProductImageUpdate(RetrieveUpdateDestroyAPIView):
+#     """
+#         Update ECOMProductImage
+#     """
+#     queryset = ECOMProductImage.objects.all()
+#     serializer_class = ECOMProductImageSerializer
+#
+#
+# class ECOMProductImageDestroy(DestroyAPIView):
+#     """
+#         Destroy ECOMProductImage
+#     """
+#     queryset = ECOMProductImage.objects.all()
+#     serializer_class = ECOMProductImageSerializer

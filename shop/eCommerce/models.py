@@ -37,7 +37,7 @@ class ECOMProduct(TimestampedModel):
     expiration_date = models.DateTimeField(max_length=25, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     sale_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    sale_price_effective_date = models.DateTimeField(max_length=25, null=True)
+    sale_price_effective_date = models.DateTimeField(max_length=25, null=True, blank=True)
     unit_pricing_measure = models.CharField(max_length=255, null=True, blank=True)
     unit_pricing_base_measure = models.CharField(max_length=255, null=True, blank=True)
     installment = models.CharField(max_length=255, null=True, blank=True)
