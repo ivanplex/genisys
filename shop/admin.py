@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from shop.atomic.models import AtomicComponent, AtomicSpecification, AtomicPrerequisite, AtomicAttribute
 from shop.assembly.models import Blueprint, Product, ProductSpecification, ProductPrerequisite, BlueprintAttribute
+from shop.eCommerce.models import ECOMProductImage, ECOMProduct
 
 admin.site.register(AtomicComponent)
 admin.site.register(AtomicPrerequisite)
@@ -12,3 +13,6 @@ admin.site.register(ProductSpecification)
 admin.site.register(ProductPrerequisite)
 admin.site.register(BlueprintAttribute)
 admin.site.register(AtomicAttribute)
+admin.site.register(ECOMProduct)
+admin.site.register(ECOMProductImage)
+
