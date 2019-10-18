@@ -4,6 +4,7 @@ from shop.atomic.models import AtomicPrerequisite, AtomicSpecification, AtomicCo
 from django.core.exceptions import ValidationError
 import re
 
+
 class EmptyBlueprintValidationTestCase(TestCase):
     """
     Test empty blueprint. 0 prerequisite vs 0 specification.

@@ -24,6 +24,12 @@ class Blueprint(TimestampedModel):
         attr = BlueprintAttribute.objects.filter(blueprint=self)
         return attr
 
+    def isEmpty(self):
+        if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
+            return True
+        else:
+            return False
+
 
 class ProductPrerequisite(Prerequisite):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
