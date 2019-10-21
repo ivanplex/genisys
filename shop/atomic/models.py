@@ -49,6 +49,7 @@ class AtomicPrerequisite(Prerequisite):
                 _('AtomicPrerequisite has no assigned product or atomic-group'),
                 code='invalid',
             )
+            # raise serializers.ValidationError('This field must be an integer value.')
         super(AtomicPrerequisite, self).save(*args, **kwargs)
 
 

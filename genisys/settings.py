@@ -114,6 +114,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,
+    'EXCEPTION_HANDLER': 'shop.utils.exception_handler',
 }
 
 STATICFILES_DIRS = (
