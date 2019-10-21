@@ -13,7 +13,6 @@ def generate_url_include(name):
 namespaces_to_include = [
     "atomic",
     "assembly",
-    "attribute",
     "group",
     "eCommerce",
 ]

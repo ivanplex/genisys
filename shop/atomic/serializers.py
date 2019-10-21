@@ -3,20 +3,10 @@ from shop.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
     AtomicSpecification,
-    AtomicAttribute,
     AtomicGroup
 )
-
-
-class AtomicAttributeSerializer(serializers.ModelSerializer):
-
-    atomic_component = serializers.PrimaryKeyRelatedField(queryset=AtomicComponent.objects.all())
-
-    class Meta:
-        model = AtomicAttribute
-        fields = (
-            '__all__'
-        )
+from shop.attribute.models import Attribute
+from shop.attribute.serializers import AttributeSerializer
 
 
 class AtomicComponentSerializer(serializers.ModelSerializer):
@@ -26,13 +16,22 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
     material = serializers.CharField(required=False)
     weight = serializers.IntegerField(required=False)
     image = serializers.CharField(required=False)
-    attribute = AtomicAttributeSerializer(many=True, read_only=False, required=False)
+    attribute = AttributeSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = AtomicComponent
         fields = (
             '__all__'
         )
+
+    def create(self, validated_data):
+        attribute_set = validated_data.pop('attribute')
+        atomic_component = AtomicComponent.objects.create(**validated_data)
+        for attribute in attribute_set:
+            attr = Attribute.objects.create(**attribute)
+            atomic_component.attribute.add(attr)
+        atomic_component.save()
+        return atomic_component
 
 
 class AtomicPrerequisiteSerializer(serializers.ModelSerializer):

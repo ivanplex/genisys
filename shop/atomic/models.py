@@ -2,14 +2,9 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from shop.models import TimestampedModel
 from shop.relations.models import Prerequisite, Specification
-from shop.attribute.models import KeyValueAttribute
+from shop.attribute.models import Attribute
 from shop.group.models import Group
 from django.utils.translation import gettext_lazy as _
-
-
-class AtomicAttribute(KeyValueAttribute):
-    atomic_component = models.ForeignKey('AtomicComponent', on_delete=models.CASCADE,
-                                  related_name='atom_attribute', null=False)
 
 
 class AtomicComponent(TimestampedModel):
@@ -22,10 +17,7 @@ class AtomicComponent(TimestampedModel):
     weight = models.IntegerField(default=0)
     image = models.CharField(max_length=1000, blank=True, null=True) # Req
     availability = models.IntegerField(null=False, default=0)
-
-    def attribute(self):
-        attr = AtomicAttribute.objects.filter(atomic_component=self)
-        return attr
+    attribute = models.ManyToManyField(Attribute, related_name='attr')
 
     def save(self, *args, **kwargs):
         if self.stock_code is "":
@@ -58,4 +50,3 @@ class AtomicSpecification(Specification):
                                          null=True)
     prerequisite = models.ForeignKey(AtomicPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                       null=False)
-

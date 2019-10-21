@@ -2,7 +2,7 @@ from django.db import models
 from shop.models import TimestampedModel
 
 
-class KeyValueAttribute(TimestampedModel):
+class Attribute(TimestampedModel):
     key = models.CharField(max_length=255, blank=False, null=False)
     value = models.CharField(max_length=255, blank=False, null=False)
 

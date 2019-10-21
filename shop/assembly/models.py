@@ -2,15 +2,10 @@ from django.db import models
 from shop.models import TimestampedModel
 from shop.relations.models import Prerequisite, Specification
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
-from shop.attribute.models import KeyValueAttribute
+from shop.attribute.models import Attribute
 from shop.group.models import Group
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
-
-class BlueprintAttribute(KeyValueAttribute):
-    blueprint = models.ForeignKey('Blueprint', on_delete=models.CASCADE,
-                                  related_name='blueprint_attribute', null=False)
 
 
 class Blueprint(TimestampedModel):
@@ -19,10 +14,6 @@ class Blueprint(TimestampedModel):
                                                   symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
                                                    symmetrical=False)
-
-    def attribute(self):
-        attr = BlueprintAttribute.objects.filter(blueprint=self)
-        return attr
 
     def isEmpty(self):
         if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
@@ -50,11 +41,6 @@ class ProductSpecification(Specification):
                                            null=True)
     prerequisite = models.ForeignKey(ProductPrerequisite, on_delete=models.PROTECT, related_name='build_with',
                                      null=True)
-
-
-class ProductAttribute(KeyValueAttribute):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE,
-                                related_name='product_attribute', null=False)
 
 
 class Product(TimestampedModel):
