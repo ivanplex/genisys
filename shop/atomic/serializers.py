@@ -3,7 +3,8 @@ from shop.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
     AtomicSpecification,
-    AtomicAttribute
+    AtomicAttribute,
+    AtomicGroup
 )
 
 
@@ -36,7 +37,8 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
 
 class AtomicPrerequisiteSerializer(serializers.ModelSerializer):
 
-    atomic_component = serializers.PrimaryKeyRelatedField(queryset=AtomicComponent.objects.all())
+    atomic_component = serializers.PrimaryKeyRelatedField(queryset=AtomicComponent.objects.all(), required=False)
+    atomic_group = serializers.PrimaryKeyRelatedField(queryset=AtomicGroup.objects.all(), required=False)
 
     class Meta:
         model = AtomicPrerequisite
