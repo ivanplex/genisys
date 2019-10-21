@@ -110,15 +110,18 @@ class AtomicSpecificationTestCase(APITestCase):
             "blueprint": Blueprint.objects.filter(name="gas spring").first().id,
             "atomic_specifications": [
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.rod).first().id,
+                    "selected_component": self.rod.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.rod).first().id,
                     "quantity": 200000,  # 100mm
                 },
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.tube).first().id,
+                    "selected_component": self.tube.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.tube).first().id,
                     "quantity": 200000  # 100mm
                 },
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.seal).first().id,
+                    "selected_component": self.seal.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.seal).first().id,
                     "quantity": 1
                 }
             ],
@@ -140,23 +143,28 @@ class AtomicSpecificationTestCase(APITestCase):
             "blueprint": Blueprint.objects.filter(name="gas spring").first().id,
             "atomic_specifications": [
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.rod).first().id,
+                    "selected_component": self.rod.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.rod).first().id,
                     "quantity": 200000,  # 100mm
                 },
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.tube).first().id,
+                    "selected_component": self.tube.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.tube).first().id,
                     "quantity": 200000  # 100mm
                 },
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.seal).first().id,
+                    "selected_component": self.seal.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.seal).first().id,
                     "quantity": 1
                 },
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.endfitting1).first().id,
+                    "selected_component": self.endfitting1.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.endfitting1).first().id,
                     "quantity": 0
                 },
                 {
-                    "atomic_prereq": AtomicPrerequisite.objects.filter(atomic_component=self.endfitting2).first().id,
+                    "selected_component": self.endfitting2.id,
+                    "prerequisite": AtomicPrerequisite.objects.filter(atomic_component=self.endfitting2).first().id,
                     "quantity": 1
                 }
             ],

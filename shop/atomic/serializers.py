@@ -47,7 +47,8 @@ class AtomicPrerequisiteSerializer(serializers.ModelSerializer):
 
 class AtomicSpecificationSerializer(serializers.ModelSerializer):
 
-    atomic_prereq = serializers.PrimaryKeyRelatedField(queryset=AtomicPrerequisite.objects.all())
+    selected_component = serializers.PrimaryKeyRelatedField(queryset=AtomicComponent.objects.all())
+    prerequisite = serializers.PrimaryKeyRelatedField(queryset=AtomicPrerequisite.objects.all())
 
     class Meta:
         model = AtomicSpecification
