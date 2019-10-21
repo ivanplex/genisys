@@ -31,7 +31,9 @@ class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
 
 class ProductSpecificationSerializer(serializers.ModelSerializer):
-    product_prereq = serializers.PrimaryKeyRelatedField(queryset=ProductPrerequisite.objects.all())
+
+    selected_component = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+    prerequisite = serializers.PrimaryKeyRelatedField(queryset=ProductPrerequisite.objects.all())
 
     class Meta:
         model = ProductSpecification

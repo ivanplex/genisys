@@ -27,7 +27,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 100,
             'image': '/img/table_top.png',
             'availability': 80,
-            'attribute': [],
         }
         tableLeg = {
             'stock_code': 'TBL',
@@ -36,7 +35,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 40,
             'image': '/img/table_leg.png',
             'availability': 200,
-            'attribute': [],
         }
         screws = {
             'stock_code': 'SRW',
@@ -45,7 +43,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 1,
             'image': '/img/screws.png',
             'availability': 100000,
-            'attribute': [],
         }
         chairPlate = {
             'stock_code': 'CPT',
@@ -54,7 +51,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 120,
             'image': '/img/chair_back_plate.png',
             'availability': 20,
-            'attribute': [],
         }
         chairleg = {
             'stock_code': 'CLG',
@@ -63,7 +59,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 30,
             'image': '/img/chair_leg.png',
             'availability': 55,
-            'attribute': [],
         }
         manual = {
             'stock_code': 'MNU',
@@ -72,7 +67,6 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'weight': 15,
             'image': '/img/manual.png',
             'availability': 30,
-            'attribute': [],
         }
         atomic_comp = [
             tableTop,
@@ -153,15 +147,18 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'blueprint': Blueprint.objects.filter(name='Table').first().id,
             'atomic_specifications': [
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBT').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='TBT').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBT').first().id,
                     'quantity': 1
                 },
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBL').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='TBL').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBL').first().id,
                     'quantity': 4
                 },
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
                     'quantity': 8
                 }
             ],
@@ -174,15 +171,18 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'blueprint': Blueprint.objects.filter(name='Chair').first().id,
             'atomic_specifications': [
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CPT').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='CPT').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CPT').first().id,
                     'quantity': 1
                 },
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CLG').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='CLG').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CLG').first().id,
                     'quantity': 4
                 },
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
                     'quantity': 4
                 }
             ],
@@ -233,17 +233,20 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'blueprint': Blueprint.objects.filter(name='Table Set').first().id,
             'atomic_specifications': [
                 {
-                    'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='MNU').first().id,
+                    'selected_component': AtomicComponent.objects.filter(stock_code='MNU').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='MNU').first().id,
                     'quantity': 4
                 }
             ],
             'product_specifications': [
                 {
-                    'product_prereq': ProductPrerequisite.objects.filter(product__name='Table').first().id,
+                    'selected_component': Product.objects.filter(name='Table').first().id,
+                    'prerequisite': ProductPrerequisite.objects.filter(product__name='Table').first().id,
                     'quantity': 1
                 },
                 {
-                    'product_prereq': ProductPrerequisite.objects.filter(product__name='Chair').first().id,
+                    'selected_component': Product.objects.filter(name='Chair').first().id,
+                    'prerequisite': ProductPrerequisite.objects.filter(product__name='Chair').first().id,
                     'quantity': 4
                 }
             ]
