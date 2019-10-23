@@ -14,6 +14,7 @@ class Blueprint(TimestampedModel):
                                                   symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
                                                    symmetrical=False)
+    attribute = models.ManyToManyField(Attribute, related_name='blueprint_attr')
 
     def isEmpty(self):
         if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
@@ -52,6 +53,7 @@ class Product(TimestampedModel):
                                                    symmetrical=False)
     product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification',
                                                     symmetrical=False)
+    attribute = models.ManyToManyField(Attribute, related_name='product_attr')
 
     def validate(self):
         """

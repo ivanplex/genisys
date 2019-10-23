@@ -1,7 +1,8 @@
 import pandas as pd
 import progressbar
 import math
-from shop.atomic.models import AtomicComponent, AtomicAttribute, AtomicGroup
+from shop.atomic.models import AtomicComponent, AtomicGroup
+from shop.attribute.models import Attribute
 
 
 def run():
@@ -38,8 +39,7 @@ def run():
 
         for attributeHeaders in csv_headers[5:]:
             if not math.isnan(parameters[attributeHeaders]) and parameters[attributeHeaders] != 0:
-                AtomicAttribute.objects.get_or_create(
-                            atomic_component=atom,
+                Attribute.objects.get_or_create(
                             key=attributeHeaders,
                             value=parameters[attributeHeaders]
                         )

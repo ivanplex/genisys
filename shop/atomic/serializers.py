@@ -24,14 +24,14 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
             '__all__'
         )
 
-    def create(self, validated_data):
-        attribute_set = validated_data.pop('attribute')
-        atomic_component = AtomicComponent.objects.create(**validated_data)
-        for attribute in attribute_set:
-            attr = Attribute.objects.create(**attribute)
-            atomic_component.attribute.add(attr)
-        atomic_component.save()
-        return atomic_component
+    # def create(self, validated_data):
+    #     attribute_set = validated_data.pop('attribute')
+    #     atomic_component = AtomicComponent.objects.create(**validated_data)
+    #     for attribute in attribute_set:
+    #         attr = Attribute.objects.create(**attribute)
+    #         atomic_component.attribute.add(attr)
+    #     atomic_component.save()
+    #     return atomic_component
 
 
 class AtomicPrerequisiteSerializer(serializers.ModelSerializer):

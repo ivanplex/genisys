@@ -17,7 +17,7 @@ class AtomicComponent(TimestampedModel):
     weight = models.IntegerField(default=0)
     image = models.CharField(max_length=1000, blank=True, null=True) # Req
     availability = models.IntegerField(null=False, default=0)
-    attribute = models.ManyToManyField(Attribute, related_name='attr')
+    attribute = models.ManyToManyField(Attribute, related_name='atom_attr')
 
     def save(self, *args, **kwargs):
         if self.stock_code is "":

@@ -16,12 +16,6 @@ class AtomicAttributeTestCase(APITestCase):
             'weight': 100,
             'image': '/img/table_top.png',
             'availability': 80,
-            'attribute': [
-                {
-                    'key': 'yay',
-                    'value': 'nay'
-                }
-            ]
         }
 
         url = self.URL_VERSION + '/atomic/component/create/'
