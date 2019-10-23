@@ -4,9 +4,13 @@ from rest_framework import status
 from shop.attribute.models import Attribute
 
 
-class AtomicAttributeTestCase(APITestCase):
+class AttributeTestCase(APITestCase):
 
     def test(self):
+        """
+        Test creating attribute within atomic component creation
+        :return:
+        """
 
         self.URL_VERSION = '/api/v1'
 
@@ -19,14 +23,16 @@ class AtomicAttributeTestCase(APITestCase):
             'availability': 80,
             'attribute': [
                 {
-                    'key': 'ha',
-                    'value': 'blah'
+                    'key': 'TEST_KEY',
+                    'value': 'TEST_VALUE'
                 }
             ]
         }
 
-        print(Attribute.objects.all().first())
         url = self.URL_VERSION + '/atomic/component/create/'
         data = json.dumps(tableTop)
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Attribute.objects.first().key, 'TEST_KEY')
+        self.assertEqual(Attribute.objects.first().value, 'TEST_VALUE')
+

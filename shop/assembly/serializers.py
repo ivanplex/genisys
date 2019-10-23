@@ -57,7 +57,6 @@ class BlueprintSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         atomic_prerequisites_data = validated_data.pop('atomic_prerequisites')
         product_prerequisites_data = validated_data.pop('product_prerequisites')
-        attribute_data = validated_data.pop('attribute')
         blueprint = Blueprint.objects.create(**validated_data)
         # save all atomic prerequisites
         for ap_data in atomic_prerequisites_data:
@@ -68,9 +67,11 @@ class BlueprintSerializer(serializers.ModelSerializer):
             p = ProductPrerequisite.objects.create(**pp_data)
             blueprint.product_prerequisites.add(p)
         # Save all attributes
-        for attribute in attribute_data:
-            attr = Attribute.objects.create(**attribute)
-            blueprint.attribute.add(attr)
+        if 'attribute' in validated_data:
+            attribute_data = validated_data.pop('attribute')
+            for attribute in attribute_data:
+                attr = Attribute.objects.create(**attribute)
+                blueprint.attribute.add(attr)
         blueprint.save()
         return blueprint
 
@@ -91,7 +92,6 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         atomic_specifications_data = validated_data.pop('atomic_specifications')
         product_specifications_data = validated_data.pop('product_specifications')
-        attribute_data = validated_data.pop('attribute')
         product = Product.objects.create(**validated_data)
         # save all atomic specifications
         for as_data in atomic_specifications_data:
@@ -102,8 +102,10 @@ class ProductSerializer(serializers.ModelSerializer):
             p = ProductSpecification.objects.create(**ps_data)
             product.product_specifications.add(p)
         # Save all attributes
-        for attribute in attribute_data:
-            attr = Attribute.objects.create(**attribute)
-            product.attribute.add(attr)
+        if 'attribute' in validated_data:
+            attribute_data = validated_data.pop('attribute')
+            for attribute in attribute_data:
+                attr = Attribute.objects.create(**attribute)
+                product.attribute.add(attr)
         product.save()
         return product

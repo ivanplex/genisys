@@ -14,8 +14,7 @@ class RelationTestCase(TestCase):
         self.ecom_product = ECOMProduct.objects.create(product=self.product,
                                                        title='ECOM-PRODUCT',
                                                        description='Test E-commerce Product',
-                                                       image_link=ECOMProductImage.objects.create(
-                                                           image_link='https://images.google.com/'),
+                                                       image_link='https://images.google.com/',
                                                        availability='in stock',
                                                        price=21.12,
                                                        brand='Alrose',

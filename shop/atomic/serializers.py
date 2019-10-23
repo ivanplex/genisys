@@ -25,12 +25,15 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        attribute_data = validated_data.pop('attribute')
-        atomic_component = AtomicComponent.objects.create(**validated_data)
-        for attribute in attribute_data:
-            attr = Attribute.objects.create(**attribute)
-            atomic_component.attribute.add(attr)
-        atomic_component.save()
+        if 'attribute' in validated_data:
+            attribute_data = validated_data.pop('attribute')
+            atomic_component = AtomicComponent.objects.create(**validated_data)
+            for attribute in attribute_data:
+                attr = Attribute.objects.create(**attribute)
+                atomic_component.attribute.add(attr)
+            atomic_component.save()
+        else:
+            atomic_component = AtomicComponent.objects.create(**validated_data)
         return atomic_component
 
 
