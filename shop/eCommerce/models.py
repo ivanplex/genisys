@@ -4,6 +4,8 @@ from shop.assembly.models import Product
 
 
 class ECOMProductImage(TimestampedModel):
+
+    product = models.ForeignKey('ECOMProduct', on_delete=models.CASCADE, related_name='additional_image_link')
     image_link = models.URLField(null=False)
 
 
@@ -20,10 +22,7 @@ class ECOMProduct(TimestampedModel):
     title = models.CharField(max_length=150, null=False)
     description = models.TextField(blank=True, null=False)
     link = models.URLField(null=False)
-    image_link = models.ForeignKey(ECOMProductImage, on_delete=models.CASCADE,
-                                   related_name='link', null=False)
-    additional_image_link = models.ManyToManyField(ECOMProductImage, related_name='additional_link',
-                                                   symmetrical=False, blank=True)
+    image_link = models.URLField(null=False)
     mobile_link = models.URLField(blank=True, null=True)
 
     AVAILABILITY_CHOICE = [
