@@ -15,7 +15,7 @@ from shop.atomic.serializers import (
     AtomicPrerequisiteSerializer,
     AtomicSpecificationSerializer,
 )
-
+from shop.attribute.models import Attribute
 from shop.attribute.serializers import AttributeSerializer
 
 
@@ -57,13 +57,20 @@ class BlueprintSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         atomic_prerequisites_data = validated_data.pop('atomic_prerequisites')
         product_prerequisites_data = validated_data.pop('product_prerequisites')
+        attribute_data = validated_data.pop('attribute')
         blueprint = Blueprint.objects.create(**validated_data)
+        # save all atomic prerequisites
         for ap_data in atomic_prerequisites_data:
             a = AtomicPrerequisite.objects.create(**ap_data)
             blueprint.atomic_prerequisites.add(a)
+        # save all product prerequisite
         for pp_data in product_prerequisites_data:
             p = ProductPrerequisite.objects.create(**pp_data)
             blueprint.product_prerequisites.add(p)
+        # Save all attributes
+        for attribute in attribute_data:
+            attr = Attribute.objects.create(**attribute)
+            blueprint.attribute.add(attr)
         blueprint.save()
         return blueprint
 
@@ -84,12 +91,19 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         atomic_specifications_data = validated_data.pop('atomic_specifications')
         product_specifications_data = validated_data.pop('product_specifications')
+        attribute_data = validated_data.pop('attribute')
         product = Product.objects.create(**validated_data)
+        # save all atomic specifications
         for as_data in atomic_specifications_data:
             a = AtomicSpecification.objects.create(**as_data)
             product.atomic_specifications.add(a)
+        # Save all product specifications
         for ps_data in product_specifications_data:
             p = ProductSpecification.objects.create(**ps_data)
             product.product_specifications.add(p)
+        # Save all attributes
+        for attribute in attribute_data:
+            attr = Attribute.objects.create(**attribute)
+            product.attribute.add(attr)
         product.save()
         return product

@@ -1,6 +1,7 @@
 import json
 from rest_framework.test import APITestCase
 from rest_framework import status
+from shop.attribute.models import Attribute
 
 
 class AtomicAttributeTestCase(APITestCase):
@@ -16,14 +17,15 @@ class AtomicAttributeTestCase(APITestCase):
             'weight': 100,
             'image': '/img/table_top.png',
             'availability': 80,
-            # 'attribute': [
-            #     {
-            #         'key': 'ha',
-            #         'value': 'blah'
-            #     }
-            # ]
+            'attribute': [
+                {
+                    'key': 'ha',
+                    'value': 'blah'
+                }
+            ]
         }
 
+        print(Attribute.objects.all().first())
         url = self.URL_VERSION + '/atomic/component/create/'
         data = json.dumps(tableTop)
         response = self.client.post(url, data, content_type='application/json')
