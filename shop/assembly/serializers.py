@@ -16,6 +16,8 @@ from shop.atomic.serializers import (
     AtomicSpecificationSerializer,
 )
 
+from shop.attribute.serializers import AttributeSerializer
+
 
 class ProductPrerequisiteSerializer(serializers.ModelSerializer):
 
@@ -44,6 +46,7 @@ class BlueprintSerializer(serializers.ModelSerializer):
 
     atomic_prerequisites = AtomicPrerequisiteSerializer(many=True, read_only=False)
     product_prerequisites = ProductPrerequisiteSerializer(many=True, read_only=False)
+    attribute = AttributeSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Blueprint
@@ -70,6 +73,7 @@ class ProductSerializer(serializers.ModelSerializer):
     blueprint = serializers.PrimaryKeyRelatedField(queryset=Blueprint.objects.all())
     atomic_specifications = AtomicSpecificationSerializer(many=True, read_only=False)
     product_specifications = ProductSpecificationSerializer(many=True, read_only=False)
+    attribute = AttributeSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Product
