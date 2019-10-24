@@ -15,6 +15,7 @@ namespaces_to_include = [
     "assembly",
     "group",
     "eCommerce",
+    "configurator",
 ]
 
 namespaced_urls = [

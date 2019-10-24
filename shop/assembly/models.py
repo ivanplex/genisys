@@ -27,6 +27,7 @@ class ProductPrerequisite(Prerequisite):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
                                 null=True)
     product_group = models.ForeignKey('ProductGroup', on_delete=models.PROTECT, related_name='allowed_group', null=True)
+    virtual = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.product is None and self.product_group is None:
