@@ -1,14 +1,15 @@
 from shop.assembly.models import Blueprint, BlueprintGroup
+from shop.assembly.models import AtomicPrerequisite
 from shop.attribute.models import Attribute
 
 
 def run():
 
     options = {
-        "Carbon": ["CA_6-15", "CA_8-18", "CA_10-23", "CA_10-28", "CA_14-28", "CA_22-38"],
-        "Stainless Steel": ["SS_6-15", "SS_8-18", "SS_10-23", "SS_10-28", "SS_14-28", "SS_22-38"],
-        "Titanium": ["TI_6-15", "TI_8-18", "TI_10-23", "TI_10-28", "TI_14-28", "TI_22-38"],
-        "Super Duplex": ["SU_6-15", "SU_8-18", "SU_10-23", "SU_10-28", "SU_14-28", "SU_22-38"]
+        "Carbon": ["E-6-15", "E-8-18", "E-10-23", "E-10-28", "E-14-28", "E-22-38"],
+        "Stainless Steel": ["S-6-15", "S-8-18", "S-10-23", "S-10-28", "S-14-28", "S-22-38"],
+        "Titanium": ["T-6-15", "T-8-18", "T-10-23", "T-10-28", "T-14-28", "T-22-38"],
+        "Super Duplex": ["D-6-15", "D-8-18", "D-10-23", "D-10-28", "D-14-28", "D-22-38"]
     }
 
     # Create gas-spring group
@@ -23,7 +24,15 @@ def run():
             group.members.add(blueprint)
             material_attribute, created = Attribute.objects.get_or_create(key="material", value=material,
                                                                           visibility='online')
+            product_type_attribute, created = Attribute.objects.get_or_create(key="product type", value="compression",
+                                                                          visibility='online')
             blueprint.attribute.add(material_attribute)
+            blueprint.attribute.add(product_type_attribute)
+
+            # Stoke Length
+            prerequisite, created = AtomicPrerequisite.objects.get_or_create(name="Stroke Length", virtual=True,
+                                                     min_quantity=10, max_quantity=70)
+            blueprint.atomic_prerequisites.add(prerequisite)
             blueprint.save()
         group.save()
 

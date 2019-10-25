@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Blueprint(TimestampedModel):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, unique=True)
     atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements',
                                                   symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
@@ -27,7 +27,6 @@ class ProductPrerequisite(Prerequisite):
     product = models.ForeignKey('Product', on_delete=models.PROTECT, related_name='requires',
                                 null=True)
     product_group = models.ForeignKey('ProductGroup', on_delete=models.PROTECT, related_name='allowed_group', null=True)
-    virtual = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.product is None and self.product_group is None:

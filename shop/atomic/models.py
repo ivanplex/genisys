@@ -34,9 +34,10 @@ class AtomicPrerequisite(Prerequisite):
     atomic_component = models.ForeignKey(AtomicComponent, on_delete=models.PROTECT, related_name='requires',
                                          null=True)
     atomic_group = models.ForeignKey(AtomicGroup, on_delete=models.PROTECT, related_name='allowed_group', null=True)
+    virtual = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        if self.atomic_component is None and self.atomic_group is None:
+        if self.atomic_component is None and self.atomic_group is None and self.virtual is False:
             raise ValidationError(
                 _('AtomicPrerequisite has no assigned product or atomic-group'),
                 code='invalid',
