@@ -123,5 +123,4 @@ class ProductSerializer(serializers.ModelSerializer):
                 urlobject = URL.objects.create(**url)
                 product.image_urls.add(urlobject)
         product.save()
-        product.save()
         return product
