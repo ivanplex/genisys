@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models import TimestampedModel
+from shop.models import TimestampedModel, URL
 from shop.relations.models import Prerequisite, Specification
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
 from shop.attribute.models import Attribute
@@ -15,6 +15,7 @@ class Blueprint(TimestampedModel):
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
                                                    symmetrical=False)
     attribute = models.ManyToManyField(Attribute, related_name='blueprint_attr')
+    image_urls = models.ManyToManyField(URL, related_name='blueprint_image_urls', symmetrical=False)
 
     def isEmpty(self):
         if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:

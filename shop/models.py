@@ -7,3 +7,7 @@ class TimestampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class URL(TimestampedModel):
+    url = models.URLField(null=False)

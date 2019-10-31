@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from shop.models import URL
+from shop.serializers import URLsSerializer
 from shop.assembly.models import (
     Blueprint,
     Product,
@@ -47,6 +49,7 @@ class BlueprintSerializer(serializers.ModelSerializer):
     atomic_prerequisites = AtomicPrerequisiteSerializer(many=True, read_only=False)
     product_prerequisites = ProductPrerequisiteSerializer(many=True, read_only=False)
     attribute = AttributeSerializer(many=True, read_only=False, required=False)
+    image_urls = URLsSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Blueprint
@@ -72,6 +75,12 @@ class BlueprintSerializer(serializers.ModelSerializer):
             for attribute in attribute_data:
                 attr = Attribute.objects.create(**attribute)
                 blueprint.attribute.add(attr)
+        # Save all URLs
+        if 'image_urls' in validated_data:
+            url_data = validated_data.pop('image_urls')
+            for url in url_data:
+                urlobject = URL.objects.create(**url)
+                blueprint.image_urls.add(urlobject)
         blueprint.save()
         return blueprint
 
