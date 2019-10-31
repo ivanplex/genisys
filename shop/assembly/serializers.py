@@ -116,5 +116,12 @@ class ProductSerializer(serializers.ModelSerializer):
             for attribute in attribute_data:
                 attr = Attribute.objects.create(**attribute)
                 product.attribute.add(attr)
+        # Save all URLs
+        if 'image_urls' in validated_data:
+            url_data = validated_data.pop('image_urls')
+            for url in url_data:
+                urlobject = URL.objects.create(**url)
+                product.image_urls.add(urlobject)
+        product.save()
         product.save()
         return product

@@ -55,6 +55,7 @@ class Product(TimestampedModel):
     product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification',
                                                     symmetrical=False)
     attribute = models.ManyToManyField(Attribute, related_name='product_attr')
+    image_urls = models.ManyToManyField(URL, related_name='product_image_urls', symmetrical=False)
 
     def validate(self):
         """
