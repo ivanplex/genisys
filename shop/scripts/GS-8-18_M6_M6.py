@@ -1,5 +1,6 @@
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification, AtomicGroup
 from shop.assembly.models import Blueprint, Product, ProductPrerequisite, ProductSpecification
+from shop.models import URL, OffsetImageURL
 
 
 def run():
@@ -7,6 +8,9 @@ def run():
     print("GS-8-18 M6 M6 Parts:")
     print("     - create blueprint GS-8-18 M6 M6 Parts")
     blueprint = Blueprint.objects.get_or_create(name="GS-8-18 M6 M6 Parts")[0]
+    blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/300')[0])
+    blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/200')[0])
+    blueprint.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/100')[0])
     print("     - import prerequisite for GS-8-18 M6 M6 Parts")
     GS_AP_1 = AtomicPrerequisite.objects.get_or_create(
         atomic_component=AtomicComponent.objects.filter(stock_code="ROD08SSHCP/M6-8mm").first(),
@@ -56,6 +60,9 @@ def run():
     print("M8-18 General Parts")
     print("     - create blueprint M8-18 General Parts")
     blueprint = Blueprint.objects.get_or_create(name="M8-18 General Parts")[0]
+    blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/300')[0])
+    blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/200')[0])
+    blueprint.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/100')[0])
     print("     - import prerequisite for M8-18 General Parts")
     M8_AP_1 = AtomicPrerequisite.objects.get_or_create(
         atomic_component=AtomicComponent.objects.filter(stock_code="BRGIGUS0810").first(),
