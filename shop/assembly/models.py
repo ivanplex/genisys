@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models import TimestampedModel, URL
+from shop.models import TimestampedModel, URL, OffsetImageURL
 from shop.relations.models import Prerequisite, Specification
 from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
 from shop.attribute.models import Attribute
@@ -16,6 +16,11 @@ class Blueprint(TimestampedModel):
                                                    symmetrical=False)
     attribute = models.ManyToManyField(Attribute, related_name='blueprint_attr')
     image_urls = models.ManyToManyField(URL, related_name='blueprint_image_urls', symmetrical=False)
+    retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
+    retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)
+    retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
+    internal_cost = models.FloatField(default=0, null=False)
+
 
     def isEmpty(self):
         if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
@@ -56,6 +61,10 @@ class Product(TimestampedModel):
                                                     symmetrical=False)
     attribute = models.ManyToManyField(Attribute, related_name='product_attr')
     image_urls = models.ManyToManyField(URL, related_name='product_image_urls', symmetrical=False)
+    retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
+    retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)
+    retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
+    internal_cost = models.FloatField(default=0, null=False)
 
     def validate(self):
         """
