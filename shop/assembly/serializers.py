@@ -19,6 +19,10 @@ from shop.atomic.serializers import (
 )
 from shop.attribute.models import Attribute
 from shop.attribute.serializers import AttributeSerializer
+from shop.serializers import (
+    URLsSerializer,
+    OffsetImageURLSerializer
+)
 
 
 class ProductPrerequisiteSerializer(serializers.ModelSerializer):
@@ -50,6 +54,7 @@ class BlueprintSerializer(serializers.ModelSerializer):
     product_prerequisites = ProductPrerequisiteSerializer(many=True, read_only=False)
     attribute = AttributeSerializer(many=True, read_only=False, required=False)
     image_urls = URLsSerializer(many=True, read_only=False, required=False)
+    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Blueprint
@@ -97,6 +102,8 @@ class ProductSerializer(serializers.ModelSerializer):
     atomic_specifications = AtomicSpecificationSerializer(many=True, read_only=False)
     product_specifications = ProductSpecificationSerializer(many=True, read_only=False)
     attribute = AttributeSerializer(many=True, read_only=False, required=False)
+    image_urls = URLsSerializer(many=True, read_only=False, required=False)
+    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Product

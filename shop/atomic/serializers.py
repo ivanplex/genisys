@@ -8,6 +8,10 @@ from shop.atomic.models import (
 )
 from shop.attribute.models import Attribute
 from shop.attribute.serializers import AttributeSerializer
+from shop.serializers import (
+    URLsSerializer,
+    OffsetImageURLSerializer
+)
 
 
 class AtomicComponentSerializer(serializers.ModelSerializer):
@@ -18,6 +22,8 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
     weight = serializers.IntegerField(required=False)
     image = serializers.CharField(required=False)
     attribute = AttributeSerializer(many=True, read_only=False, required=False)
+    image_urls = URLsSerializer(many=True, read_only=False, required=False)
+    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = AtomicComponent
