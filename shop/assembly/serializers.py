@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.models import URL
+from shop.models import URL, OffsetImageURL
 from shop.serializers import URLsSerializer
 from shop.assembly.models import (
     Blueprint,
@@ -81,6 +81,12 @@ class BlueprintSerializer(serializers.ModelSerializer):
             for url in url_data:
                 urlobject = URL.objects.create(**url)
                 blueprint.image_urls.add(urlobject)
+        # Save all offset URLs
+        if 'offset_image_urls' in validated_data:
+            url_data = validated_data.pop('offset_image_urls')
+            for url in url_data:
+                urlobject = OffsetImageURL.objects.create(**url)
+                blueprint.offset_image_urls.add(urlobject)
         blueprint.save()
         return blueprint
 
@@ -122,5 +128,11 @@ class ProductSerializer(serializers.ModelSerializer):
             for url in url_data:
                 urlobject = URL.objects.create(**url)
                 product.image_urls.add(urlobject)
+        # Save all offset URLs
+        if 'offset_image_urls' in validated_data:
+            url_data = validated_data.pop('offset_image_urls')
+            for url in url_data:
+                urlobject = OffsetImageURL.objects.create(**url)
+                product.offset_image_urls.add(urlobject)
         product.save()
         return product

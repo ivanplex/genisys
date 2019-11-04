@@ -145,4 +145,3 @@ class ProductTests(APITestCase):
         product.refresh_from_db()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(product.name, 'chair')
-
