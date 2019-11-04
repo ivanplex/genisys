@@ -3,6 +3,8 @@ import progressbar
 import math
 from shop.atomic.models import AtomicComponent, AtomicGroup
 from shop.attribute.models import Attribute
+from shop.models import URL, OffsetImageURL
+
 
 
 def run():
@@ -36,6 +38,13 @@ def run():
             description=parameters['code'],
             warehouse_location=parameters['Location']
         )[0]
+
+        atom.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/300')[0])
+        atom.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/250')[0])
+        atom.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/200')[0])
+        atom.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/100')[0])
+        atom.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/150')[0])
+        atom.save()
 
         for attributeHeaders in csv_headers[5:]:
             if not math.isnan(parameters[attributeHeaders]) and parameters[attributeHeaders] != 0:

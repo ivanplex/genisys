@@ -10,7 +10,8 @@ def run():
     blueprint = Blueprint.objects.get_or_create(name="GS-8-18 M6 M6 Parts")[0]
     blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/300')[0])
     blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/200')[0])
-    blueprint.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/100')[0])
+    blueprint.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/100',
+                                                                         offset_x=3, offset_y=2)[0])
     print("     - import prerequisite for GS-8-18 M6 M6 Parts")
     GS_AP_1 = AtomicPrerequisite.objects.get_or_create(
         atomic_component=AtomicComponent.objects.filter(stock_code="ROD08SSHCP/M6-8mm").first(),
