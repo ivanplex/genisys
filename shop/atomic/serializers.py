@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from shop.models import URL, OffsetImageURL
 from shop.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
@@ -25,15 +26,25 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
+        atomic_component = AtomicComponent.objects.create(**validated_data)
         if 'attribute' in validated_data:
             attribute_data = validated_data.pop('attribute')
-            atomic_component = AtomicComponent.objects.create(**validated_data)
             for attribute in attribute_data:
                 attr = Attribute.objects.create(**attribute)
                 atomic_component.attribute.add(attr)
-            atomic_component.save()
-        else:
-            atomic_component = AtomicComponent.objects.create(**validated_data)
+        # Save all URLs
+        if 'image_urls' in validated_data:
+            url_data = validated_data.pop('image_urls')
+            for url in url_data:
+                urlobject = URL.objects.create(**url)
+                atomic_component.image_urls.add(urlobject)
+        # Save all offset URLs
+        if 'offset_image_urls' in validated_data:
+            url_data = validated_data.pop('offset_image_urls')
+            for url in url_data:
+                urlobject = OffsetImageURL.objects.create(**url)
+                atomic_component.offset_image_urls.add(urlobject)
+        atomic_component.save()
         return atomic_component
 
 

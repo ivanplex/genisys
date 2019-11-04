@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from shop.models import TimestampedModel
+from shop.models import TimestampedModel, URL, OffsetImageURL
 from shop.relations.models import Prerequisite, Specification
 from shop.attribute.models import Attribute
 from shop.group.models import Group
@@ -15,9 +15,16 @@ class AtomicComponent(TimestampedModel):
     warehouse_location = models.CharField(blank=True, null=True, max_length=255)
     material = models.CharField(max_length=255, blank=True, null=True)
     weight = models.IntegerField(default=0)
-    image = models.CharField(max_length=1000, blank=True, null=True) # Req
     availability = models.IntegerField(null=False, default=0)
     attribute = models.ManyToManyField(Attribute, related_name='atom_attr')
+
+    image_urls = models.ManyToManyField(URL, related_name='atomic_image_urls', symmetrical=False)
+    offset_image_urls = models.ManyToManyField(OffsetImageURL, related_name='offset_atomic_image_urls',
+                                               symmetrical=False)
+    retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
+    retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)
+    retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
+    internal_cost = models.FloatField(default=0, null=False)
 
     def save(self, *args, **kwargs):
         if self.stock_code is "":
