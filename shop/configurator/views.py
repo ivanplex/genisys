@@ -7,20 +7,34 @@ from shop.assembly.serializers import BlueprintSerializer
 
 from shop.configurator.serializers import GasSpringBlueprintSerializer
 
+
+def show_models():
+    material_list = Attribute.objects \
+        .filter(blueprint_attr__members__name="Gas Spring") \
+        .values_list('value', flat=True).distinct()
+
+    tree = {}
+    for material in material_list:
+        gas_spring_models = Blueprint.objects.filter(attribute__value=material).values_list('name', flat=True)
+        tree[material] = list(gas_spring_models)
+
+    return Response(tree)
+
 @api_view(['GET', 'POST'])
 def get_material_model(request):
+
+    # ordered list
+    steps = {'model':           1,
+             'stroke':          1,
+             'ext':             0,
+             'rod_fitting':     1,
+             'body_fitting':    1,
+             'extended_length': 1,
+             'force':           1
+             }
+
     if request.method == 'GET':
-
-        material_list = Attribute.objects\
-            .filter(blueprint_attr__members__name="Gas Spring")\
-            .values_list('value', flat=True).distinct()
-
-        tree = {}
-        for material in material_list:
-            gas_spring_models = Blueprint.objects.filter(attribute__value=material).values_list('name', flat=True)
-            tree[material] = list(gas_spring_models)
-
-        return Response(tree)
+        return show_models()
 
     if request.method == 'POST':
         gas_spring_model = request.data.get('model', None)
