@@ -20,6 +20,10 @@ def show_models():
 
     return Response(tree)
 
+def get_models(gas_spring_model, required=True):
+    return Blueprint.objects.filter(name=gas_spring_model).first()
+
+
 @api_view(['GET', 'POST'])
 def get_material_model(request):
 
@@ -39,8 +43,9 @@ def get_material_model(request):
     if request.method == 'POST':
         gas_spring_model = request.data.get('model', None)
         if gas_spring_model is None:
-            content = {'Error': "Incomplete dataset. Missing key `model`."}
-            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+            return show_models()
+            # content = {'Error': "Incomplete dataset. Missing key `model`."}
+            # return Response(content, status=status.HTTP_400_BAD_REQUEST)
         blueprint = Blueprint.objects.filter(name=gas_spring_model).first()
         if blueprint is None:
             content = {'Error': 'Gas spring model not found.'}
