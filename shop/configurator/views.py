@@ -1,10 +1,9 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from shop.assembly.models import Blueprint
+from shop.assembly.models import Blueprint, AtomicPrerequisite
 from shop.attribute.models import Attribute
 from shop.assembly.serializers import BlueprintSerializer
-from django.http import JsonResponse
 
 from shop.configurator.serializers import GasSpringBlueprintSerializer
 
@@ -18,6 +17,7 @@ def show_materials(required=True):
         {
             'configuration_step_title': 'Material',
             'configuration_step_description': '',
+            'configuration_entry_type': 'selection_box',
             'configuration_step_slug': 'material',
             'configuration_next_step_slug': 'models',
             'options': list(material_list)
@@ -25,11 +25,43 @@ def show_materials(required=True):
     )
 
 
-def show_models(material, required=True):
+def show_models(gas_spring_material, required=True):
 
-    gas_spring_models = Blueprint.objects.filter(attribute__value=material)
+    gas_spring_models = Blueprint.objects.filter(attribute__value=gas_spring_material)
     serializer = BlueprintSerializer(gas_spring_models, many=True)
-    return Response(serializer.data)
+    # return Response(serializer.data)
+    return Response(
+            {
+                'configuration_step_title': 'Models',
+                'configuration_step_description': '',
+                'configuration_entry_type': 'selection_box',
+                'configuration_step_slug': 'model',
+                'configuration_next_step_slug': 'stroke',
+                'options': serializer.data
+            }
+        )
+
+# def select_stroke_length(model_id, required=True):
+#     stroke_length_attr = AtomicPrerequisite.objects.filter().first()
+#     gas_spring.atomic_compo
+#     #TODO:
+#     min=10
+#     max=20
+#     return Response(
+#         {
+#             'configuration_step_title': 'Stroke Length',
+#             'configuration_step_description': '',
+#             'configuration_entry_type': 'numerical_range_selection',
+#             'configuration_step_slug': 'stroke',
+#             'configuration_next_step_slug': 'ext',
+#             'options': [
+#                 {
+#                     'minimum': min,
+#                     'maximum': max,
+#                 }
+#             ]
+#         }
+#     )
 
 
 @api_view(['GET', 'POST'])
