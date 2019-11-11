@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from shop.assembly.models import Blueprint, AtomicPrerequisite
 from shop.attribute.models import Attribute
 from shop.assembly.serializers import BlueprintSerializer
+from shop.configurator.models import ConfiguratorStep
+from shop.configurator.serializers import ConfiguratorStepSerializer
 
 from shop.configurator.serializers import GasSpringBlueprintSerializer
 
@@ -67,27 +69,32 @@ def show_models(gas_spring_material, required=True):
 @api_view(['GET', 'POST'])
 def get_material_model(request):
 
-    # ordered list
-    steps = {
-             'material':        1,
-             'model':           1,
-             'stroke':          1,
-             'ext':             0,
-             'rod_fitting':     1,
-             'body_fitting':    1,
-             'extended_length': 1,
-             'force':           1
-             }
+    steps = ConfiguratorStep.objects.all()
+    return Response(ConfiguratorStepSerializer(steps, many=True).data)
 
-    if request.method == 'GET':
-        return show_materials()
 
-    if request.method == 'POST':
-        material = request.data.get('material', None)
-        if material is None:
-            return show_materials()
-        else:
-            return show_models(material)
+
+    # # ordered list
+    # steps = {
+    #          'material':        1,
+    #          'model':           1,
+    #          'stroke':          1,
+    #          'ext':             0,
+    #          'rod_fitting':     1,
+    #          'body_fitting':    1,
+    #          'extended_length': 1,
+    #          'force':           1
+    #          }
+    #
+    # if request.method == 'GET':
+    #     return show_materials()
+    #
+    # if request.method == 'POST':
+    #     material = request.data.get('material', None)
+    #     if material is None:
+    #         return show_materials()
+    #     else:
+    #         return show_models(material)
 
 
         # gas_spring_model = request.data.get('model', None)

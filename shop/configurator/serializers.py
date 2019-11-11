@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from shop.configurator.models import ConfiguratorStep
 from shop.assembly.models import (
     Blueprint
 )
@@ -31,4 +32,13 @@ class GasSpringBlueprintSerializer(serializers.ModelSerializer):
         model = Blueprint
         fields = (
             ['id', 'name', 'atomic_prerequisites', 'product_prerequisites', 'attribute']
+        )
+
+
+class ConfiguratorStepSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ConfiguratorStep
+        fields = (
+            ['title', 'description', 'type', 'slug', 'selected']
         )
