@@ -3,11 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from shop.assembly.models import Blueprint, AtomicPrerequisite
 from shop.attribute.models import Attribute
-from shop.assembly.serializers import BlueprintSerializer
+from shop.assembly.serializers import BlueprintConfiguratorSerializer
 from shop.configurator.models import ConfiguratorStep
 from shop.configurator.serializers import ConfiguratorStepSerializer
-
-from shop.configurator.serializers import GasSpringBlueprintSerializer
 
 
 def show_materials(required=True):
@@ -15,62 +13,64 @@ def show_materials(required=True):
         .filter(blueprint_attr__members__name="Gas Spring") \
         .values_list('value', flat=True).distinct()
 
-    return Response(
-        {
-            'configuration_step_title': 'Material',
-            'configuration_step_description': '',
-            'configuration_entry_type': 'selection_box',
-            'configuration_step_slug': 'material',
-            'configuration_next_step_slug': 'models',
-            'options': list(material_list)
-        }
-    )
+    material_id_mapping = {
+        'Super Duplex': 1,
+        'Carbon': 2,
+        'Titanium': 3,
+        'Stainless Steel': 4,
+    }
+    l = []
+    for material in material_list:
+        if material in material_id_mapping.keys():
+            l.append({
+                    'id': material_id_mapping.get(material),
+                    'material': material,
+                    'thumb_image': 'https://dummyimage.com/50',
+                    'illustration_image': 'https://dummyimage.com/300'
+                }
+            )
+    return l
 
 
-def show_models(gas_spring_material, required=True):
+def show_models(material_id, required=True):
+    material_id_mapping = {
+        1: 'Super Duplex',
+        2: 'Carbon',
+        3: 'Titanium',
+        4: 'Stainless Steel'
+    }
 
-    gas_spring_models = Blueprint.objects.filter(attribute__value=gas_spring_material)
-    serializer = BlueprintSerializer(gas_spring_models, many=True)
-    # return Response(serializer.data)
-    return Response(
-            {
-                'configuration_step_title': 'Models',
-                'configuration_step_description': '',
-                'configuration_entry_type': 'selection_box',
-                'configuration_step_slug': 'model',
-                'configuration_next_step_slug': 'stroke',
-                'options': serializer.data
-            }
-        )
+    gas_spring_models = Blueprint.objects.filter(attribute__value=material_id_mapping.get(material_id))
+    serializer = BlueprintConfiguratorSerializer(gas_spring_models, many=True)
+    return serializer.data
 
-# def select_stroke_length(model_id, required=True):
-#     stroke_length_attr = AtomicPrerequisite.objects.filter().first()
-#     gas_spring.atomic_compo
-#     #TODO:
-#     min=10
-#     max=20
-#     return Response(
-#         {
-#             'configuration_step_title': 'Stroke Length',
-#             'configuration_step_description': '',
-#             'configuration_entry_type': 'numerical_range_selection',
-#             'configuration_step_slug': 'stroke',
-#             'configuration_next_step_slug': 'ext',
-#             'options': [
-#                 {
-#                     'minimum': min,
-#                     'maximum': max,
-#                 }
-#             ]
-#         }
-#     )
-
+def show_stroke_length(model_id, required=True):
+    # blueprint = Blueprint.objects.filter(id=model_id).first()
+    return {
+        'minimum': 5,
+        'maximum': 70
+    }
 
 @api_view(['GET', 'POST'])
-def get_material_model(request):
+def interactions(request):
+    if request.method == 'POST':
+        steps = ConfiguratorStep.objects.all()
+        raw_steps = ConfiguratorStepSerializer(steps, many=True).data
 
-    steps = ConfiguratorStep.objects.all()
-    return Response(ConfiguratorStepSerializer(steps, many=True).data)
+        material = request.data.get('material', None)
+        model = request.data.get('model', None)
+
+        if model is not None:
+            raw_steps[0]['selected'] = material
+            raw_steps[1]['selected'] = model
+            raw_steps[2]['options'] = show_stroke_length(material)
+        elif material is not None:
+            raw_steps[0]['selected'] = material
+            raw_steps[1]['options'] = show_models(material)
+        else:
+            raw_steps[0]['options'] = show_materials()
+
+        return Response(raw_steps)
 
 
 

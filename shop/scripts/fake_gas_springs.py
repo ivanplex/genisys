@@ -1,7 +1,7 @@
 from shop.assembly.models import Blueprint, BlueprintGroup
 from shop.assembly.models import AtomicPrerequisite
 from shop.attribute.models import Attribute
-
+from shop.models import URL, OffsetImageURL
 
 def run():
 
@@ -20,14 +20,18 @@ def run():
         group, create = BlueprintGroup.objects.get_or_create(name=material+" group")
         for model in model_set:
             blueprint, created = Blueprint.objects.get_or_create(name=model)
+            blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/300')[0])
+            blueprint.image_urls.add(URL.objects.get_or_create(url='https://dummyimage.com/200')[0])
+            blueprint.offset_image_urls.add(OffsetImageURL.objects.get_or_create(url='https://dummyimage.com/100',
+                                                                                 offset_x=3, offset_y=2)[0])
             gas_spring_group.members.add(blueprint)
             group.members.add(blueprint)
             material_attribute, created = Attribute.objects.get_or_create(key="material", value=material,
                                                                           visibility='online')
-            product_type_attribute, created = Attribute.objects.get_or_create(key="product type", value="compression",
-                                                                          visibility='online')
+            # product_type_attribute, created = Attribute.objects.get_or_create(key="product type", value="compression",
+            #                                                               visibility='online')
             blueprint.attribute.add(material_attribute)
-            blueprint.attribute.add(product_type_attribute)
+            # blueprint.attribute.add(product_type_attribute)
 
             # Stoke Length
             prerequisite, created = AtomicPrerequisite.objects.get_or_create(name="Stroke Length", virtual=True,

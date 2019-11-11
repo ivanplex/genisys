@@ -48,6 +48,23 @@ class ProductSpecificationSerializer(serializers.ModelSerializer):
         )
 
 
+class BlueprintConfiguratorSerializer(serializers.ModelSerializer):
+    image_urls = URLsSerializer(many=True, read_only=False, required=False)
+    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+
+    class Meta:
+        model = Blueprint
+        fields = (
+            ['id',
+             'name',
+             'image_urls',
+             'offset_image_urls',
+             'retail_price',
+             'retail_price_per_unit',
+             'retail_unit_measurement'
+             ]
+        )
+
 class BlueprintSerializer(serializers.ModelSerializer):
 
     atomic_prerequisites = AtomicPrerequisiteSerializer(many=True, read_only=False)

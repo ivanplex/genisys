@@ -10,7 +10,7 @@ def run():
     )
 
     ConfiguratorStep.objects.get_or_create(
-        title='Model',
+        title='Model Size',
         description='',
         type='selector',
         slug='model'
@@ -21,4 +21,39 @@ def run():
         description='',
         type='numerical_range',
         slug='stroke'
+    )
+
+    ConfiguratorStep.objects.get_or_create(
+        title='Select Extension',
+        description='',
+        type='selector',
+        slug='extension'
+    )
+
+    ConfiguratorStep.objects.get_or_create(
+        title='Rod Fitting',
+        description='',
+        type='selector',
+        slug='rod-fitting'
+    )
+
+    ConfiguratorStep.objects.get_or_create(
+        title='Body Fitting',
+        description='',
+        type='selector',
+        slug='body-fitting'
+    )
+
+    ConfiguratorStep.objects.get_or_create(
+        title='Extended Length',
+        description='',
+        type='numerical_range',
+        slug='extended_length'
+    )
+
+    ConfiguratorStep.objects.get_or_create(
+        title='Force',
+        description='',
+        type='numerical_range',
+        slug='force'
     )
