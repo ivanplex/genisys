@@ -1,4 +1,3 @@
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from shop.assembly.models import Blueprint, AtomicPrerequisite
@@ -24,9 +23,25 @@ def show_materials(required=True):
         if material in material_id_mapping.keys():
             l.append({
                     'id': material_id_mapping.get(material),
-                    'material': material,
+                    'name': material,
                     'thumb_image': 'https://dummyimage.com/50',
-                    'illustration_image': 'https://dummyimage.com/300'
+                    'illustration_image': [
+                        {
+                            "url": 'https://dummyimage.com/150',
+                            "offset_x": 0,
+                            "offset_y": 0
+                        },
+                        {
+                            "url": 'https://dummyimage.com/150',
+                            "offset_x": 0,
+                            "offset_y": 0
+                        },
+                        {
+                            "url": 'https://dummyimage.com/150',
+                            "offset_x": 0,
+                            "offset_y": 0
+                        }
+                    ]
                 }
             )
     return l
@@ -47,29 +62,40 @@ def show_models(material_id, required=True):
 
 def show_stroke_length(model_id, required=True):
     # blueprint = Blueprint.objects.filter(id=model_id).first()
-    return [{
+    return {
         'minimum': 5,
         'maximum': 70
-    }]
+    }
+
+def show_
 
 @api_view(['GET', 'POST'])
 def interactions(request):
     if request.method == 'POST':
-        steps = ConfiguratorStep.objects.all()
+        steps = ConfiguratorStep.objects.all().order_by('id')
         raw_steps = ConfiguratorStepSerializer(steps, many=True).data
 
         material = request.data.get('material', None)
         model = request.data.get('model', None)
 
         if model is not None:
-            raw_steps[0]['selected'] = material
-            raw_steps[1]['selected'] = model
-            raw_steps[2]['options'] = show_stroke_length(material)
-        elif material is not None:
-            raw_steps[0]['selected'] = material
+            range = show_stroke_length(material)
+            raw_steps[2]['range'] = range
+            raw_steps[2]['selected'] = range['minimum']
             raw_steps[1]['options'] = show_models(material)
+            raw_steps[1]['selected'] = model
+            raw_steps[0]['options'] = show_materials()
+            raw_steps[0]['selected'] = material
+
+        elif material is not None:
+            options = show_models(material)
+            raw_steps[1]['options'] = options
+            raw_steps[1]['selected'] = options[0]['id']
+            raw_steps[0]['options'] = show_materials()
+            raw_steps[0]['selected'] = material
         else:
             raw_steps[0]['options'] = show_materials()
+            raw_steps[0]['selected'] = show_materials()[0]['id']
 
         return Response(raw_steps)
 
