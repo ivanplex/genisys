@@ -67,8 +67,6 @@ def show_stroke_length(model_id, required=True):
         'maximum': 70
     }
 
-def show_
-
 @api_view(['GET', 'POST'])
 def interactions(request):
     if request.method == 'POST':
