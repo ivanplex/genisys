@@ -44,12 +44,13 @@ def show_models(material_id, required=True):
     serializer = BlueprintConfiguratorSerializer(gas_spring_models, many=True)
     return serializer.data
 
+
 def show_stroke_length(model_id, required=True):
     # blueprint = Blueprint.objects.filter(id=model_id).first()
-    return {
+    return [{
         'minimum': 5,
         'maximum': 70
-    }
+    }]
 
 @api_view(['GET', 'POST'])
 def interactions(request):
