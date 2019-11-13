@@ -67,6 +67,7 @@ def show_stroke_length(model_id, required=True):
         'maximum': 70
     }
 
+
 @api_view(['GET', 'POST'])
 def interactions(request):
     if request.method == 'POST':
@@ -75,11 +76,12 @@ def interactions(request):
 
         material = request.data.get('material', None)
         model = request.data.get('model', None)
+        stroke = request.data.get('stroke', None)
 
         if model is not None:
-            range = show_stroke_length(material)
-            raw_steps[2]['range'] = range
-            raw_steps[2]['selected'] = range['minimum']
+            num_range = show_stroke_length(material)
+            raw_steps[2]['range'] = num_range
+            raw_steps[2]['selected'] = num_range['minimum']
             raw_steps[1]['options'] = show_models(material)
             raw_steps[1]['selected'] = model
             raw_steps[0]['options'] = show_materials()
