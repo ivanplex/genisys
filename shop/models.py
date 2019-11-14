@@ -14,5 +14,6 @@ class URL(TimestampedModel):
 
 
 class OffsetImageURL(URL):
+    position = models.IntegerField(default=0)
     offset_x = models.IntegerField(default=0, null=False, blank=False, help_text="Image offset x direction")
     offset_y = models.IntegerField(default=0, null=False, blank=False, help_text="Image offset y direction")

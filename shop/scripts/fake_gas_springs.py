@@ -26,7 +26,7 @@ def run():
                                                                                  offset_x=3, offset_y=2)[0])
             gas_spring_group.members.add(blueprint)
             group.members.add(blueprint)
-            material_attribute, created = Attribute.objects.get_or_create(key="material", value=material,
+            material_attribute, created = Attribute.objects.get_or_create(key="material", value="Stainless Steel",
                                                                           visibility='online')
             # product_type_attribute, created = Attribute.objects.get_or_create(key="product type", value="compression",
             #                                                               visibility='online')

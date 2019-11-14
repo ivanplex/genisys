@@ -54,6 +54,26 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
         return atomic_component
 
 
+class AtomicComponentConfiguratorSerializer(serializers.ModelSerializer):
+    thumbnail_images = URLsSerializer(many=True, read_only=False, required=False)
+    illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    description_images = URLsSerializer(many=True, read_only=False, required=False)
+
+    class Meta:
+        model = AtomicComponent
+        fields = (
+            ['id',
+             'stock_code',
+             'thumbnail_images',
+             'illustration_images',
+             'description_images',
+             'retail_price',
+             'retail_price_per_unit',
+             'retail_unit_measurement'
+             ]
+        )
+
+
 class AtomicPrerequisiteSerializer(serializers.ModelSerializer):
 
     atomic_component = serializers.PrimaryKeyRelatedField(queryset=AtomicComponent.objects.all(), required=False)

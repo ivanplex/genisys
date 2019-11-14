@@ -18,9 +18,11 @@ class AtomicComponent(TimestampedModel):
     availability = models.IntegerField(null=False, default=0)
     attribute = models.ManyToManyField(Attribute, related_name='atom_attr')
 
-    image_urls = models.ManyToManyField(URL, related_name='atomic_image_urls', symmetrical=False)
-    offset_image_urls = models.ManyToManyField(OffsetImageURL, related_name='offset_atomic_image_urls',
+    thumbnail_images = models.ManyToManyField(URL, related_name='thumbnail_image', symmetrical=False)
+    illustration_images = models.ManyToManyField(OffsetImageURL, related_name='illustration_image',
                                                symmetrical=False)
+    description_images = models.ManyToManyField(URL, related_name='description_image', symmetrical=False)
+
     retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
     retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
