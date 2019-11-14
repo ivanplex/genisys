@@ -49,7 +49,7 @@ class ProductSpecificationSerializer(serializers.ModelSerializer):
 
 
 class BlueprintConfiguratorSerializer(serializers.ModelSerializer):
-    thumbnail_image = URLsSerializer(read_only=False, required=False)
+    thumbnail_image = serializers.CharField(source='thumbnail_image.url', read_only=True)
     illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
     description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 

@@ -176,6 +176,10 @@ def interactions(request):
         extended_length = request.data.get('extended_length', None)
         force = request.data.get('force', None)
 
+        # pre-populate material if material not selected
+        if material is None:
+            raw_steps[0]['selected'] = show_materials()[0].get("id")
+
         raw_steps[0]['options'] = show_materials()
         if material is not None:
             raw_steps[0]['selected'] = material
