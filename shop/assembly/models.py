@@ -14,9 +14,10 @@ class Blueprint(TimestampedModel):
                                                   symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
                                                    symmetrical=False)
-    attribute = models.ManyToManyField(Attribute, related_name='blueprint_attr')
-    image_urls = models.ManyToManyField(URL, related_name='blueprint_image_urls', symmetrical=False)
-    offset_image_urls = models.ManyToManyField(OffsetImageURL, related_name='offset_blueprint_image_urls', symmetrical=False)
+    thumbnail_image = models.ForeignKey(URL, on_delete=models.PROTECT, related_name='blueprint_thumbnail', null=True)
+    illustration_images = models.ManyToManyField(OffsetImageURL, related_name='blueprint_illustration',
+                                                 symmetrical=False)
+    description_images = models.ManyToManyField(URL, related_name='blueprint_description_image', symmetrical=False)
     retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
     retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
@@ -28,6 +29,13 @@ class Blueprint(TimestampedModel):
             return True
         else:
             return False
+
+
+class BlueprintAttribute(TimestampedModel):
+
+    blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name="blueprint_attribute", null=False)
+    key = models.CharField(max_length=255, blank=False, null=False)
+    value = models.CharField(max_length=255, blank=False, null=False)
 
 
 class ProductPrerequisite(Prerequisite):
@@ -61,8 +69,10 @@ class Product(TimestampedModel):
     product_specifications = models.ManyToManyField(ProductSpecification, related_name='product_specification',
                                                     symmetrical=False)
     attribute = models.ManyToManyField(Attribute, related_name='product_attr')
-    image_urls = models.ManyToManyField(URL, related_name='product_image_urls', symmetrical=False)
-    offset_image_urls = models.ManyToManyField(OffsetImageURL, related_name='offset_product_image_urls', symmetrical=False)
+    thumbnail_image = models.ForeignKey(URL, on_delete=models.PROTECT, related_name='thumbnail_image', null=True)
+    illustration_images = models.ManyToManyField(OffsetImageURL, related_name='illustration_image',
+                                                 symmetrical=False)
+    description_images = models.ManyToManyField(URL, related_name='description_image', symmetrical=False)
     retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
     retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)

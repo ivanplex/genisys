@@ -18,10 +18,10 @@ class AtomicComponent(TimestampedModel):
     availability = models.IntegerField(null=False, default=0)
     attribute = models.ManyToManyField(Attribute, related_name='atom_attr')
 
-    thumbnail_images = models.ManyToManyField(URL, related_name='thumbnail_image', symmetrical=False)
-    illustration_images = models.ManyToManyField(OffsetImageURL, related_name='illustration_image',
+    thumbnail_image = models.ForeignKey(URL, on_delete=models.PROTECT, related_name='atomic_thumbnail', null=True)
+    illustration_images = models.ManyToManyField(OffsetImageURL, related_name='atomic_illustration',
                                                symmetrical=False)
-    description_images = models.ManyToManyField(URL, related_name='description_image', symmetrical=False)
+    description_images = models.ManyToManyField(URL, related_name='atomic_description_image', symmetrical=False)
 
     retail_price = models.FloatField(verbose_name='Retail Price', default=0, null=False)
     retail_price_per_unit = models.FloatField(verbose_name='Retail Price per unit', default=0, null=False)

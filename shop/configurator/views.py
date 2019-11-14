@@ -7,37 +7,16 @@ from shop.attribute.models import Attribute
 from shop.assembly.serializers import BlueprintConfiguratorSerializer
 from shop.configurator.models import ConfiguratorStep
 from shop.configurator.serializers import ConfiguratorStepSerializer
+from django.db.models import Q
 
 
 def show_materials(required=True):
     return [
-            # {
-            #     "id": 1,
-            #     "name": "Super Duplex",
-            #     "thumb_image": "https://dummyimage.com/50",
-            #     "illustration_image": [
-            #         {
-            #             "url": "https://dummyimage.com/100",
-            #             "offset_x": 3,
-            #             "offset_y": 2
-            #         },
-            #         {
-            #             "url": "https://dummyimage.com/100",
-            #             "offset_x": 3,
-            #             "offset_y": 2
-            #         },
-            #         {
-            #             "url": "https://dummyimage.com/100",
-            #             "offset_x": 3,
-            #             "offset_y": 2
-            #         }
-            #     ]
-            # },
             {
                 "id": 2,
                 "name": "Carbon",
-                "thumb_image": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/E+-+Carbon+Steel+Painted-Current+View.png",
-                "illustration_image": [
+                "thumbnail_image": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/E+-+Carbon+Steel+Painted-Current+View.png",
+                "illustration_images": [
                     {
                         "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-E-15-BodyEnd-h50-l.png",
                         "offset_x": 0,
@@ -53,35 +32,14 @@ def show_materials(required=True):
                         "offset_x": 0,
                         "offset_y": 0
                     }
-                ]
+                ],
+                "description_images": []
             },
-            # {
-            #     "id": 3,
-            #     "name": "Titanium",
-            #     "thumb_image": "https://dummyimage.com/50",
-            #     "illustration_image": [
-            #         {
-            #             "url": "https://dummyimage.com/100",
-            #             "offset_x": 3,
-            #             "offset_y": 2
-            #         },
-            #         {
-            #             "url": "https://dummyimage.com/100",
-            #             "offset_x": 3,
-            #             "offset_y": 2
-            #         },
-            #         {
-            #             "url": "https://dummyimage.com/100",
-            #             "offset_x": 3,
-            #             "offset_y": 2
-            #         }
-            #     ]
-            # },
             {
                 "id": 4,
                 "name": "Stainless Steel",
-                "thumb_image": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/S+-+Stainless+Steel-Current+View.png",
-                "illustration_image": [
+                "thumbnail_image": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/S+-+Stainless+Steel-Current+View.png",
+                "illustration_images": [
                     {
                         "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-S-15-BodyEnd-h50-l.png",
                         "offset_x": 0,
@@ -97,7 +55,8 @@ def show_materials(required=True):
                         "offset_x": 0,
                         "offset_y": 0
                     }
-                ]
+                ],
+                "description_images": []
             }
         ]
 
@@ -110,34 +69,34 @@ def show_models(material_id, required=True):
         4: 'Stainless Steel'
     }
 
-    #TODO: fix this
-
-    # gas_spring_models = Blueprint.objects.filter(attribute__value=material_id_mapping.get(material_id))
-    attr = Attribute.objects.filter(key="material", value="Carbon").first()
-    gas_spring_models = Blueprint.objects.filter(name="SS-6-15")
+    # attr = Attribute.objects.filter(value=material_id_mapping.get(material_id)).first()
+    # gas_spring_models = Blueprint.objects.filter(
+    #     Q(attribute=attr)
+    # )
+    gas_spring_models = Blueprint.objects.filter(
+        blueprint_attribute__key="material",
+        blueprint_attribute__value=material_id_mapping.get(material_id))
     serializer = BlueprintConfiguratorSerializer(gas_spring_models, many=True)
     return serializer.data
 
 
 def show_stroke_length(model_id, required=True):
     blueprint = Blueprint.objects.filter(id=model_id).first()
-    stroke = AtomicPrerequisite.objects.get(id=1)
+    stroke = blueprint.atomic_prerequisites.filter(name="stroke").first()
     return {
         'minimum': stroke.min_quantity,
         'maximum': stroke.max_quantity
     }
 
 def show_extension(model_id):
-    extensions = AtomicComponent.objects.filter(stock_code="M5-13-EXT")
+    blueprint = Blueprint.objects.get(id=model_id)
+    prereq = blueprint.atomic_prerequisites.filter(name="extender").first()
+    extensions = AtomicComponent.objects.filter(requires=prereq)
     serializer = AtomicComponentConfiguratorSerializer(extensions, many=True)
     empty = [{
                 "id": "null",
-                "stock_code": "None",
-                "thumbnail_images": [
-                    {
-                        "url": "https://dummyimage.com/100"
-                    }
-                ],
+                "name": "None",
+                "thumbnail_image": "https://dummyimage.com/100",
                 "illustration_images": [],
                 "description_images": [],
                 "retail_price": 0.0,
@@ -147,20 +106,55 @@ def show_extension(model_id):
     return empty + serializer.data
 
 
-def show_endfitting(model_id):
-    endfittings = AtomicComponent.objects.filter(members__name="demo_group")
-    serializer = AtomicComponentConfiguratorSerializer(endfittings, many=True)
-    return serializer.data
+def show_rod_fitting(model_id):
+    blueprint = Blueprint.objects.get(id=model_id)
+    prereq = blueprint.atomic_prerequisites.filter(name="rod fitting").first()
+    group = prereq.atomic_group
+    fittings = AtomicComponent.objects.filter(members=group)
+    serializer = AtomicComponentConfiguratorSerializer(fittings, many=True)
+    empty = [{
+        "id": "null",
+        "name": "None",
+        "thumbnail_image": "https://dummyimage.com/100",
+        "illustration_images": [],
+        "description_images": [],
+        "retail_price": 0.0,
+        "retail_price_per_unit": 0.0,
+        "retail_unit_measurement": "null"
+    }]
+    return empty + serializer.data
+
+
+def show_body_fitting(model_id):
+    blueprint = Blueprint.objects.get(id=model_id)
+    prereq = blueprint.atomic_prerequisites.filter(name="body fitting").first()
+    group = prereq.atomic_group
+    fittings = AtomicComponent.objects.filter(members=group)
+    serializer = AtomicComponentConfiguratorSerializer(fittings, many=True)
+    empty = [{
+        "id": "null",
+        "name": "None",
+        "thumbnail_image": "https://dummyimage.com/100",
+        "illustration_images": [],
+        "description_images": [],
+        "retail_price": 0.0,
+        "retail_price_per_unit": 0.0,
+        "retail_unit_measurement": "null"
+    }]
+    return empty + serializer.data
+
 
 def show_extended_length(model_id):
-    length = AtomicPrerequisite.objects.get(id=2)
+    blueprint = Blueprint.objects.filter(id=model_id).first()
+    length = blueprint.atomic_prerequisites.filter(name="extended length").first()
     return {
         'minimum': length.min_quantity,
         'maximum': length.max_quantity
     }
 
 def show_force(model_id):
-    force = AtomicPrerequisite.objects.get(id=3)
+    blueprint = Blueprint.objects.filter(id=model_id).first()
+    force = blueprint.atomic_prerequisites.filter(name="force").first()
     return {
         'minimum': force.min_quantity,
         'maximum': force.max_quantity
@@ -194,10 +188,10 @@ def interactions(request):
                     raw_steps[3]['option'] = show_extension(model)
                     if extension is not None:
                         raw_steps[3]['selected'] = extension
-                        raw_steps[4]['option'] = show_endfitting(model)
+                        raw_steps[4]['option'] = show_rod_fitting(model)
                         if rod_fitting is not None:
                             raw_steps[4]['selected'] = rod_fitting
-                            raw_steps[5]['option'] = show_endfitting(model)
+                            raw_steps[5]['option'] = show_body_fitting(model)
                             if body_fitting is not None:
                                 raw_steps[5]['selected'] = body_fitting
                                 raw_steps[6]['option'] = show_extended_length(model)

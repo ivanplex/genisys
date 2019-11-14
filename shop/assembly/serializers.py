@@ -49,29 +49,32 @@ class ProductSpecificationSerializer(serializers.ModelSerializer):
 
 
 class BlueprintConfiguratorSerializer(serializers.ModelSerializer):
-    image_urls = URLsSerializer(many=True, read_only=False, required=False)
-    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    thumbnail_image = URLsSerializer(read_only=False, required=False)
+    illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Blueprint
         fields = (
             ['id',
              'name',
-             'image_urls',
-             'offset_image_urls',
+             'thumbnail_image',
+             'illustration_images',
+             'description_images',
              'retail_price',
              'retail_price_per_unit',
              'retail_unit_measurement'
              ]
         )
 
+
 class BlueprintSerializer(serializers.ModelSerializer):
 
     atomic_prerequisites = AtomicPrerequisiteSerializer(many=True, read_only=False)
     product_prerequisites = ProductPrerequisiteSerializer(many=True, read_only=False)
-    attribute = AttributeSerializer(many=True, read_only=False, required=False)
-    image_urls = URLsSerializer(many=True, read_only=False, required=False)
-    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    thumbnail_image = URLsSerializer(read_only=False, required=False)
+    illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Blueprint
@@ -91,12 +94,6 @@ class BlueprintSerializer(serializers.ModelSerializer):
         for pp_data in product_prerequisites_data:
             p = ProductPrerequisite.objects.create(**pp_data)
             blueprint.product_prerequisites.add(p)
-        # Save all attributes
-        if 'attribute' in validated_data:
-            attribute_data = validated_data.pop('attribute')
-            for attribute in attribute_data:
-                attr = Attribute.objects.create(**attribute)
-                blueprint.attribute.add(attr)
         # Save all URLs
         if 'image_urls' in validated_data:
             url_data = validated_data.pop('image_urls')
@@ -119,8 +116,9 @@ class ProductSerializer(serializers.ModelSerializer):
     atomic_specifications = AtomicSpecificationSerializer(many=True, read_only=False)
     product_specifications = ProductSpecificationSerializer(many=True, read_only=False)
     attribute = AttributeSerializer(many=True, read_only=False, required=False)
-    image_urls = URLsSerializer(many=True, read_only=False, required=False)
-    offset_image_urls = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    thumbnail_image = URLsSerializer(read_only=False, required=False)
+    illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Product

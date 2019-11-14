@@ -55,16 +55,17 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
 
 
 class AtomicComponentConfiguratorSerializer(serializers.ModelSerializer):
-    thumbnail_images = URLsSerializer(many=True, read_only=False, required=False)
+    name = serializers.CharField(source='stock_code')
+    thumbnail_image = URLsSerializer(read_only=False, required=False)
     illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
-    description_images = URLsSerializer(many=True, read_only=False, required=False)
+    description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = AtomicComponent
         fields = (
             ['id',
-             'stock_code',
-             'thumbnail_images',
+             'name',
+             'thumbnail_image',
              'illustration_images',
              'description_images',
              'retail_price',
