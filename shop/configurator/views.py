@@ -179,6 +179,7 @@ def interactions(request):
         # pre-populate material if material not selected
         if material is None:
             raw_steps[0]['selected'] = show_materials()[0].get("id")
+            raw_steps[1]['options'] = show_models(show_materials()[0].get("id"))
 
         raw_steps[0]['options'] = show_materials()
         if material is not None:
