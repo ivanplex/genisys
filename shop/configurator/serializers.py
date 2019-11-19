@@ -40,5 +40,5 @@ class ConfiguratorStepSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfiguratorStep
         fields = (
-            ['title', 'description', 'type', 'slug', 'selected']
+            ['id', 'title', 'description', 'type', 'slug', 'selected']
         )

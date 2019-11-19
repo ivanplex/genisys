@@ -7,3 +7,4 @@ class ConfiguratorStep(models.Model):
     type = models.CharField(max_length=255, null=False, blank=False)
     slug = models.CharField(max_length=255, null=False, blank=False)
     selected = models.IntegerField(null=True, blank=False, default=None)
+    disabled = models.BooleanField(default=False)

@@ -106,6 +106,25 @@ def show_extension(model_id):
     return empty + serializer.data
 
 
+def show_sleeves(model_id):
+    blueprint = Blueprint.objects.get(id=model_id)
+    prereq = blueprint.atomic_prerequisites.filter(name="sleeve").first()
+    group = prereq.atomic_group
+    sleeves = AtomicComponent.objects.filter(members=group)
+    serializer = AtomicComponentConfiguratorSerializer(sleeves, many=True)
+    empty = [{
+                "id": "null",
+                "name": "None",
+                "thumbnail_image": "https://dummyimage.com/100",
+                "illustration_images": [],
+                "description_images": [],
+                "retail_price": 0.0,
+                "retail_price_per_unit": 0.0,
+                "retail_unit_measurement": "null"
+            }]
+    return empty + serializer.data
+
+
 def show_rod_fitting(model_id):
     blueprint = Blueprint.objects.get(id=model_id)
     prereq = blueprint.atomic_prerequisites.filter(name="rod fitting").first()
@@ -164,13 +183,14 @@ def show_force(model_id):
 @api_view(['GET', 'POST'])
 def interactions(request):
     if request.method == 'POST':
-        steps = ConfiguratorStep.objects.all().order_by('id')
+        steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
         raw_steps = ConfiguratorStepSerializer(steps, many=True).data
 
         material = request.data.get('material', None)
         model = request.data.get('model', None)
         stroke = request.data.get('stroke', None)
         extension = request.data.get('extension', None)
+        sleeves = request.data.get('sleeves', None)
         rod_fitting = request.data.get('rod-fitting', None)
         body_fitting = request.data.get('body-fitting', None)
         extended_length = request.data.get('extended_length', None)
@@ -193,7 +213,12 @@ def interactions(request):
                     raw_steps[3]['options'] = show_extension(model)
                     if extension is not None:
                         raw_steps[3]['selected'] = extension
-                        raw_steps[4]['options'] = show_rod_fitting(model)
+                        raw_steps[4]['options'] = show_sleeves(model)
+
+                        # if sleeves is not None:
+                        #     raw_steps[4]['selected'] = sleeves
+                        #     raw_steps[5]['options'] = show_rod_fitting(model)
+
                         if rod_fitting is not None:
                             raw_steps[4]['selected'] = rod_fitting
                             raw_steps[5]['options'] = show_body_fitting(model)

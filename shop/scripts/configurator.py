@@ -31,6 +31,14 @@ def run():
     )
 
     ConfiguratorStep.objects.get_or_create(
+        title='Select Sleeves',
+        description='',
+        type='selector',
+        slug='sleeves',
+        disabled=True
+    )
+
+    ConfiguratorStep.objects.get_or_create(
         title='Rod Fitting',
         description='',
         type='selector',
