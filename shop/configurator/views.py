@@ -213,7 +213,7 @@ def interactions(request):
                     raw_steps[3]['options'] = show_extension(model)
                     if extension is not None:
                         raw_steps[3]['selected'] = extension
-                        raw_steps[4]['options'] = show_sleeves(model)
+                        raw_steps[4]['options'] = show_rod_fitting(model)
 
                         # if sleeves is not None:
                         #     raw_steps[4]['selected'] = sleeves
