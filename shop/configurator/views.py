@@ -101,7 +101,8 @@ def show_extension(model_id):
                 "description_images": [],
                 "retail_price": 0.0,
                 "retail_price_per_unit": 0.0,
-                "retail_unit_measurement": "null"
+                "retail_unit_measurement": "null",
+                "component_factor": 0
             }]
     return empty + serializer.data
 
@@ -120,7 +121,8 @@ def show_sleeves(model_id):
                 "description_images": [],
                 "retail_price": 0.0,
                 "retail_price_per_unit": 0.0,
-                "retail_unit_measurement": "null"
+                "retail_unit_measurement": "null",
+                "component_factor": 0
             }]
     return empty + serializer.data
 
@@ -139,7 +141,8 @@ def show_rod_fitting(model_id):
         "description_images": [],
         "retail_price": 0.0,
         "retail_price_per_unit": 0.0,
-        "retail_unit_measurement": "null"
+        "retail_unit_measurement": "null",
+        "component_factor": 0
     }]
     return empty + serializer.data
 
@@ -158,7 +161,8 @@ def show_body_fitting(model_id):
         "description_images": [],
         "retail_price": 0.0,
         "retail_price_per_unit": 0.0,
-        "retail_unit_measurement": "null"
+        "retail_unit_measurement": "null",
+        "component_factor": 0
     }]
     return empty + serializer.data
 

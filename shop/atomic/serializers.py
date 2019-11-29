@@ -70,7 +70,8 @@ class AtomicComponentConfiguratorSerializer(serializers.ModelSerializer):
              'description_images',
              'retail_price',
              'retail_price_per_unit',
-             'retail_unit_measurement'
+             'retail_unit_measurement',
+             'component_factor'
              ]
         )
 

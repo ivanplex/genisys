@@ -78,6 +78,22 @@ class Product(TimestampedModel):
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
     internal_cost = models.FloatField(default=0, null=False)
 
+    component_factor = models.PositiveIntegerField(default=None, null=True)
+
+    def getComponentFactor(self):
+        if self.component_factor is not None:
+            return self.component_factor
+        else:
+            # sum all CF from all prerequisites
+            total = 0
+            for spec in self.atomic_specifications.all():
+                total = total + spec.selected_component.getComponentFactor()
+            for spec in self.product_specifications.all():
+                total = total + spec.selected_component.getComponentFactor()
+
+            return total
+
+
     def validate(self):
         """
         Valiate quantity following prerequisite constraint

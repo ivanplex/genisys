@@ -28,11 +28,16 @@ class AtomicComponent(TimestampedModel):
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
     internal_cost = models.FloatField(default=0, null=False)
 
+    component_factor = models.PositiveIntegerField(default=0, null=False, blank=False)
+
     def save(self, *args, **kwargs):
         if self.stock_code is "":
             raise ValidationError('stock_code cannot be empty.')
         else:
             super(AtomicComponent, self).save(*args, **kwargs)
+
+    def getComponentFactor(self):
+        return self.component_factor
 
 
 class AtomicGroup(Group):
