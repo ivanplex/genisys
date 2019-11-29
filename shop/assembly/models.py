@@ -78,7 +78,7 @@ class Product(TimestampedModel):
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
     internal_cost = models.FloatField(default=0, null=False)
 
-    component_factor = models.PositiveIntegerField(default=None, null=True)
+    component_factor = models.FloatField(default=None, null=True)
 
     def getComponentFactor(self):
         if self.component_factor is not None:

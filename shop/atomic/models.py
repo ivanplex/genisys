@@ -28,7 +28,7 @@ class AtomicComponent(TimestampedModel):
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
     internal_cost = models.FloatField(default=0, null=False)
 
-    component_factor = models.PositiveIntegerField(default=0, null=False, blank=False)
+    component_factor = models.FloatField(default=0, null=False, blank=False)
 
     def save(self, *args, **kwargs):
         if self.stock_code is "":
