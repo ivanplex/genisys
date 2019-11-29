@@ -213,23 +213,23 @@ def interactions(request):
                     raw_steps[3]['options'] = show_extension(model)
                     if extension is not None:
                         raw_steps[3]['selected'] = extension
-                        raw_steps[4]['options'] = show_rod_fitting(model)
+                        raw_steps[4]['options'] = show_sleeves(model)
 
-                        # if sleeves is not None:
-                        #     raw_steps[4]['selected'] = sleeves
-                        #     raw_steps[5]['options'] = show_rod_fitting(model)
+                        if sleeves is not None:
+                            raw_steps[4]['selected'] = sleeves
+                            raw_steps[5]['options'] = show_rod_fitting(model)
 
-                        if rod_fitting is not None:
-                            raw_steps[4]['selected'] = rod_fitting
-                            raw_steps[5]['options'] = show_body_fitting(model)
-                            if body_fitting is not None:
-                                raw_steps[5]['selected'] = body_fitting
-                                raw_steps[6]['range'] = show_extended_length(model)
-                                if extended_length is not None:
-                                    raw_steps[6]['selected'] = extended_length
-                                    raw_steps[7]['range'] = show_force(model)
-                                    if force is not None:
-                                        raw_steps[7]['selected'] = force
+                            if rod_fitting is not None:
+                                raw_steps[5]['selected'] = rod_fitting
+                                raw_steps[6]['options'] = show_body_fitting(model)
+                                if body_fitting is not None:
+                                    raw_steps[6]['selected'] = body_fitting
+                                    raw_steps[7]['range'] = show_extended_length(model)
+                                    if extended_length is not None:
+                                        raw_steps[7]['selected'] = extended_length
+                                        raw_steps[8]['range'] = show_force(model)
+                                        if force is not None:
+                                            raw_steps[8]['selected'] = force
 
         return Response(raw_steps)
 

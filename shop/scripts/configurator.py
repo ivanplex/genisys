@@ -35,7 +35,7 @@ def run():
         description='',
         type='selector',
         slug='sleeves',
-        disabled=True
+        disabled=False
     )
 
     ConfiguratorStep.objects.get_or_create(
