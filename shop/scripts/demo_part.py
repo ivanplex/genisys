@@ -105,7 +105,8 @@ def createExtender():
     M5_13_EXT, created = AtomicComponent.objects.get_or_create(
         stock_code="M5-13-EXT",
         category="extender",
-        description="M5-13-EXT"
+        description="M5-13-EXT",
+        # component_factor = 23.25
     )
     thumb, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/M5-13-EXT-thumb.png")

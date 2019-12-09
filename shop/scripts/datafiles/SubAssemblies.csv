@@ -1,0 +1,163 @@
+"Id","Name","Deactivated"
+15,"GS-8-18 M6 M8",False
+17,"GS-8-18 M6 M6",False
+18,"GS-8-18 M8 M6",False
+19,"GS-8-18 M6 M6Long",False
+20,"GS-8-18 M8 M6Long",False
+21,"G-6-15 M5/M6  M5 SV",False
+22,"GS-6-15 M5/M6 M5  SV ",False
+25,"G-8-18 M6 M6",False
+29,"GS-8-18 M8 M8 PS",False
+59,"TS-6-10-18 M5 M5",False
+60,"T-6-10-18 M5 M5",False
+67,"T-102438 General Parts",False
+68,"TS-10-24-38 M10 M10",False
+69,"TS-10-24-38 M10 M10 PS",False
+38,"G-10-23 M8 M8 PS",False
+37,"G-10-28 M10 M10 PS",False
+51,"GS-22-38 M14 M14 PS",False
+70,"GLOS-14-28 M10 M10 SAFETYEXT.",False
+74," G-6-15 M5/M6 M5 - Valve CS - Rod SS",False
+78,"GFLS-8-18 M8 M8 EXTENDED",False
+83,"GS-6-12 M5 M5",False
+84,"G-8-18 M5 M8 SUB",False
+91,"S/A GE-8-18 M8 M8 SV",False
+95,"G-14-28 M10 M10 SV HT VITON",False
+58,"T-061018 General Parts",False
+89,"#GCE-10-23 M10/M10 PS 1.6CR (Superseded)",False
+72,"DS-10-28 M8/M10 M8 1.6",False
+75,"OLD-GFLS-8-18 M8 M8",False
+93,"DS-10-28 M8/M10 M8 1.6 2WAY",False
+5,"M14 Endfittings",False
+133,"TS-10-20-38 (NOON PRODUCTS) HT",False
+96,"GCE-10-23 M10*20mm/M10 PS 1.6CR (update with all CS then Supersede)",False
+97,"DS-6-15 M5/M6 M5",False
+41,"GS-14-28 M10 M10 PS",False
+132,"T-10-20-38 HT",False
+105,"DE-8-18 M8 M8 ",False
+99,"G-14-28 M8 M10",False
+43,"G-14-28 M10 M10",False
+120,"GS-10-28 M10 M8 BRG HOUS",False
+27,"G-8-23 M8 M8",False
+32,"GVS-10-23 M8/M10 M8 PARTS",False
+125,"GS-8-18 M8 M8 EB",False
+6,"SS BEARING M6-15 General Parts MB SEAL",False
+134,"GS-14-28 M10 M10 PS SV SS TEST POINT",False
+81,"GCS-10-23 M10/M10 PS 1.6CR",False
+101,"M8-18 General Parts FG POLY",False
+52,"M14-28 General Parts MB SEAL",False
+65,"T-10-16-28 M10 M10",False
+45,"GS-14-28 M10 M10 SV",False
+71,"DS-8-23 M10 M10 1.6",False
+110,"G-10-23 M10/M10 M10",False
+111,"M10-23 General parts_29/03/2017 13:20:48",False
+40,"GLOS-14-28 M10 M10 SAFETY",False
+1,"M5 Endfittings",False
+46,"G-14-28 M8 M8",False
+114,"GS-10-28 M10 M10 BRG HOUS",False
+86,"S/A DS8-18 CR2.0",False
+108,"PSEUDO DE",False
+129," D8-23 SEP PIS",False
+113,"GLOS-14-28 M10 M10 SV SAFETY  ",False
+48,"G-14-28 M10 M10 Viton",False
+119,"GLOS-14-28 M10 M10 SAFETY STAY PARTS",False
+106,"DE8-18 General Parts CS HT 1WAY",False
+109,"G-22-38 CINCINNATI",False
+62,"T-10-16-28 M8 M8",False
+36,"G-10-28 M8/M10 M10 ",False
+137,"M14-28 General Parts Poly Seal",False
+118,"GS-14-28 M8 M10 PARTS",False
+54,"G-25-45 CINCINNATI",False
+28,"GS-8-18 M8 M8 SV",False
+49,"GS-22-38 M14 M14",False
+12,"GS-8-18 M8 M8",False
+34,"G-10-23 M8/M10 M8 ",False
+100,"ALKEY2M & SCSOC06M4",False
+33,"GS-10-23 M8 M8 PS",False
+128,"S/A DS8-18 CR2.4 no sep",False
+88,"S/A DS8-18 CR2.4",False
+3,"M8 Endfittings",False
+2,"M6 Endfittings",False
+138,"GV-8-18 M8 M8 SV",False
+127,"PSEUDO DS",False
+126,"DOS 8-18 PARTS POLY NO SEP 1WAY",False
+107," DE8-18 CR2.0HT SEP PIS",False
+66,"T-10-20-38",False
+104,"DE-8-23 M8 M8 1.6",False
+131," PSEUDO CR1.0",False
+130," PSEUDO CR2.0",False
+92,"GS-10-23 VITON General parts",False
+85,"S/A G-10-28 M8/M10 M10 Poly METTLER ONLY",False
+135,"GPS-10-28 M10 M10 BRG HOUS FG POLY SS TEST POINT",False
+56,"PSEUDO TS",False
+136,"M22-38 General Parts poly seal nbr o-ring",False
+123,"GS-14-28 M10 M10 PS SV",False
+122,"GPS-10-28 M10 M10 BRG HOUS FG POLY",False
+4,"M10 Endfittings",False
+39,"G-14-28 M10 M10 PS",False
+115,"GLOS-8-18 M8 M8 SAFETY STAY",True
+7,"M8-18 General Parts",False
+57,"PSEUDO TE",False
+8,"M10-23 General parts",False
+30,"GVS-10-23 M8/M10 M8  Poly",False
+26,"G-8-18 M8 M8",False
+116,"TS-10-20-38 (NOON PRODUCTS)",False
+47,"GS-14-28 M8 M8",False
+44,"G-14-28 M10 M10 SV",False
+61,"T-101628 General Parts",False
+31,"GS-10-23 M8/M10 M8 Poly",False
+16,"GS-10-23 M8/M10 M8 ",False
+24,"G-6-15 M5/M6 M6 - Valve SS",False
+63,"TS-10-16-28 M10 M10",False
+112,"M8-18 General Parts FG",False
+11,"GS-6-15 M5/M6 M5",False
+117,"GS-8-18 M8 M8 8MM LONG THREAD",False
+23,"G-6-15 M5/M6 M6 - Valve CS",False
+50,"G-22-38 M14 M14",False
+121,"GS-10-28 M8 M8 BRG HOUS",False
+14,"GS-6-15 M5/M6 M6 ",False
+55,"PSEUDO GE",False
+42,"GS-14-28 M10 M10",False
+77,"M6-15 2 Way Parts MB SEAL",False
+9,"PSEUDO GS",False
+64,"TS-10-16-28 M8 M8",False
+103,"M14-28 General Parts food grade",False
+124,"T-101628 General Parts - Poly Seal",False
+53,"M22-38 General Parts",False
+76,"M8-18 GFLS Parts",False
+90,"GFLS-8-18 M8 M8 HCP",False
+13,"GS-10-23 M8/M10 M10",False
+144,"GLOS-10-23 M8 M8 SAFETY STAY PARTS",True
+139,"GVS-10-23 M6/M10 M6 PARTS",False
+170,"GLOS-10-23 SAFETY STAY ROCKER M10 PARTS",False
+156,"M8-18 General Parts LT SILICONE",False
+140,"PSEUDO GV",False
+35,"G-10-23 M8/M10 M8 SV",False
+141,"G-10-23 M8/M10 M8 SV HT VITON",False
+157,"GPE-8-23 M8 M10",False
+142,"GS-10-23 VITON M8",False
+143,"M8-18 General Parts varlet",False
+159," 6-15 General Parts VITON SEAL",False
+160,"GLOS-14-28 SAFETY STAY ROCKER PARTS M10",False
+146,"GLOS-8-18 M8 M8 SAFETY STAY ROCKER VERSION",False
+161,"TS-10-16-28 M8 M8 P/SLEEVE",False
+87,"ALU BEARING M6-15 General Parts MB SEAL",False
+149,"M6-15 2 Way Parts POLY SEAL",False
+148,"ALU BEARING M6-15 General Parts POLY SEAL",False
+163,"T-101628 General Parts POLY SEAL",False
+162,"T-10-20-38 POLY SEAL",False
+165,"GS-10-23 M10/M10 M10",False
+150,"GS-14-28 M10 M8.",False
+151,"GLOS-14-28 SAFETY STAY ROCKER M8 PARTS",False
+145,"M8-18 General Parts HT VITON",False
+152,"GS-10-28 M8 M8 poly seal",False
+153,"GS-10-23 M8/M8/10MM",False
+154,"GS-10-23 M8/10MM M8 Poly",False
+164,"M10-23 General parts 8MM PISTON THREAD",False
+166,"GPS-10-23 M10 M10 ",False
+155,"SS BEARING M6-15 General Parts POLY SEAL 2 WAY DAMPING",False
+167," DE8-18 CR2.0HT SEP PIS_15/11/2018 13:38:39",False
+10,"ALKEY2M & SCREWM4SOC4CO",False
+147,"SS BEARING M6-15 General Parts POLY SEAL",False
+168," GFLS6-15 General Parts POLY SEAL",False
+169,"GLOS-10-23 SAFETY STAY ROCKER M8 PARTs",False
