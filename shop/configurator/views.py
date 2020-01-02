@@ -184,7 +184,7 @@ def show_force(model_id):
     }
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def interactions(request):
     if request.method == 'POST':
         steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
