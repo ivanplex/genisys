@@ -24,6 +24,10 @@ ease of development as well as deployment.
 - `settings_prod.py` set and fetch environment variables from `.env`
 - `settings_prod.py` set and fetch environmnet variables from `.env_local`
 
+## Configurator
+
+For documentation on configurator, click [here](genisys/tree/master/shop/configurator).
+
 ## Design Principles
 We have 4 distinct layers of object interactions. Atomic, Abstract, Builds and Orders. These reflect the 4 stages of initializing an e-commerce store. 
 
