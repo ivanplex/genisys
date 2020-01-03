@@ -37,3 +37,14 @@ Both prerequisites specify a range of quantity in which a blueprint can request.
 `BuildSpecification` follows a BuildPrerequisite with specifications complying to the range allowed. Defining the builds needed in the lower levels.
 
 
+## Getting started
+
+Environment variables are located in `.env` which contains the application key and database setting.
+Please update these information to reflect your deployment setup.
+
+Setting files is located in `shop.setting` directory where all variant of setting files resides. This allows
+ease of development as well as deployment.
+
+`settings_prod.py` set and fetch environment variables from `.env`
+`settings_prod.py` set and fetch environmnet variables from `.env_local`
+
