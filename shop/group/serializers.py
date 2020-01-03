@@ -3,7 +3,28 @@ from shop.assembly.models import BlueprintGroup, ProductGroup
 from shop.atomic.models import AtomicGroup
 from shop.atomic.serializers import AtomicComponentSerializer
 from shop.assembly.serializers import ProductSerializer, BlueprintSerializer
+from shop.group.models import Group
+from shop.serializers import (
+    URLsSerializer,
+    OffsetImageURLSerializer
+)
 
+class GroupSerializer(serializers.ModelSerializer):
+
+    thumbnail_image = serializers.CharField(source='thumbnail_image.url', read_only=True)
+    illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+    description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
+
+    class Meta:
+        model = Group
+        fields = (
+            ['id',
+             'name',
+             'thumbnail_image',
+             'illustration_images',
+             'description_images'
+            ]
+        )
 
 class AtomicGroupSerializer(serializers.ModelSerializer):
 

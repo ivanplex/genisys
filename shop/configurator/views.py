@@ -7,75 +7,25 @@ from shop.attribute.models import Attribute
 from shop.assembly.serializers import BlueprintConfiguratorSerializer
 from shop.configurator.models import ConfiguratorStep
 from shop.configurator.serializers import ConfiguratorStepSerializer
+from shop.group.models import Group
+from shop.group.serializers import GroupSerializer
 from django.db.models import Q
 
 
 def show_materials(required=True):
-    return [
-            {
-                "id": 2,
-                "name": "Carbon",
-                "thumbnail_image": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/E+-+Carbon+Steel+Painted-Current+View.png",
-                "illustration_images": [
-                    {
-                        "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-E-15-BodyEnd-h50-l.png",
-                        "offset_x": 0,
-                        "offset_y": 0
-                    },
-                    {
-                        "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-E-15-BodySpan-h50.png",
-                        "offset_x": 0,
-                        "offset_y": 0
-                    },
-                    {
-                        "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-E-15-BodyEnd-h50-r.png",
-                        "offset_x": 0,
-                        "offset_y": 0
-                    }
-                ],
-                "description_images": []
-            },
-            {
-                "id": 4,
-                "name": "Stainless Steel",
-                "thumbnail_image": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/S+-+Stainless+Steel-Current+View.png",
-                "illustration_images": [
-                    {
-                        "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-S-15-BodyEnd-h50-l.png",
-                        "offset_x": 0,
-                        "offset_y": 0
-                    },
-                    {
-                        "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-S-15-BodySpan-h50.png",
-                        "offset_x": 0,
-                        "offset_y": 0
-                    },
-                    {
-                        "url": "https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G-S-15-BodyEnd-h50-r.png",
-                        "offset_x": 0,
-                        "offset_y": 0
-                    }
-                ],
-                "description_images": []
-            }
-        ]
+    material_group = Group.objects.filter(Q(name="Carbon") | Q(name="Stainless Steel"))
+    serializer = GroupSerializer(material_group, many=True)
+    return serializer.data
 
 
-def show_models(material_id, required=True):
-    material_id_mapping = {
-        1: 'Super Duplex',
-        2: 'Carbon',
-        3: 'Titanium',
-        4: 'Stainless Steel'
-    }
+def show_models(group_id, required=True):
 
-    # attr = Attribute.objects.filter(value=material_id_mapping.get(material_id)).first()
-    # gas_spring_models = Blueprint.objects.filter(
-    #     Q(attribute=attr)
-    # )
+    group = Group.objects.get(pk=group_id)
+    print(group.name)
     gas_spring_models = Blueprint.objects.filter(
         blueprint_attribute__key="material",
-        blueprint_attribute__value=material_id_mapping.get(material_id))
+        blueprint_attribute__value=group.name
+    )
     serializer = BlueprintConfiguratorSerializer(gas_spring_models, many=True)
     return serializer.data
 
