@@ -12,13 +12,25 @@ Genisys is a Django based generic hierarchical assembly platform that allows the
 ### How to read this document
 The content below will describe how this platform is designed and constructed. In many cases, a generic example is the best way to describe a problem set. I'll be repeatedly using the IKEA table-set as an example but bear in mind the platform is not designed for this sole purpose. 
 
-### Design Principles
+
+## Getting started
+
+Environment variables are located in `.env` which contains the application key and database setting.
+Please update these information to reflect your deployment setup.
+
+Setting files is located in `shop.setting` directory where all variant of setting files resides. This allows
+ease of development as well as deployment.
+
+- `settings_prod.py` set and fetch environment variables from `.env`
+- `settings_prod.py` set and fetch environmnet variables from `.env_local`
+
+## Design Principles
 We have 4 distinct layers of object interactions. Atomic, Abstract, Builds and Orders. These reflect the 4 stages of initializing an e-commerce store. 
 
-##### Atomic:
+#### Atomic:
 First, we have to define the lowest level of product - `AtomicComponent`, in which assemblies are built upon. These atomic components cannot be customized or altered by definition. One example would be a 5cm silver flat-head Phillips screw. 
 
-##### Abstract layer:
+#### Abstract layer:
 After defining the atomic components, abstract layer helps to define rules for combining components to form builds. 
 
 `Blueprint` defines how different sub-assembly can be put together to form a product. Eg. A table blueprint defines the product "table" is formed of 1x tabletop, 4x legs and 4x screws. The features that a blueprint requires is called prerequisites and there are 2 types of prerequisites. AtomicPrerequisite and BuildPrerequisites.
@@ -29,22 +41,9 @@ After defining the atomic components, abstract layer helps to define rules for c
 
 Both prerequisites specify a range of quantity in which a blueprint can request. In cases like a table set, the BuildPrerequisite for chairs could be between 2 to 4. 
 
-##### Build Layer:
+#### Build Layer:
 `Build` defines a blueprint with a particular specification. Build should comply with the rule according to the blueprint by attaching Atomic/Build Specifications to meet each prerequisite defined in blueprint.
 
 `AtomicSpecification` follows an AtomicPrerequisite with specifications complying to the range allowed.
 
 `BuildSpecification` follows a BuildPrerequisite with specifications complying to the range allowed. Defining the builds needed in the lower levels.
-
-
-## Getting started
-
-Environment variables are located in `.env` which contains the application key and database setting.
-Please update these information to reflect your deployment setup.
-
-Setting files is located in `shop.setting` directory where all variant of setting files resides. This allows
-ease of development as well as deployment.
-
-`settings_prod.py` set and fetch environment variables from `.env`
-`settings_prod.py` set and fetch environmnet variables from `.env_local`
-
