@@ -23,12 +23,26 @@ class Blueprint(TimestampedModel):
     retail_unit_measurement = models.CharField(max_length=255, null=True, blank=True)
     internal_cost = models.FloatField(default=0, null=False)
 
+    component_factor = models.FloatField(default=None, null=True)
+
 
     def isEmpty(self):
         if len(self.atomic_prerequisites.all()) == 0 and len(self.product_prerequisites.all()) == 0:
             return True
         else:
             return False
+
+    def getComponentFactor(self):
+        if self.component_factor is None:
+            # Do CF calculation
+            total = 0
+            for a_preq in atomic_prerequisites:
+                total += a_preq.atomic_component.getComponentFactor()
+            for p_preq in product_prerequisites:
+                total += p_preq.product.blueprint.getComponentFactor()
+            return total
+        else:
+            return self.component_factor
 
 
 class BlueprintAttribute(TimestampedModel):
