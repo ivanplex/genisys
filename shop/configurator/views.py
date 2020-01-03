@@ -186,55 +186,54 @@ def show_force(model_id):
 
 @api_view(['POST'])
 def interactions(request):
-    if request.method == 'POST':
-        steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
-        raw_steps = ConfiguratorStepSerializer(steps, many=True).data
+    steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
+    raw_steps = ConfiguratorStepSerializer(steps, many=True).data
 
-        material = request.data.get('material', None)
-        model = request.data.get('model', None)
-        stroke = request.data.get('stroke', None)
-        extension = request.data.get('extension', None)
-        sleeves = request.data.get('sleeves', None)
-        rod_fitting = request.data.get('rod-fitting', None)
-        body_fitting = request.data.get('body-fitting', None)
-        extended_length = request.data.get('extended_length', None)
-        force = request.data.get('force', None)
+    material = request.data.get('material', None)
+    model = request.data.get('model', None)
+    stroke = request.data.get('stroke', None)
+    extension = request.data.get('extension', None)
+    sleeves = request.data.get('sleeves', None)
+    rod_fitting = request.data.get('rod-fitting', None)
+    body_fitting = request.data.get('body-fitting', None)
+    extended_length = request.data.get('extended_length', None)
+    force = request.data.get('force', None)
 
-        # pre-populate material if material not selected
-        if material is None:
-            raw_steps[0]['selected'] = show_materials()[0].get("id")
-            raw_steps[1]['options'] = show_models(show_materials()[0].get("id"))
+    # pre-populate material if material not selected
+    if material is None:
+        raw_steps[0]['selected'] = show_materials()[0].get("id")
+        raw_steps[1]['options'] = show_models(show_materials()[0].get("id"))
 
-        raw_steps[0]['options'] = show_materials()
-        if material is not None:
-            raw_steps[0]['selected'] = material
-            raw_steps[1]['options'] = show_models(material)
-            if model is not None:
-                raw_steps[1]['selected'] = model
-                raw_steps[2]['range'] = show_stroke_length(model)
-                if stroke is not None:
-                    raw_steps[2]['selected'] = stroke
-                    raw_steps[3]['options'] = show_extension(model)
-                    if extension is not None:
-                        raw_steps[3]['selected'] = extension
-                        raw_steps[4]['options'] = show_sleeves(model)
+    raw_steps[0]['options'] = show_materials()
+    if material is not None:
+        raw_steps[0]['selected'] = material
+        raw_steps[1]['options'] = show_models(material)
+        if model is not None:
+            raw_steps[1]['selected'] = model
+            raw_steps[2]['range'] = show_stroke_length(model)
+            if stroke is not None:
+                raw_steps[2]['selected'] = stroke
+                raw_steps[3]['options'] = show_extension(model)
+                if extension is not None:
+                    raw_steps[3]['selected'] = extension
+                    raw_steps[4]['options'] = show_sleeves(model)
 
-                        if sleeves is not None:
-                            raw_steps[4]['selected'] = sleeves
-                            raw_steps[5]['options'] = show_rod_fitting(model)
+                    if sleeves is not None:
+                        raw_steps[4]['selected'] = sleeves
+                        raw_steps[5]['options'] = show_rod_fitting(model)
 
-                            if rod_fitting is not None:
-                                raw_steps[5]['selected'] = rod_fitting
-                                raw_steps[6]['options'] = show_body_fitting(model)
-                                if body_fitting is not None:
-                                    raw_steps[6]['selected'] = body_fitting
-                                    raw_steps[7]['range'] = show_extended_length(model)
-                                    if extended_length is not None:
-                                        raw_steps[7]['selected'] = extended_length
-                                        raw_steps[8]['range'] = show_force(model)
-                                        raw_steps[8]['selected'] = raw_steps[8]['range']['minimum'] # Set default as minimum
-                                        if force is not None:
-                                            raw_steps[8]['selected'] = force
+                        if rod_fitting is not None:
+                            raw_steps[5]['selected'] = rod_fitting
+                            raw_steps[6]['options'] = show_body_fitting(model)
+                            if body_fitting is not None:
+                                raw_steps[6]['selected'] = body_fitting
+                                raw_steps[7]['range'] = show_extended_length(model)
+                                if extended_length is not None:
+                                    raw_steps[7]['selected'] = extended_length
+                                    raw_steps[8]['range'] = show_force(model)
+                                    raw_steps[8]['selected'] = raw_steps[8]['range']['minimum']  # Set default as minimum
+                                    if force is not None:
+                                        raw_steps[8]['selected'] = force
 
-        return Response(raw_steps)
+    return Response(raw_steps)
 
