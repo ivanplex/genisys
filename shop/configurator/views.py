@@ -232,6 +232,7 @@ def interactions(request):
                                     if extended_length is not None:
                                         raw_steps[7]['selected'] = extended_length
                                         raw_steps[8]['range'] = show_force(model)
+                                        raw_steps[8]['selected'] = raw_steps[8]['range']['minimum'] # Set default as minimum
                                         if force is not None:
                                             raw_steps[8]['selected'] = force
 
