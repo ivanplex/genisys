@@ -19,4 +19,4 @@ python manage.py migrate                  # Apply database migrations
 #    "$@"
 
 # FOR DEVELOPMENT ONLY!
-python manage.py runserver 0.0.0.0:8080
+python manage.py runserver 0.0.0.0:8080 --settings=shop.settings.settings_prod
