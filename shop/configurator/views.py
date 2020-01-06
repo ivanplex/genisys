@@ -134,56 +134,82 @@ def show_force(model_id):
     }
 
 
+def fetchUserResponse(requestData):
+    # Fetch user specification response from POST request data
+    data = {}
+    steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
+    for step in steps:
+        data[step.slug] = requestData.get(step.slug, None)
+    return data
+
+def fetchStepField(slug):
+    # Fetch serialized field JSON
+    field = ConfiguratorStep.objects.filter(disabled=False, slug=slug).first()
+    serialData = ConfiguratorStepSerializer(field).data
+    return serialData
+
+
 @api_view(['POST'])
 def interactions(request):
     steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
-    raw_steps = ConfiguratorStepSerializer(steps, many=True).data
 
-    material = request.data.get('material', None)
-    model = request.data.get('model', None)
-    stroke = request.data.get('stroke', None)
-    extension = request.data.get('extension', None)
-    sleeves = request.data.get('sleeves', None)
-    rod_fitting = request.data.get('rod-fitting', None)
-    body_fitting = request.data.get('body-fitting', None)
-    extended_length = request.data.get('extended_length', None)
-    force = request.data.get('force', None)
+    # As of Python 3.6, dictionary guarantee insertion order
+    json = {}
+    for step in steps:
+        json[step.slug] = fetchStepField(step.slug)
+
+    response = fetchUserResponse(request.data)
+
+    methods = {
+        'material': show_materials,
+        'model': show_models,
+        'stroke': show_stroke_length,
+        'extension': show_extension,
+        'sleeves': show_sleeves,
+        'rod-fitting': show_rod_fitting,
+        'body-fitting': show_body_fitting,
+        'extended_length': show_extended_length,
+        'force': show_force
+    }
+
 
     # pre-populate material if material not selected
-    if material is None:
-        raw_steps[0]['selected'] = show_materials()[0].get("id")
-        raw_steps[1]['options'] = show_models(show_materials()[0].get("id"))
+    if response['material'] is None:
+        json['material']['selected'] = show_materials()[0].get("id")
+        json['model']['options'] = show_models(show_materials()[0].get("id"))
 
-    raw_steps[0]['options'] = show_materials()
-    if material is not None:
-        raw_steps[0]['selected'] = material
-        raw_steps[1]['options'] = show_models(material)
-        if model is not None:
-            raw_steps[1]['selected'] = model
-            raw_steps[2]['range'] = show_stroke_length(model)
-            if stroke is not None:
-                raw_steps[2]['selected'] = stroke
-                raw_steps[3]['options'] = show_extension(model)
-                if extension is not None:
-                    raw_steps[3]['selected'] = extension
-                    raw_steps[4]['options'] = show_sleeves(model)
+    # raw_steps[0]['options'] = show_materials()
+    # if response.material is not None:
+    #     raw_steps[0]['selected'] = response.material
+    #     raw_steps[1]['options'] = show_models(response.material)
+    #     if response.model is not None:
+    #         raw_steps[1]['selected'] = response.model
+    #         raw_steps[2]['range'] = show_stroke_length(response.model)
+    #         if response.stroke is not None:
+    #             raw_steps[2]['selected'] = response.stroke
+    #             raw_steps[3]['options'] = show_extension(response.model)
+    #             if response.extension is not None:
+    #                 raw_steps[3]['selected'] = response.extension
+    #                 raw_steps[4]['options'] = show_sleeves(response.model)
+    #
+    #                 if response.sleeves is not None:
+    #                     raw_steps[4]['selected'] = response.sleeves
+    #                     raw_steps[5]['options'] = show_rod_fitting(response.model)
+    #
+    #                     if response.rod_fitting is not None:
+    #                         raw_steps[5]['selected'] = response.rod_fitting
+    #                         raw_steps[6]['options'] = show_body_fitting(response.model)
+    #                         if response.body_fitting is not None:
+    #                             raw_steps[6]['selected'] = response.body_fitting
+    #                             raw_steps[7]['range'] = show_extended_length(response.model)
+    #                             if response.extended_length is not None:
+    #                                 raw_steps[7]['selected'] = response.extended_length
+    #                                 raw_steps[8]['range'] = show_force(response.model)
+    #                                 raw_steps[8]['selected'] = raw_steps[8]['range']['minimum']  # Set default as minimum
+    #                                 if response.force is not None:
+    #                                     raw_steps[8]['selected'] = response.force
 
-                    if sleeves is not None:
-                        raw_steps[4]['selected'] = sleeves
-                        raw_steps[5]['options'] = show_rod_fitting(model)
+    
 
-                        if rod_fitting is not None:
-                            raw_steps[5]['selected'] = rod_fitting
-                            raw_steps[6]['options'] = show_body_fitting(model)
-                            if body_fitting is not None:
-                                raw_steps[6]['selected'] = body_fitting
-                                raw_steps[7]['range'] = show_extended_length(model)
-                                if extended_length is not None:
-                                    raw_steps[7]['selected'] = extended_length
-                                    raw_steps[8]['range'] = show_force(model)
-                                    raw_steps[8]['selected'] = raw_steps[8]['range']['minimum']  # Set default as minimum
-                                    if force is not None:
-                                        raw_steps[8]['selected'] = force
-
-    return Response(raw_steps)
+    return Response(json)
 
