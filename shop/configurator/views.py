@@ -186,35 +186,6 @@ def interactions(request):
         json['model']['options'] = show_models(show_materials()[0].get("id"))
 
     json['material']['options'] = show_materials(response)
-    # if response.material is not None:
-    #     raw_steps[0]['selected'] = response.material
-    #     raw_steps[1]['options'] = show_models(response.material)
-    #     if response.model is not None:
-    #         raw_steps[1]['selected'] = response.model
-    #         raw_steps[2]['range'] = show_stroke_length(response.model)
-    #         if response.stroke is not None:
-    #             raw_steps[2]['selected'] = response.stroke
-    #             raw_steps[3]['options'] = show_extension(response.model)
-    #             if response.extension is not None:
-    #                 raw_steps[3]['selected'] = response.extension
-    #                 raw_steps[4]['options'] = show_sleeves(response.model)
-    #
-    #                 if response.sleeves is not None:
-    #                     raw_steps[4]['selected'] = response.sleeves
-    #                     raw_steps[5]['options'] = show_rod_fitting(response.model)
-    #
-    #                     if response.rod_fitting is not None:
-    #                         raw_steps[5]['selected'] = response.rod_fitting
-    #                         raw_steps[6]['options'] = show_body_fitting(response.model)
-    #                         if response.body_fitting is not None:
-    #                             raw_steps[6]['selected'] = response.body_fitting
-    #                             raw_steps[7]['range'] = show_extended_length(response.model)
-    #                             if response.extended_length is not None:
-    #                                 raw_steps[7]['selected'] = response.extended_length
-    #                                 raw_steps[8]['range'] = show_force(response.model)
-    #                                 raw_steps[8]['selected'] = raw_steps[8]['range']['minimum']  # Set default as minimum
-    #                                 if response.force is not None:
-    #                                     raw_steps[8]['selected'] = response.force
 
     for slug, data in json.items():
         if response[slug] is not None:
