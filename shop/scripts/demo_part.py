@@ -25,6 +25,7 @@ def createEndfitting():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/AA1600-thumb.png")
     AA1600.description_images.add(demo)
+    AA1600.component_factor = 16
     AA1600.save()
 
     # G2000
@@ -46,6 +47,7 @@ def createEndfitting():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/G%232000-thumb.png")
     G2000.description_images.add(demo)
+    G2000.component_factor = 32
     G2000.save()
 
     # M5
@@ -88,6 +90,7 @@ def createEndfitting():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/W-3000 - thumb.png")
     WS3000.description_images.add(demo)
+    WS3000.component_factor = 30
     WS3000.save()
 
     M5_Endfitting_group, created = AtomicGroup.objects.get_or_create(name="M5-Endfitting")
@@ -121,6 +124,7 @@ def createExtender():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/M5-13-EXT-thumb.png")
     M5_13_EXT.description_images.add(demo)
+    M5_13_EXT.component_factor = 13
     M5_13_EXT.save()
 
     # M5_15_EXT
@@ -142,6 +146,7 @@ def createExtender():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/M5-15-EXT-thumb.png")
     M5_15_EXT.description_images.add(demo)
+    M5_15_EXT.component_factor = 15
     M5_15_EXT.save()
 
     # M8_20_EXT
@@ -163,6 +168,7 @@ def createExtender():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/M8-20-EXT-thumb.png")
     M8_20_EXT.description_images.add(demo)
+    M8_20_EXT.component_factor = 20
     M8_20_EXT.save()
 
     M5_EXT_GROUP, created = AtomicGroup.objects.get_or_create(name="M5-EXT-GROUP")
@@ -209,6 +215,7 @@ def createSleeves():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/LO-thumb.png")
     LO_23.description_images.add(demo)
+    LO_23.component_factor = 15
     LO_23.save()
 
     # PS-23
@@ -244,6 +251,7 @@ def createSleeves():
     demo, created = URL.objects.get_or_create(
         url="https://genisys-static-dev.s3.eu-west-2.amazonaws.com/configurator/LO-thumb.png")
     PS_23.description_images.add(demo)
+    PS_23.component_factor = 15
     PS_23.save()
 
     sleeves, created = AtomicGroup.objects.get_or_create(name="sleeves")
