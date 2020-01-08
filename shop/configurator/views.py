@@ -21,7 +21,6 @@ def show_materials(response):
 def show_models(response):
 
     group = Group.objects.get(pk=response["material"])
-    print(group.name)
     gas_spring_models = Blueprint.objects.filter(
         blueprint_attribute__key="material",
         blueprint_attribute__value=group.name
@@ -221,7 +220,10 @@ def interactions(request):
         if response[slug] is not None:
             json[slug]['selected'] = response[slug]
             if nextSlug(slug) is not None:
-                json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
+                if json[nextSlug(slug)]['type'] == "numerical_range":
+                    json[nextSlug(slug)]['range'] = methods[nextSlug(slug)](response)
+                else:
+                    json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
 
     serialResponse = []
     for slug, data in json.items():
