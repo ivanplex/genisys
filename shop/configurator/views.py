@@ -148,6 +148,14 @@ def fetchStepField(slug):
     serialData = ConfiguratorStepSerializer(field).data
     return serialData
 
+def nextSlug(currentSlug):
+    l = ['material', 'model', 'stroke', 'extension', 'sleeves', 'rod-fitting', 'body-fitting', 'extended_length', 'force']
+    idx = l.index(currentSlug)
+    if (idx + 1) >= len(l):
+        return None
+    else:
+        return l[idx+1]
+
 
 @api_view(['POST'])
 def interactions(request):
@@ -178,7 +186,7 @@ def interactions(request):
         json['material']['selected'] = show_materials()[0].get("id")
         json['model']['options'] = show_models(show_materials()[0].get("id"))
 
-    # raw_steps[0]['options'] = show_materials()
+    json['material']['options'] = show_materials()
     # if response.material is not None:
     #     raw_steps[0]['selected'] = response.material
     #     raw_steps[1]['options'] = show_models(response.material)
@@ -209,7 +217,15 @@ def interactions(request):
     #                                 if response.force is not None:
     #                                     raw_steps[8]['selected'] = response.force
 
-    
+
+    for slug, data in json.items():
+        if response[slug] is not None:
+            json[slug]['selected'] = response[slug]
+            if nextSlug(slug) is not None:
+                json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](3)
+                
+
+
 
     return Response(json)
 
