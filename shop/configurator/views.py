@@ -12,15 +12,15 @@ from shop.group.serializers import GroupSerializer
 from django.db.models import Q
 
 
-def show_materials(required=True):
+def show_materials(response):
     material_group = Group.objects.filter(Q(name="Carbon") | Q(name="Stainless Steel"))
     serializer = GroupSerializer(material_group, many=True)
     return serializer.data
 
 
-def show_models(group_id, required=True):
+def show_models(response):
 
-    group = Group.objects.get(pk=group_id)
+    group = Group.objects.get(pk=response["material"])
     print(group.name)
     gas_spring_models = Blueprint.objects.filter(
         blueprint_attribute__key="material",
@@ -30,16 +30,16 @@ def show_models(group_id, required=True):
     return serializer.data
 
 
-def show_stroke_length(model_id, required=True):
-    blueprint = Blueprint.objects.filter(id=model_id).first()
+def show_stroke_length(response):
+    blueprint = Blueprint.objects.filter(id=response["model"]).first()
     stroke = blueprint.atomic_prerequisites.filter(name="stroke").first()
     return {
         'minimum': stroke.min_quantity,
         'maximum': stroke.max_quantity
     }
 
-def show_extension(model_id):
-    blueprint = Blueprint.objects.get(id=model_id)
+def show_extension(response):
+    blueprint = Blueprint.objects.get(id=response["model"])
     prereq = blueprint.atomic_prerequisites.filter(name="extender").first()
     extensions = AtomicComponent.objects.filter(requires=prereq)
     serializer = AtomicComponentConfiguratorSerializer(extensions, many=True)
@@ -57,8 +57,8 @@ def show_extension(model_id):
     return empty + serializer.data
 
 
-def show_sleeves(model_id):
-    blueprint = Blueprint.objects.get(id=model_id)
+def show_sleeves(response):
+    blueprint = Blueprint.objects.get(id=response["model"])
     prereq = blueprint.atomic_prerequisites.filter(name="sleeve").first()
     group = prereq.atomic_group
     sleeves = AtomicComponent.objects.filter(members=group)
@@ -77,8 +77,8 @@ def show_sleeves(model_id):
     return empty + serializer.data
 
 
-def show_rod_fitting(model_id):
-    blueprint = Blueprint.objects.get(id=model_id)
+def show_rod_fitting(response):
+    blueprint = Blueprint.objects.get(id=response["model"])
     prereq = blueprint.atomic_prerequisites.filter(name="rod fitting").first()
     group = prereq.atomic_group
     fittings = AtomicComponent.objects.filter(members=group)
@@ -97,8 +97,8 @@ def show_rod_fitting(model_id):
     return empty + serializer.data
 
 
-def show_body_fitting(model_id):
-    blueprint = Blueprint.objects.get(id=model_id)
+def show_body_fitting(response):
+    blueprint = Blueprint.objects.get(id=response["model"])
     prereq = blueprint.atomic_prerequisites.filter(name="body fitting").first()
     group = prereq.atomic_group
     fittings = AtomicComponent.objects.filter(members=group)
@@ -117,16 +117,16 @@ def show_body_fitting(model_id):
     return empty + serializer.data
 
 
-def show_extended_length(model_id):
-    blueprint = Blueprint.objects.filter(id=model_id).first()
+def show_extended_length(response):
+    blueprint = Blueprint.objects.filter(id=response["model"]).first()
     length = blueprint.atomic_prerequisites.filter(name="extended length").first()
     return {
         'minimum': length.min_quantity,
         'maximum': length.max_quantity
     }
 
-def show_force(model_id):
-    blueprint = Blueprint.objects.filter(id=model_id).first()
+def show_force(response):
+    blueprint = Blueprint.objects.filter(id=response["model"]).first()
     force = blueprint.atomic_prerequisites.filter(name="force").first()
     return {
         'minimum': force.min_quantity,
@@ -186,7 +186,7 @@ def interactions(request):
         json['material']['selected'] = show_materials()[0].get("id")
         json['model']['options'] = show_models(show_materials()[0].get("id"))
 
-    json['material']['options'] = show_materials()
+    json['material']['options'] = show_materials(response)
     # if response.material is not None:
     #     raw_steps[0]['selected'] = response.material
     #     raw_steps[1]['options'] = show_models(response.material)
@@ -217,15 +217,18 @@ def interactions(request):
     #                                 if response.force is not None:
     #                                     raw_steps[8]['selected'] = response.force
 
-
     for slug, data in json.items():
         if response[slug] is not None:
             json[slug]['selected'] = response[slug]
             if nextSlug(slug) is not None:
-                json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](3)
+                json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
+
+    serialResponse = []
+    for slug, data in json.items():
+        serialResponse.append(data)
                 
 
 
 
-    return Response(json)
+    return Response(serialResponse)
 
