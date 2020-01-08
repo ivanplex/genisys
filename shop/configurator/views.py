@@ -225,6 +225,10 @@ def interactions(request):
                 else:
                     json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
 
+    # Preselect force
+    if response['force'] is None:
+        json['force']['selected'] = json['force']['range']['minimum']
+
     serialResponse = []
     for slug, data in json.items():
         serialResponse.append(data)
