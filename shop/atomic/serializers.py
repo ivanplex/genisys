@@ -71,7 +71,8 @@ class AtomicComponentConfiguratorSerializer(serializers.ModelSerializer):
              'retail_price',
              'retail_price_per_unit',
              'retail_unit_measurement',
-             'component_factor'
+             'component_factor',
+             'availability'
              ]
         )
 
