@@ -178,8 +178,7 @@ def interactions(request):
         'extended_length': show_extended_length,
         'force': show_force
     }
-
-
+    
     # pre-populate material if material not selected
     if response['material'] is None:
         json['material']['selected'] = show_materials()[0].get("id")
@@ -204,8 +203,5 @@ def interactions(request):
     for slug, data in json.items():
         serialResponse.append(data)
                 
-
-
-
     return Response(serialResponse)
 

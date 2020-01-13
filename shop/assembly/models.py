@@ -24,6 +24,7 @@ class Blueprint(TimestampedModel):
     internal_cost = models.FloatField(default=0, null=False)
 
     component_factor = models.FloatField(default=None, null=True)
+    build_time = models.PositiveIntegerField(default=0, null=False)
 
 
     def isEmpty(self):
@@ -36,9 +37,9 @@ class Blueprint(TimestampedModel):
         if self.component_factor is None:
             # Do CF calculation
             total = 0
-            for a_preq in atomic_prerequisites:
+            for a_preq in self.atomic_prerequisites:
                 total += a_preq.atomic_component.getComponentFactor()
-            for p_preq in product_prerequisites:
+            for p_preq in self.product_prerequisites:
                 total += p_preq.product.blueprint.getComponentFactor()
             return total
         else:
