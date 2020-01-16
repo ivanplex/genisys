@@ -193,7 +193,7 @@ def interactions(request):
             # Populate selected response
             json[slug]['selected'] = response[slug]
             # Populate options on the current step
-            json[slug]['options'] = methods[nextSlug(slug)](response)
+            json[slug]['options'] = methods[slug](response)
 
             # If there is a next step, populate options
             if nextSlug(slug) is not None:
