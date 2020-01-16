@@ -192,24 +192,27 @@ def interactions(request):
         if response[slug] is not None:
             # Populate selected response
             json[slug]['selected'] = response[slug]
+
             # Populate options on the current step
-            json[slug]['options'] = methods[slug](response)
+            # If user option is of numerical type
+            if json[slug]['type'] == "numerical_range":
+                json[slug]['range'] = methods[slug](response)
+            else:
+                json[slug]['options'] = methods[slug](response)
 
             # If there is a next step, populate options
             if nextSlug(slug) is not None:
                 # If user option is of numerical type
                 if json[nextSlug(slug)]['type'] == "numerical_range":
                     json[nextSlug(slug)]['range'] = methods[nextSlug(slug)](response)
+                    # Pre-select minimum
+                    json[nextSlug(slug)]['selected'] = methods[nextSlug(slug)](response)['minimum']
                 else:
                     json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
 
     # # Preselect model
     # if response['material'] is None and response['model'] is None:
         
-
-    # Preselect force
-    if response['force'] is None and response['extended_length'] is not None:
-        json['force']['selected'] = json['force']['range']['minimum']
 
     serialResponse = []
     for slug, data in json.items():
