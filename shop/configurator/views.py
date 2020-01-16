@@ -148,6 +148,9 @@ def fetchStepField(slug):
     return serialData
 
 def nextSlug(currentSlug):
+    # slug for the next step
+    # return slug if there is a next step
+    # return None if at the end of steps
     l = ['material', 'model', 'stroke', 'extension', 'sleeves', 'rod-fitting', 'body-fitting', 'extended_length', 'force']
     idx = l.index(currentSlug)
     if (idx + 1) >= len(l):
@@ -185,13 +188,24 @@ def interactions(request):
         json['material']['options'] = show_materials()
 
     for slug, data in json.items():
+        # If step already been selected
         if response[slug] is not None:
+            # Populate selected response
             json[slug]['selected'] = response[slug]
+            # Populate options on the current step
+            json[slug]['options'] = methods[nextSlug(slug)](response)
+
+            # If there is a next step, populate options
             if nextSlug(slug) is not None:
+                # If user option is of numerical type
                 if json[nextSlug(slug)]['type'] == "numerical_range":
                     json[nextSlug(slug)]['range'] = methods[nextSlug(slug)](response)
                 else:
                     json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
+
+    # # Preselect model
+    # if response['material'] is None and response['model'] is None:
+        
 
     # Preselect force
     if response['force'] is None and response['extended_length'] is not None:
