@@ -161,7 +161,7 @@ def nextSlug(currentSlug):
 
 @api_view(['POST'])
 def interactions(request):
-    steps = ConfiguratorStep.objects.filter(disabled=False).order_by('id')
+    steps = ConfiguratorStep.objects.filter(disabled=False).order_by('order')
 
     # As of Python 3.6, dictionary guarantee insertion order
     json = {}
