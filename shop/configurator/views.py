@@ -12,7 +12,7 @@ from shop.group.serializers import GroupSerializer
 from django.db.models import Q
 
 
-def show_materials(response):
+def show_materials(response=None):
     material_group = Group.objects.filter(Q(name="Carbon") | Q(name="Stainless Steel"))
     serializer = GroupSerializer(material_group, many=True)
     return serializer.data
@@ -182,9 +182,7 @@ def interactions(request):
     # pre-populate material if material not selected
     if response['material'] is None:
         json['material']['selected'] = show_materials()[0].get("id")
-        json['model']['options'] = show_models(show_materials()[0].get("id"))
-
-    json['material']['options'] = show_materials(response)
+        json['material']['options'] = show_materials()
 
     for slug, data in json.items():
         if response[slug] is not None:
@@ -196,7 +194,7 @@ def interactions(request):
                     json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
 
     # Preselect force
-    if response['force'] is None:
+    if response['force'] is None and response['extended_length'] is not None:
         json['force']['selected'] = json['force']['range']['minimum']
 
     serialResponse = []
