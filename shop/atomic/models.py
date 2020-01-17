@@ -29,6 +29,10 @@ class AtomicComponent(TimestampedModel):
     internal_cost = models.FloatField(default=0, null=False)
 
     component_factor = models.FloatField(default=0, null=False, blank=False)
+    
+    # For endfittings which length is only measured up to the middle of the attachment hole
+    # measured in millimeter
+    length_on_rular_offset = models.FloatField(default=0, null=False, blank=False)
 
     def save(self, *args, **kwargs):
         if self.stock_code is "":
