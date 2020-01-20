@@ -15,7 +15,6 @@ namespaces_to_include = [
     "assembly",
     "group",
     "eCommerce",
-    "configurator",
 ]
 
 namespaced_urls = [
@@ -27,7 +26,8 @@ schema_view = get_swagger_view(title='Genisys API')
 urlpatterns = [
     url(r'^api/v1/', include([
         url(r'^docs/', schema_view),
-        url(r'', include(namespaced_urls))
+        url(r'', include(namespaced_urls)),
+        url(r'^configurator/', include('gas_spring_configurator.urls')),
     ],
     ))
 ]

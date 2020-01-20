@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from shop.configurator import views
+from . import views
 
 urlpatterns = [
     url(r'', views.interactions),

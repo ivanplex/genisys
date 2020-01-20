@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.configurator.models import ConfiguratorStep
+from .models import ConfiguratorStep
 from shop.assembly.models import (
     Blueprint
 )

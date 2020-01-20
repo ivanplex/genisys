@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'shop.relations',
     'shop.group',
     'shop.eCommerce',
-    'shop.configurator',
+    'gas_spring_configurator',
 ]
 
 MIDDLEWARE = [
