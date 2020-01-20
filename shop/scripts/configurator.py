@@ -1,4 +1,4 @@
-from shop.configurator.models import ConfiguratorStep
+from gas_spring_configurator.models import ConfiguratorStep
 
 
 def run():
