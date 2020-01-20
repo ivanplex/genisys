@@ -210,8 +210,11 @@ def interactions(request):
                 else:
                     json[nextSlug(slug)]['options'] = methods[nextSlug(slug)](response)
 
-    # # Preselect model
-    # if response['material'] is None and response['model'] is None:
+    # Preselect model
+    if response['material'] is None and response['model'] is None:
+        # Fake response for first material
+        defaultMaterial = {'material': show_materials()[0].get("id")}
+        json['model']['options'] = show_models(defaultMaterial)
         
 
     serialResponse = []
