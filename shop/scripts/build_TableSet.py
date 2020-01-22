@@ -16,7 +16,7 @@ def submit(url, payload):
 
 def run():
     tableTop = {
-        'stock_code': 'TBT',
+        'sku': 'TBT',
         'description': 'IKEA TABLE TOP',
         'warehouse_location': '2000',
         'weight': 100,
@@ -24,7 +24,7 @@ def run():
         'availability': 80,
     }
     tableLeg = {
-        'stock_code': 'TBL',
+        'sku': 'TBL',
         'description': 'IKEA TABLE LEG',
         'warehouse_location': '2001',
         'weight': 40,
@@ -32,7 +32,7 @@ def run():
         'availability': 200,
     }
     screws = {
-        'stock_code': 'SRW',
+        'sku': 'SRW',
         'description': 'screws',
         'warehouse_location': '80000',
         'weight': 1,
@@ -40,7 +40,7 @@ def run():
         'availability': 100000,
     }
     chairPlate = {
-        'stock_code': 'CPT',
+        'sku': 'CPT',
         'description': 'IKEA Chair Back plate',
         'warehouse_location': '7000',
         'weight': 120,
@@ -48,7 +48,7 @@ def run():
         'availability': 20,
     }
     chairleg = {
-        'stock_code': 'CLG',
+        'sku': 'CLG',
         'description': 'IKEA Chair Leg',
         'warehouse_location': '7001',
         'weight': 30,
@@ -56,7 +56,7 @@ def run():
         'availability': 55,
     }
     manual = {
-        'stock_code': 'MNU',
+        'sku': 'MNU',
         'description': 'IKEA assembly manual',
         'warehouse_location': '1',
         'weight': 15,
@@ -85,17 +85,17 @@ def run():
         'name': 'Table',
         'atomic_prerequisites': [
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='TBT').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='TBT').first().id,
                 'min_quantity': 1,
                 'max_quantity': 1
             },
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='TBL').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='TBL').first().id,
                 'min_quantity': 4,
                 'max_quantity': 4
             },
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='SRW').first().id,
                 'min_quantity': 8,
                 'max_quantity': 8
             }
@@ -106,17 +106,17 @@ def run():
         'name': 'Chair',
         'atomic_prerequisites': [
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='CPT').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='CPT').first().id,
                 'min_quantity': 1,
                 'max_quantity': 1
             },
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='CLG').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='CLG').first().id,
                 'min_quantity': 4,
                 'max_quantity': 4
             },
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='SRW').first().id,
                 'min_quantity': 4,
                 'max_quantity': 4
             }
@@ -140,15 +140,15 @@ def run():
         'blueprint': Blueprint.objects.filter(name='Table').first().id,
         'atomic_specifications': [
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBT').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='TBT').first().id,
                 'quantity': 1
             },
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBL').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='TBL').first().id,
                 'quantity': 4
             },
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='SRW').first().id,
                 'quantity': 8
             }
         ],
@@ -161,15 +161,15 @@ def run():
         'blueprint': Blueprint.objects.filter(name='Chair').first().id,
         'atomic_specifications': [
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CPT').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='CPT').first().id,
                 'quantity': 1
             },
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CLG').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='CLG').first().id,
                 'quantity': 4
             },
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='SRW').first().id,
                 'quantity': 4
             }
         ],
@@ -187,7 +187,7 @@ def run():
         'name': 'Table Set',
         'atomic_prerequisites': [
             {
-                'atomic_component': AtomicComponent.objects.filter(stock_code='MNU').first().id,
+                'atomic_component': AtomicComponent.objects.filter(sku='MNU').first().id,
                 'min_quantity': 1,
                 'max_quantity': 1
             }
@@ -218,7 +218,7 @@ def run():
         'blueprint': Blueprint.objects.filter(name='Table Set').first().id,
         'atomic_specifications': [
             {
-                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__stock_code='MNU').first().id,
+                'atomic_prereq': AtomicPrerequisite.objects.filter(atomic_component__sku='MNU').first().id,
                 'quantity': 4
             }
         ],

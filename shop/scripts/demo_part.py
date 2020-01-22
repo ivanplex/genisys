@@ -8,7 +8,7 @@ def createEndfitting():
 
     # AA1600
     AA1600, created = AtomicComponent.objects.get_or_create(
-        stock_code="AA1600",
+        sku="AA1600",
         category="endfitting",
         description="AA1600"
     )
@@ -30,7 +30,7 @@ def createEndfitting():
 
     # G2000
     G2000, created = AtomicComponent.objects.get_or_create(
-        stock_code="G2000",
+        sku="G2000",
         category="endfitting",
         description="G2000"
     )
@@ -52,7 +52,7 @@ def createEndfitting():
 
     # M5
     M5, created = AtomicComponent.objects.get_or_create(
-        stock_code="M5",
+        sku="M5",
         category="endfitting",
         description="M5"
     )
@@ -73,7 +73,7 @@ def createEndfitting():
 
     # WS3000
     WS3000, created = AtomicComponent.objects.get_or_create(
-        stock_code="WS3000",
+        sku="WS3000",
         category="endfitting",
         description="WS3000"
     )
@@ -106,7 +106,7 @@ def createExtender():
 
     # M5_13_EXT
     M5_13_EXT, created = AtomicComponent.objects.get_or_create(
-        stock_code="M5-13-EXT",
+        sku="M5-13-EXT",
         category="extender",
         description="M5-13-EXT",
         # component_factor = 23.25
@@ -129,7 +129,7 @@ def createExtender():
 
     # M5_15_EXT
     M5_15_EXT, created = AtomicComponent.objects.get_or_create(
-        stock_code="M5-15-EXT",
+        sku="M5-15-EXT",
         category="extender",
         description="M5-15-EXT"
     )
@@ -151,7 +151,7 @@ def createExtender():
 
     # M8_20_EXT
     M8_20_EXT, created = AtomicComponent.objects.get_or_create(
-        stock_code="M8-20-EXT",
+        sku="M8-20-EXT",
         category="extender",
         description="M8-20-EXT"
     )
@@ -184,7 +184,7 @@ def createSleeves():
 
     # LO-23
     LO_23, created = AtomicComponent.objects.get_or_create(
-        stock_code="LO-23",
+        sku="LO-23",
         category="open-sleeve",
         description="LO-23 Open Sleeve"
     )
@@ -220,7 +220,7 @@ def createSleeves():
 
     # PS-23
     PS_23, created = AtomicComponent.objects.get_or_create(
-        stock_code="PS-23",
+        sku="PS-23",
         category="protection-sleeve",
         description="PS-23 Protection Sleeve"
     )

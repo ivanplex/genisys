@@ -13,7 +13,7 @@ class AtomicComponentTests(APITestCase):
         self.URL_VERSION = '/api/v1'
 
         self.valid_payload = {
-            'stock_code': 'p_bolt',
+            'sku': 'p_bolt',
             'description': 'General purpose Philip bolt',
             'warehouse_location': '2000',
             'weight': 3,
@@ -37,7 +37,7 @@ class AtomicComponentTests(APITestCase):
         response = self.client.post(url, data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(AtomicComponent.objects.count(), 1)
-        self.assertEqual(AtomicComponent.objects.get().stock_code, 'p_bolt')
+        self.assertEqual(AtomicComponent.objects.get().sku, 'p_bolt')
 
     def test_invalid_create(self):
         """
@@ -50,7 +50,7 @@ class AtomicComponentTests(APITestCase):
 
     def test_view(self):
         atom = AtomicComponent.objects.create(
-            stock_code="p_bolt",
+            sku="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -64,7 +64,7 @@ class AtomicComponentTests(APITestCase):
 
     def test_delete(self):
         atom = AtomicComponent.objects.create(
-            stock_code="p_bolt",
+            sku="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -78,7 +78,7 @@ class AtomicComponentTests(APITestCase):
 
     def test_update(self):
         atom = AtomicComponent.objects.create(
-            stock_code="p_bolt",
+            sku="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",

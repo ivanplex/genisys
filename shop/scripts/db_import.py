@@ -10,7 +10,7 @@ from shop.models import URL, OffsetImageURL
 def run():
 
     csv_headers = [
-        'Id', 'code', 'Category', 'Location', 'Stock_code', 'Costs', 'RingRoll', 'RingRollDiameter',
+        'Id', 'code', 'Category', 'Location', 'sku', 'Costs', 'RingRoll', 'RingRollDiameter',
         'Material', 'Weight', 'OuterDiameter', 'InnerDiameter', 'InnerCompFactor', 'OuterCompFactor', 'Viscosity',
         'WallThickness', 'OrificeSize', 'ErpID', 'UnityMeasureType'
     ]
@@ -33,7 +33,7 @@ def run():
         bar.update(bar_count)
 
         atom = AtomicComponent.objects.get_or_create(
-            stock_code=parameters['Stock_code'],
+            sku=parameters['sku'],
             category=parameters['Category'],
             description=parameters['code'],
             warehouse_location=parameters['Location']
@@ -72,8 +72,8 @@ def run():
     for id in endfitting_ids:
         bar_count = bar_count + 1
         bar.update(bar_count)
-        stock_code = df.loc[df['Id'] == id, 'Stock_code']
-        if len(stock_code.values) > 0:
-            group.members.add(AtomicComponent.objects.filter(stock_code=stock_code.values[0]).first())
+        sku = df.loc[df['Id'] == id, 'sku']
+        if len(sku.values) > 0:
+            group.members.add(AtomicComponent.objects.filter(sku=sku.values[0]).first())
     group.save()
     bar.finish()

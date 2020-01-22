@@ -14,17 +14,17 @@ def run():
                                                                          offset_x=3, offset_y=2)[0])
     print("     - import prerequisite for GS-8-18 M6 M6 Parts")
     GS_AP_1 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="ROD08SSHCP/M6-8mm").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="ROD08SSHCP/M6-8mm").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     GS_AP_2 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="TUB08SS").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="TUB08SS").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     GS_AP_3 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="M8VBLKS6").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="M8VBLKS6").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
@@ -37,17 +37,17 @@ def run():
     GS_product = Product.objects.get_or_create(name="GS-8-18 M6 M6 Parts", blueprint=blueprint)[0]
     print("     - add product specifications for GS-8-18 M6 M6 Parts")
     GS_AS_1 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="ROD08SSHCP/M6-8mm").first(),
+        selected_component=AtomicComponent.objects.filter(sku="ROD08SSHCP/M6-8mm").first(),
         prerequisite=GS_AP_1,
         quantity=1
     )[0]
     GS_AS_2 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="TUB08SS").first(),
+        selected_component=AtomicComponent.objects.filter(sku="TUB08SS").first(),
         prerequisite=GS_AP_2,
         quantity=1
     )[0]
     GS_AS_3 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="M8VBLKS6").first(),
+        selected_component=AtomicComponent.objects.filter(sku="M8VBLKS6").first(),
         prerequisite=GS_AP_3,
         quantity=1
     )[0]
@@ -67,52 +67,52 @@ def run():
                                                                          offset_x=3, offset_y=2)[0])
     print("     - import prerequisite for M8-18 General Parts")
     M8_AP_1 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="BRGIGUS0810").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="BRGIGUS0810").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_2 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="OR08N1315").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="OR08N1315").first(),
         min_quantity=2,
         max_quantity=2
     )[0]
     M8_AP_3 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="OR107127N90").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="OR107127N90").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_4 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="OUT8IGUS").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="OUT8IGUS").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_5 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="PIS8A").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="PIS8A").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_6 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="PLUN06SS").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="PLUN06SS").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_7 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="PSEUDONYM RF 1mm").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="PSEUDONYM RF 1mm").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_8 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="SEAL8163N").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="SEAL8163N").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_9 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="IN08S").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="IN08S").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
     M8_AP_10 = AtomicPrerequisite.objects.get_or_create(
-        atomic_component=AtomicComponent.objects.filter(stock_code="PLUG06A").first(),
+        atomic_component=AtomicComponent.objects.filter(sku="PLUG06A").first(),
         min_quantity=1,
         max_quantity=1
     )[0]
@@ -132,52 +132,52 @@ def run():
     M8_product = Product.objects.get_or_create(name="M8-18 General Parts", blueprint=blueprint)[0]
     print("     - add specifications for M8-18 General Parts")
     M8_AS_1 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="BRGIGUS0810").first(),
+        selected_component=AtomicComponent.objects.filter(sku="BRGIGUS0810").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_2 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="OR08N1315").first(),
+        selected_component=AtomicComponent.objects.filter(sku="OR08N1315").first(),
         prerequisite=M8_AP_1,
         quantity=2
     )[0]
     M8_AS_3 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="OR107127N90").first(),
+        selected_component=AtomicComponent.objects.filter(sku="OR107127N90").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_4 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="OUT8IGUS").first(),
+        selected_component=AtomicComponent.objects.filter(sku="OUT8IGUS").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_5 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="PIS8A").first(),
+        selected_component=AtomicComponent.objects.filter(sku="PIS8A").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_6 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="PLUN06SS").first(),
+        selected_component=AtomicComponent.objects.filter(sku="PLUN06SS").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_7 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="PSEUDONYM RF 1mm").first(),
+        selected_component=AtomicComponent.objects.filter(sku="PSEUDONYM RF 1mm").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_8 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="SEAL8163N").first(),
+        selected_component=AtomicComponent.objects.filter(sku="SEAL8163N").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_9 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="IN08S").first(),
+        selected_component=AtomicComponent.objects.filter(sku="IN08S").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]
     M8_AS_10 = AtomicSpecification.objects.get_or_create(
-        selected_component=AtomicComponent.objects.filter(stock_code="PLUG06A").first(),
+        selected_component=AtomicComponent.objects.filter(sku="PLUG06A").first(),
         prerequisite=M8_AP_1,
         quantity=1
     )[0]

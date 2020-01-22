@@ -1,4 +1,4 @@
-Id,code,Category,Location,Stock_code == Partcode,Costs,RingRoll,RingRollDiameter,Material,Weight,OuterDiameter,InnerDiameter,InnerCompFactor,OuterCompFactor,Viscosity,WallThickness,OrificeSize,ErpID,UnityMeasureType
+Id,code,Category,Location,sku == Partcode,Costs,RingRoll,RingRollDiameter,Material,Weight,OuterDiameter,InnerDiameter,InnerCompFactor,OuterCompFactor,Viscosity,WallThickness,OrificeSize,ErpID,UnityMeasureType
 11,SEAL PLATE SEAPLAT102438,4,603,SEAPLAT102438,0,0,0,NULL,0,28,12.5,4,0,0,0,0,NULL,0
 41,PISTON PIS102438SS,1,605,PIS102438SS,0,9,0,NULL,0,24,0,41.5,0,0,0,0,NULL,0
 59,OUTER BRG OUT618IGUSSS,5,679,OUT618IGUSSS,0,0,0,NULL,0,13,6.5,5,0,0,0,0,NULL,0

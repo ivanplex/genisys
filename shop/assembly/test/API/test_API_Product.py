@@ -22,7 +22,7 @@ class ProductTests(APITestCase):
 
         self.blueprint_table = Blueprint.objects.create(name="Table")
         self.atom_table_top = AtomicComponent.objects.create(
-            stock_code="table_top",
+            sku="table_top",
             description="table top surface",
             warehouse_location="2001",
             material="wood",
@@ -31,7 +31,7 @@ class ProductTests(APITestCase):
             availability=2,
         )
         self.atom_leg = AtomicComponent.objects.create(
-            stock_code="table_leg",
+            sku="table_leg",
             description="legs",
             warehouse_location="2002",
             material="wood",
@@ -53,12 +53,12 @@ class ProductTests(APITestCase):
             "blueprint": self.blueprint_table.id,
             "atomic_specifications": [
                 {
-                    "selected_component": AtomicComponent.objects.filter(stock_code="table_top").first().id,
+                    "selected_component": AtomicComponent.objects.filter(sku="table_top").first().id,
                     "prerequisite": self.table_AP_1.id,
                     "quantity": 1,
                 },
                 {
-                    "selected_component": AtomicComponent.objects.filter(stock_code="table_leg").first().id,
+                    "selected_component": AtomicComponent.objects.filter(sku="table_leg").first().id,
                     "prerequisite": self.table_AP_2.id,
                     "quantity": 4,
                 }
@@ -103,10 +103,10 @@ class ProductTests(APITestCase):
     def test_view(self):
         product = Product.objects.create(name="table", blueprint=self.blueprint_table)
         self.table_AS_1 = AtomicSpecification.objects.create(
-            selected_component=AtomicComponent.objects.filter(stock_code="table_top").first(),
+            selected_component=AtomicComponent.objects.filter(sku="table_top").first(),
             prerequisite=self.table_AP_1, quantity=1)
         self.table_AS_2 = AtomicSpecification.objects.create(
-            selected_component=AtomicComponent.objects.filter(stock_code="table_leg").first(),
+            selected_component=AtomicComponent.objects.filter(sku="table_leg").first(),
             prerequisite=self.table_AP_2, quantity=4)
         product.atomic_specifications.add(self.table_AS_1)
         product.atomic_specifications.add(self.table_AS_2)
@@ -118,10 +118,10 @@ class ProductTests(APITestCase):
     def test_delete(self):
         product = Product.objects.create(name="table", blueprint=self.blueprint_table)
         self.table_AS_1 = AtomicSpecification.objects.create(
-            selected_component=AtomicComponent.objects.filter(stock_code="table_top").first(),
+            selected_component=AtomicComponent.objects.filter(sku="table_top").first(),
             prerequisite=self.table_AP_1, quantity=1)
         self.table_AS_2 = AtomicSpecification.objects.create(
-            selected_component=AtomicComponent.objects.filter(stock_code="table_leg").first(),
+            selected_component=AtomicComponent.objects.filter(sku="table_leg").first(),
             prerequisite=self.table_AP_2, quantity=4)
         product.atomic_specifications.add(self.table_AS_1)
         product.atomic_specifications.add(self.table_AS_2)
@@ -133,10 +133,10 @@ class ProductTests(APITestCase):
     def test_update(self):
         product = Product.objects.create(name="table", blueprint=self.blueprint_table)
         self.table_AS_1 = AtomicSpecification.objects.create(
-            selected_component=AtomicComponent.objects.filter(stock_code="table_top").first(),
+            selected_component=AtomicComponent.objects.filter(sku="table_top").first(),
             prerequisite=self.table_AP_1, quantity=1)
         self.table_AS_2 = AtomicSpecification.objects.create(
-            selected_component=AtomicComponent.objects.filter(stock_code="table_leg").first(),
+            selected_component=AtomicComponent.objects.filter(sku="table_leg").first(),
             prerequisite=self.table_AP_2, quantity=4)
         product.atomic_specifications.add(self.table_AS_1)
         product.atomic_specifications.add(self.table_AS_2)

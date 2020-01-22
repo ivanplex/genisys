@@ -10,9 +10,9 @@ class BlueprintAssignMultipleAtomicTestCase(TestCase):
         """
 
         component = [
-            AtomicComponent.objects.create(stock_code="Apple", availability=700),
-            AtomicComponent.objects.create(stock_code="Orange", availability=400),
-            AtomicComponent.objects.create(stock_code="Banana", availability=200)
+            AtomicComponent.objects.create(sku="Apple", availability=700),
+            AtomicComponent.objects.create(sku="Orange", availability=400),
+            AtomicComponent.objects.create(sku="Banana", availability=200)
         ]
 
         c_req = []
@@ -38,7 +38,7 @@ class BlueprintAssignBlueprintTestCase(TestCase):
         """
         try:
             # define
-            a = AtomicComponent.objects.create(stock_code="TEST", availability=700)
+            a = AtomicComponent.objects.create(sku="TEST", availability=700)
             ar = AtomicPrerequisite.objects.create(atomic_component=a, min_quantity=4, max_quantity=4)
             b = Blueprint.objects.create(name="Table")
             b.atomic_prerequisites.add(ar)
@@ -61,7 +61,7 @@ class BlueprintEmptinessTestCase(TestCase):
 
     def setUp(self):
         # atomic
-        atom = AtomicComponent.objects.create(stock_code='U-Bolt', availability=300)
+        atom = AtomicComponent.objects.create(sku='U-Bolt', availability=300)
 
         # define table
         self.table = Blueprint.objects.create(name='table')
@@ -77,7 +77,7 @@ class BlueprintEmptinessTestCase(TestCase):
         False empty when blueprint contains atomicComponent
         """
         self.r = AtomicPrerequisite.objects.create(
-            atomic_component=AtomicComponent.objects.create(stock_code='U-Bolt', availability=300), min_quantity=2,
+            atomic_component=AtomicComponent.objects.create(sku='U-Bolt', availability=300), min_quantity=2,
             max_quantity=2)
         self.table.atomic_prerequisites.add(self.r)
         self.table.save()
@@ -87,7 +87,7 @@ class BlueprintEmptinessTestCase(TestCase):
         """
         False empty when child of a blueprint contains atomicPrereq
         """
-        self.a = AtomicComponent.objects.create(stock_code='U-Bolt', availability=300)
+        self.a = AtomicComponent.objects.create(sku='U-Bolt', availability=300)
         self.r = AtomicPrerequisite.objects.create(
             atomic_component=self.a, min_quantity=2,
             max_quantity=2)
@@ -124,11 +124,11 @@ class BlueprintEmptinessTestCase(TestCase):
 #     """
 #     def setUp(self):
 #         # Atomic
-#         self.manual = AtomicComponent.objects.create(stock_code="man", availability=5)
-#         self.tabletop = AtomicComponent.objects.create(stock_code="tabletop", availability=20)
-#         self.leg = AtomicComponent.objects.create(stock_code="leg", availability=60)
-#         self.screws = AtomicComponent.objects.create(stock_code="screws", availability=8000)
-#         self.backplate = AtomicComponent.objects.create(stock_code="backplate", availability=15)
+#         self.manual = AtomicComponent.objects.create(sku="man", availability=5)
+#         self.tabletop = AtomicComponent.objects.create(sku="tabletop", availability=20)
+#         self.leg = AtomicComponent.objects.create(sku="leg", availability=60)
+#         self.screws = AtomicComponent.objects.create(sku="screws", availability=8000)
+#         self.backplate = AtomicComponent.objects.create(sku="backplate", availability=15)
 #
 #         # Define table
 #         self.tableBlueprint = Blueprint.objects.create(name="table")

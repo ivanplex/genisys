@@ -15,7 +15,7 @@ class AttributeTestCase(APITestCase):
         self.URL_VERSION = '/api/v1'
 
         tableTop = {
-            'stock_code': 'TBT',
+            'sku': 'TBT',
             'description': 'IKEA TABLE TOP',
             'warehouse_location': '2000',
             'weight': 100,

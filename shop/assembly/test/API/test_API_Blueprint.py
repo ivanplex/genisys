@@ -14,7 +14,7 @@ class BlueprintTests(APITestCase):
         self.URL_VERSION = '/api/v1'
 
         atom_table_top = AtomicComponent.objects.create(
-            stock_code="table_top",
+            sku="table_top",
             description="table top surface",
             warehouse_location="2001",
             material="wood",
@@ -23,7 +23,7 @@ class BlueprintTests(APITestCase):
             availability=2,
         )
         atom_leg = AtomicComponent.objects.create(
-            stock_code="table_leg",
+            sku="table_leg",
             description="legs",
             warehouse_location="2002",
             material="wood",

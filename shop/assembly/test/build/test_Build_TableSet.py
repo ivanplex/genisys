@@ -21,7 +21,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
         self.URL_VERSION = '/api/v1'
 
         tableTop = {
-            'stock_code': 'TBT',
+            'sku': 'TBT',
             'description': 'IKEA TABLE TOP',
             'warehouse_location': '2000',
             'weight': 100,
@@ -29,7 +29,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'availability': 80,
         }
         tableLeg = {
-            'stock_code': 'TBL',
+            'sku': 'TBL',
             'description': 'IKEA TABLE LEG',
             'warehouse_location': '2001',
             'weight': 40,
@@ -37,7 +37,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'availability': 200,
         }
         screws = {
-            'stock_code': 'SRW',
+            'sku': 'SRW',
             'description': 'screws',
             'warehouse_location': '80000',
             'weight': 1,
@@ -45,7 +45,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'availability': 100000,
         }
         chairPlate = {
-            'stock_code': 'CPT',
+            'sku': 'CPT',
             'description': 'IKEA Chair Back plate',
             'warehouse_location': '7000',
             'weight': 120,
@@ -53,7 +53,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'availability': 20,
         }
         chairleg = {
-            'stock_code': 'CLG',
+            'sku': 'CLG',
             'description': 'IKEA Chair Leg',
             'warehouse_location': '7001',
             'weight': 30,
@@ -61,7 +61,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'availability': 55,
         }
         manual = {
-            'stock_code': 'MNU',
+            'sku': 'MNU',
             'description': 'IKEA assembly manual',
             'warehouse_location': '1',
             'weight': 15,
@@ -91,17 +91,17 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'name': 'Table',
             'atomic_prerequisites': [
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='TBT').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='TBT').first().id,
                     'min_quantity': 1,
                     'max_quantity': 1
                 },
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='TBL').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='TBL').first().id,
                     'min_quantity': 4,
                     'max_quantity': 4
                 },
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='SRW').first().id,
                     'min_quantity': 8,
                     'max_quantity': 8
                 }
@@ -112,17 +112,17 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'name': 'Chair',
             'atomic_prerequisites': [
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='CPT').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='CPT').first().id,
                     'min_quantity': 1,
                     'max_quantity': 1
                 },
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='CLG').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='CLG').first().id,
                     'min_quantity': 4,
                     'max_quantity': 4
                 },
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='SRW').first().id,
                     'min_quantity': 4,
                     'max_quantity': 4
                 }
@@ -147,18 +147,18 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'blueprint': Blueprint.objects.filter(name='Table').first().id,
             'atomic_specifications': [
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='TBT').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBT').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='TBT').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='TBT').first().id,
                     'quantity': 1
                 },
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='TBL').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='TBL').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='TBL').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='TBL').first().id,
                     'quantity': 4
                 },
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='SRW').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='SRW').first().id,
                     'quantity': 8
                 }
             ],
@@ -171,18 +171,18 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'blueprint': Blueprint.objects.filter(name='Chair').first().id,
             'atomic_specifications': [
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='CPT').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CPT').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='CPT').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='CPT').first().id,
                     'quantity': 1
                 },
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='CLG').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='CLG').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='CLG').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='CLG').first().id,
                     'quantity': 4
                 },
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='SRW').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='SRW').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='SRW').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='SRW').first().id,
                     'quantity': 4
                 }
             ],
@@ -201,7 +201,7 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'name': 'Table Set',
             'atomic_prerequisites': [
                 {
-                    'atomic_component': AtomicComponent.objects.filter(stock_code='MNU').first().id,
+                    'atomic_component': AtomicComponent.objects.filter(sku='MNU').first().id,
                     'min_quantity': 1,
                     'max_quantity': 1
                 }
@@ -233,8 +233,8 @@ class BlueprintPrerequisiteTestCase(APITestCase):
             'blueprint': Blueprint.objects.filter(name='Table Set').first().id,
             'atomic_specifications': [
                 {
-                    'selected_component': AtomicComponent.objects.filter(stock_code='MNU').first().id,
-                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__stock_code='MNU').first().id,
+                    'selected_component': AtomicComponent.objects.filter(sku='MNU').first().id,
+                    'prerequisite': AtomicPrerequisite.objects.filter(atomic_component__sku='MNU').first().id,
                     'quantity': 4
                 }
             ],

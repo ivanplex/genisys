@@ -33,7 +33,7 @@ def SS_6_15():
         name="extender",
         min_quantity=0,
         max_quantity=1,
-        atomic_component=AtomicComponent.objects.filter(stock_code="M5-13-EXT").first()
+        atomic_component=AtomicComponent.objects.filter(sku="M5-13-EXT").first()
     )
     sleeve, created = AtomicPrerequisite.objects.get_or_create(
         name="sleeve",
@@ -93,7 +93,7 @@ def CS_6_15():
         name="extender",
         min_quantity=0,
         max_quantity=1,
-        atomic_component=AtomicComponent.objects.filter(stock_code="M5-13-EXT").first()
+        atomic_component=AtomicComponent.objects.filter(sku="M5-13-EXT").first()
     )
     sleeve, created = AtomicPrerequisite.objects.get_or_create(
         name="sleeve",
@@ -153,7 +153,7 @@ def SS_8_18():
         name="extender",
         min_quantity=0,
         max_quantity=1,
-        atomic_component=AtomicComponent.objects.filter(stock_code="M5-15-EXT").first()
+        atomic_component=AtomicComponent.objects.filter(sku="M5-15-EXT").first()
     )
     sleeve, created = AtomicPrerequisite.objects.get_or_create(
         name="sleeve",
@@ -213,7 +213,7 @@ def CS_8_18():
         name="extender",
         min_quantity=0,
         max_quantity=1,
-        atomic_component=AtomicComponent.objects.filter(stock_code="M5-15-EXT").first()
+        atomic_component=AtomicComponent.objects.filter(sku="M5-15-EXT").first()
     )
     sleeve, created = AtomicPrerequisite.objects.get_or_create(
         name="sleeve",

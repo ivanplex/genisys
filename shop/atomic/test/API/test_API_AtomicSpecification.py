@@ -17,7 +17,7 @@ class AtomicSpecificationTestCase(APITestCase):
         self.URL_VERSION = '/api/v1'
 
         self.rod = AtomicComponent.objects.create(
-            stock_code="rod",
+            sku="rod",
             description="rod of a gas spring",
             warehouse_location="2001",
             material="steel",
@@ -26,7 +26,7 @@ class AtomicSpecificationTestCase(APITestCase):
             availability=2,
         )
         self.tube = AtomicComponent.objects.create(
-            stock_code="tube",
+            sku="tube",
             description="tube of a gas spring",
             warehouse_location="2003",
             material="steel",
@@ -35,7 +35,7 @@ class AtomicSpecificationTestCase(APITestCase):
             availability=6,
         )
         self.seal = AtomicComponent.objects.create(
-            stock_code="seal",
+            sku="seal",
             description="seal of a gas spring",
             warehouse_location="1000",
             material="rubber",
@@ -44,7 +44,7 @@ class AtomicSpecificationTestCase(APITestCase):
             availability=8000,
         )
         self.endfitting1 = AtomicComponent.objects.create(
-            stock_code="endfitting1",
+            sku="endfitting1",
             description="endfitting of a gas spring",
             warehouse_location="30",
             material="steal",
@@ -53,7 +53,7 @@ class AtomicSpecificationTestCase(APITestCase):
             availability=50,
         )
         self.endfitting2 = AtomicComponent.objects.create(
-            stock_code="endfitting2",
+            sku="endfitting2",
             description="endfitting of a gas spring",
             warehouse_location="31",
             material="steal",

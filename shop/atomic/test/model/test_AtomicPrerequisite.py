@@ -9,10 +9,10 @@ class AtomicPrerequisiteTestCase(TestCase):
     cannot be empty at the same time
     """
     def setUp(self):
-        self.atom = AtomicComponent.objects.create(stock_code="ATOM", description="ATOM")
+        self.atom = AtomicComponent.objects.create(sku="ATOM", description="ATOM")
 
-        a1 = AtomicComponent.objects.create(stock_code="ATOM1", description="ATOM1")
-        a2 = AtomicComponent.objects.create(stock_code="ATOM2", description="ATOM2")
+        a1 = AtomicComponent.objects.create(sku="ATOM1", description="ATOM1")
+        a2 = AtomicComponent.objects.create(sku="ATOM2", description="ATOM2")
         self.group = AtomicGroup.objects.create(name="ATOM GROUP")
         self.group.members.add(a1)
         self.group.members.add(a2)

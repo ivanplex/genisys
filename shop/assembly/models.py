@@ -130,14 +130,14 @@ class Product(TimestampedModel):
                             raise ValidationError(
                                 _('Invalid component: %(component)s'),
                                 code='invalid',
-                                params={'component': specification.selected_component.stock_code},
+                                params={'component': specification.selected_component.sku},
                             )
                         elif specification.selected_component not in prerequisite.atomic_group:
                             # specification not pointed directly, not in assigned group
                             raise ValidationError(
                                 _('Invalid component: %(component)s'),
                                 code='invalid',
-                                params={'component': specification.selected_component.stock_code},
+                                params={'component': specification.selected_component.sku},
                             )
                     else:
                         specified_quantity += specification.quantity
@@ -148,7 +148,7 @@ class Product(TimestampedModel):
                     _('Insufficient specification: %(component)s requires minimum of %(min)s, given %(num)s'),
                     code='invalid',
                     params={
-                        'component': prerequisite.atomic_component.stock_code,
+                        'component': prerequisite.atomic_component.sku,
                         'min': prerequisite.min_quantity,
                         'num': specified_quantity,
                     }
@@ -160,7 +160,7 @@ class Product(TimestampedModel):
                     _('Specifications exceeded maximum limit: %(component)s has a maximum of %(max)s, given %(num)s'),
                     code='invalid',
                     params={
-                        'component': prerequisite.atomic_component.stock_code,
+                        'component': prerequisite.atomic_component.sku,
                         'max': prerequisite.max_quantity,
                         'num': specified_quantity,
                     }

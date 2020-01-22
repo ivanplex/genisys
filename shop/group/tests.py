@@ -5,7 +5,7 @@ from shop.atomic.models import AtomicComponent, AtomicGroup
 class GroupClassTestCase(TestCase):
     def setUp(self):
         self.atom1 = AtomicComponent.objects.create(
-            stock_code="p_bolt",
+            sku="p_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -14,7 +14,7 @@ class GroupClassTestCase(TestCase):
             availability=6000,
         )
         self.atom2 = AtomicComponent.objects.create(
-            stock_code="s_bolt",
+            sku="s_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",
@@ -23,7 +23,7 @@ class GroupClassTestCase(TestCase):
             availability=6000,
         )
         self.atom3 = AtomicComponent.objects.create(
-            stock_code="t_bolt",
+            sku="t_bolt",
             description="General purpose Philip bolt",
             warehouse_location="2000",
             material="",

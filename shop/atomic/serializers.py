@@ -55,7 +55,7 @@ class AtomicComponentSerializer(serializers.ModelSerializer):
 
 
 class AtomicComponentConfiguratorSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='stock_code')
+    name = serializers.CharField(source='sku')
     thumbnail_image = serializers.CharField(source='thumbnail_image.url', read_only=True)
     illustration_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)
     description_images = OffsetImageURLSerializer(many=True, read_only=False, required=False)

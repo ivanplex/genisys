@@ -156,7 +156,7 @@ def run():
         # for part in Parts:
         #     partqty = df['SubPartRelations__Amount'] 
         #     partid = df['Parts__Id'] 
-        #     partname = df['Parts__Stock_code']
+        #     partname = df['Parts__sku']
         #     print(part,partid,partname)
 
             # GS_AP_1 = AtomicPrerequisite.objects.get_or_create(

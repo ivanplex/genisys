@@ -29,8 +29,8 @@ class RegularAtomicSpecificationTestCase(TestCase):
     """
 
     def setUp(self):
-        atom_1 = AtomicComponent.objects.create(stock_code="ATOM 1", description="ATOM 1")
-        atom_2 = AtomicComponent.objects.create(stock_code="ATOM 2", description="ATOM 2")
+        atom_1 = AtomicComponent.objects.create(sku="ATOM 1", description="ATOM 1")
+        atom_2 = AtomicComponent.objects.create(sku="ATOM 2", description="ATOM 2")
 
         blueprint = Blueprint.objects.create(name="I'm a blueprint")
         p_atom_1 = AtomicPrerequisite.objects.create(atomic_component=atom_1, min_quantity=1, max_quantity=1)
@@ -60,8 +60,8 @@ class MissingAtomicSpecificationTestCase(TestCase):
     """
 
     def setUp(self):
-        atom_1 = AtomicComponent.objects.create(stock_code="ATOM 1", description="ATOM 1")
-        atom_2 = AtomicComponent.objects.create(stock_code="ATOM 2", description="ATOM 2")
+        atom_1 = AtomicComponent.objects.create(sku="ATOM 1", description="ATOM 1")
+        atom_2 = AtomicComponent.objects.create(sku="ATOM 2", description="ATOM 2")
 
         blueprint = Blueprint.objects.create(name="I'm a blueprint")
         p_atom_1 = AtomicPrerequisite.objects.create(atomic_component=atom_1, min_quantity=1, max_quantity=1)
@@ -88,8 +88,8 @@ class ExcessiveAtomicSpecificationTestCase(TestCase):
     """
 
     def setUp(self):
-        atom_1 = AtomicComponent.objects.create(stock_code="ATOM 1", description="ATOM 1")
-        atom_2 = AtomicComponent.objects.create(stock_code="ATOM 2", description="ATOM 2")
+        atom_1 = AtomicComponent.objects.create(sku="ATOM 1", description="ATOM 1")
+        atom_2 = AtomicComponent.objects.create(sku="ATOM 2", description="ATOM 2")
 
         blueprint = Blueprint.objects.create(name="I'm a blueprint")
         p_atom_1 = AtomicPrerequisite.objects.create(atomic_component=atom_1, min_quantity=1, max_quantity=1)
@@ -120,8 +120,8 @@ class SegregatedAtomicSpecificationTestCase(TestCase):
     """
 
     def setUp(self):
-        atom_1 = AtomicComponent.objects.create(stock_code="ATOM 1", description="ATOM 1")
-        atom_2 = AtomicComponent.objects.create(stock_code="ATOM 2", description="ATOM 2")
+        atom_1 = AtomicComponent.objects.create(sku="ATOM 1", description="ATOM 1")
+        atom_2 = AtomicComponent.objects.create(sku="ATOM 2", description="ATOM 2")
 
         blueprint = Blueprint.objects.create(name="I'm a blueprint")
         p_atom_1 = AtomicPrerequisite.objects.create(atomic_component=atom_1, min_quantity=2, max_quantity=2)

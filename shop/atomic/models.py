@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class AtomicComponent(TimestampedModel):
-    stock_code = models.CharField(max_length=255, null=False) # Req
+    sku = models.CharField(max_length=255, null=False) # Req
     category = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True) # Req
     cost = models.FloatField(default=0)
@@ -35,8 +35,8 @@ class AtomicComponent(TimestampedModel):
     length_on_ruler_offset = models.FloatField(default=0, null=False, blank=False)
 
     def save(self, *args, **kwargs):
-        if self.stock_code is "":
-            raise ValidationError('stock_code cannot be empty.')
+        if self.sku is "":
+            raise ValidationError('sku cannot be empty.')
         else:
             super(AtomicComponent, self).save(*args, **kwargs)
 
