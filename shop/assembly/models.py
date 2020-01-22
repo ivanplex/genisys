@@ -9,7 +9,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Blueprint(TimestampedModel):
-    name = models.CharField(max_length=250, unique=True)
+    name = models.CharField(max_length=250, unique=True, null=False)
+    human_readable_name = models.CharField(max_length=255, blank=True, null=True)
+    category = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, blank=True, null=True)
+
     atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements',
                                                   symmetrical=False)
     product_prerequisites = models.ManyToManyField('ProductPrerequisite', related_name='blueprint_requirements',
@@ -75,8 +79,12 @@ class ProductSpecification(Specification):
 
 
 class Product(TimestampedModel):
-    name = models.CharField(max_length=250)
-    sku = models.CharField(max_length=3)
+    sku = models.CharField(max_length=255, unique=True, null=False) # Required
+    human_readable_name = models.CharField(max_length=255, blank=True, null=True)
+    category = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, blank=True, null=True)
+
+
     availability = models.IntegerField(null=False, default=0)
     blueprint = models.ForeignKey(Blueprint, on_delete=models.PROTECT, related_name='based_on', null=False)
     atomic_specifications = models.ManyToManyField(AtomicSpecification, related_name='atomic_specification',
