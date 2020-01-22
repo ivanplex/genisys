@@ -12,7 +12,7 @@ class Blueprint(TimestampedModel):
     name = models.CharField(max_length=250, unique=True, null=False)
     human_readable_name = models.CharField(max_length=255, blank=True, null=True)
     category = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     atomic_prerequisites = models.ManyToManyField(AtomicPrerequisite, related_name='atomic_requirements',
                                                   symmetrical=False)
