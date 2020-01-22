@@ -82,7 +82,7 @@ class Product(TimestampedModel):
     sku = models.CharField(max_length=255, unique=True, null=False) # Required
     human_readable_name = models.CharField(max_length=255, blank=True, null=True)
     category = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
 
     availability = models.IntegerField(null=False, default=0)

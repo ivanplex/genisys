@@ -11,7 +11,7 @@ class AtomicComponent(TimestampedModel):
     sku = models.CharField(max_length=255, unique=True, null=False) # Required
     human_readable_name = models.CharField(max_length=255, blank=True, null=True)
     category = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     cost = models.FloatField(default=0)
     warehouse_location = models.CharField(blank=True, null=True, max_length=255)
     material = models.CharField(max_length=255, blank=True, null=True)
