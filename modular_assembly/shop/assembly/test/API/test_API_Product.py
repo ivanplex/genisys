@@ -2,16 +2,16 @@ import json
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from shop.atomic.models import (
+from modular_assembly.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
     AtomicSpecification,
 )
-from shop.assembly.models import (
+from modular_assembly.assembly.models import (
     Blueprint,
     Product,
 )
-from shop.assembly.serializers import ProductSerializer
+from modular_assembly.assembly.serializers import ProductSerializer
 
 
 class ProductTests(APITestCase):

@@ -6,12 +6,12 @@ from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView
 )
-from shop.assembly.models import (
+from modular_assembly.assembly.models import (
     Blueprint,
     Product
 )
 
-from shop.assembly.serializers import (
+from modular_assembly.assembly.serializers import (
     BlueprintSerializer,
     ProductSerializer
 )

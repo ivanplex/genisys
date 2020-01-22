@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from shop.assembly.models import BlueprintGroup, ProductGroup
-from shop.atomic.models import AtomicGroup
-from shop.atomic.serializers import AtomicComponentSerializer
-from shop.assembly.serializers import ProductSerializer, BlueprintSerializer
-from shop.group.models import Group
-from shop.serializers import (
+from modular_assembly.assembly.models import BlueprintGroup, ProductGroup
+from modular_assembly.atomic.models import AtomicGroup
+from modular_assembly.atomic.serializers import AtomicComponentSerializer
+from modular_assembly.assembly.serializers import ProductSerializer, BlueprintSerializer
+from modular_assembly.group.models import Group
+from modular_assembly.serializers import (
     URLsSerializer,
     OffsetImageURLSerializer
 )

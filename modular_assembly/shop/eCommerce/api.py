@@ -6,12 +6,12 @@ from rest_framework.generics import (
     DestroyAPIView
 )
 
-from shop.eCommerce.models import (
+from modular_assembly.eCommerce.models import (
     ECOMProduct,
     ECOMProductImage,
 )
 
-from shop.eCommerce.serializers import (
+from modular_assembly.eCommerce.serializers import (
     ECOMProductSerializer,
     ECOMProductImageSerializer,
 )

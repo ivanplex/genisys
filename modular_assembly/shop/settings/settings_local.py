@@ -33,13 +33,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
-    'shop',
-    'shop.atomic',
-    'shop.assembly',
-    'shop.attribute',
-    'shop.relations',
-    'shop.group',
-    'shop.eCommerce',
+    'modular_assembly',
+    'modular_assembly.atomic',
+    'modular_assembly.assembly',
+    'modular_assembly.attribute',
+    'modular_assembly.relations',
+    'modular_assembly.group',
+    'modular_assembly.eCommerce',
     'gas_spring_configurator',
 ]
 
@@ -118,7 +118,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,
-    'EXCEPTION_HANDLER': 'shop.utils.exception_handler',
+    'EXCEPTION_HANDLER': 'modular_assembly.utils.exception_handler',
 }
 
 STATICFILES_DIRS = (

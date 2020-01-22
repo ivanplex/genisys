@@ -1,9 +1,9 @@
 import pandas as pd
 import progressbar
 import math
-from shop.atomic.models import AtomicComponent, AtomicGroup
-from shop.attribute.models import Attribute
-from shop.models import URL, OffsetImageURL
+from modular_assembly.atomic.models import AtomicComponent, AtomicGroup
+from modular_assembly.attribute.models import Attribute
+from modular_assembly.models import URL, OffsetImageURL
 
 
 
@@ -15,7 +15,7 @@ def run():
         'WallThickness', 'OrificeSize', 'ErpID', 'UnityMeasureType'
     ]
 
-    df = pd.read_csv('shop/scripts/atomic_component.csv',
+    df = pd.read_csv('modular_assembly/scripts/atomic_component.csv',
                      skiprows=1,
                      names=csv_headers)
 

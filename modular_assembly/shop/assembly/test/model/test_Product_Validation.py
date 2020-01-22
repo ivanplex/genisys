@@ -1,6 +1,6 @@
 from django.test import TestCase
-from shop.assembly.models import Blueprint, ProductPrerequisite, Product, ProductSpecification
-from shop.atomic.models import AtomicPrerequisite, AtomicSpecification, AtomicComponent
+from modular_assembly.assembly.models import Blueprint, ProductPrerequisite, Product, ProductSpecification
+from modular_assembly.atomic.models import AtomicPrerequisite, AtomicSpecification, AtomicComponent
 from django.core.exceptions import ValidationError
 import re
 

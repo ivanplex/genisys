@@ -1,7 +1,7 @@
 import json
 from rest_framework.test import APITestCase
 from rest_framework import status
-from shop.attribute.models import Attribute
+from modular_assembly.attribute.models import Attribute
 
 
 class AttributeTestCase(APITestCase):

@@ -8,13 +8,13 @@ from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView
 )
-from shop.atomic.models import (
+from modular_assembly.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
     AtomicSpecification
 )
 
-from shop.atomic.serializers import (
+from modular_assembly.atomic.serializers import (
     AtomicComponentSerializer,
     AtomicPrerequisiteSerializer,
     AtomicSpecificationSerializer

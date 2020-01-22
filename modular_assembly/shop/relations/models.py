@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models import TimestampedModel
+from modular_assembly.models import TimestampedModel
 
 
 class Prerequisite(TimestampedModel):

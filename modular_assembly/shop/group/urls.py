@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from shop.group.api import (
+from modular_assembly.group.api import (
     # AtomicGroup
     AtomicGroupList,
     AtomicGroupDetails,
@@ -21,7 +21,7 @@ from shop.group.api import (
     ProductGroupDestroy,
 )
 
-namespace_prefix = "shop.group."
+namespace_prefix = "modular_assembly.group."
 
 urlpatterns = [
     # Atomic Group

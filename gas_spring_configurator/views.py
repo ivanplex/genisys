@@ -1,14 +1,14 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from shop.atomic.models import AtomicComponent, AtomicGroup
-from shop.atomic.serializers import AtomicComponentConfiguratorSerializer
-from shop.assembly.models import Blueprint, AtomicPrerequisite
-from shop.attribute.models import Attribute
-from shop.assembly.serializers import BlueprintConfiguratorSerializer
+from modular_assembly.atomic.models import AtomicComponent, AtomicGroup
+from modular_assembly.atomic.serializers import AtomicComponentConfiguratorSerializer
+from modular_assembly.assembly.models import Blueprint, AtomicPrerequisite
+from modular_assembly.attribute.models import Attribute
+from modular_assembly.assembly.serializers import BlueprintConfiguratorSerializer
 from .models import ConfiguratorStep
 from .serializers import ConfiguratorStepSerializer
-from shop.group.models import Group
-from shop.group.serializers import GroupSerializer
+from modular_assembly.group.models import Group
+from modular_assembly.group.serializers import GroupSerializer
 from django.db.models import Q
 
 

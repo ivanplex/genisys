@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('group', '0001_initial'),
-        ('shop', '0001_initial'),
+        ('modular_assembly', '0001_initial'),
         ('attribute', '0001_initial'),
         ('relations', '0001_initial'),
     ]
@@ -38,9 +38,9 @@ class Migration(migrations.Migration):
                 ('component_factor', models.FloatField(default=0)),
                 ('length_on_ruler_offset', models.FloatField(default=0)),
                 ('attribute', models.ManyToManyField(related_name='atom_attr', to='attribute.Attribute')),
-                ('description_images', models.ManyToManyField(related_name='atomic_description_image', to='shop.URL')),
-                ('illustration_images', models.ManyToManyField(related_name='atomic_illustration', to='shop.OffsetImageURL')),
-                ('thumbnail_image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='atomic_thumbnail', to='shop.URL')),
+                ('description_images', models.ManyToManyField(related_name='atomic_description_image', to='modular_assembly.URL')),
+                ('illustration_images', models.ManyToManyField(related_name='atomic_illustration', to='modular_assembly.OffsetImageURL')),
+                ('thumbnail_image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='atomic_thumbnail', to='modular_assembly.URL')),
             ],
             options={
                 'abstract': False,

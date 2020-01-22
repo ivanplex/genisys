@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('shop', '0001_initial'),
+        ('modular_assembly', '0001_initial'),
     ]
 
     operations = [
@@ -21,9 +21,9 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('name', models.CharField(max_length=100)),
                 ('description', models.CharField(max_length=100)),
-                ('description_images', models.ManyToManyField(related_name='group_description_images', to='shop.URL')),
-                ('illustration_images', models.ManyToManyField(related_name='group_illustration_images', to='shop.OffsetImageURL')),
-                ('thumbnail_image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='group_thumbnail_images', to='shop.URL')),
+                ('description_images', models.ManyToManyField(related_name='group_description_images', to='modular_assembly.URL')),
+                ('illustration_images', models.ManyToManyField(related_name='group_illustration_images', to='modular_assembly.OffsetImageURL')),
+                ('thumbnail_image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='group_thumbnail_images', to='modular_assembly.URL')),
             ],
             options={
                 'abstract': False,

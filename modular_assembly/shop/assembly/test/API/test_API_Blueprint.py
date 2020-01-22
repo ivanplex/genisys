@@ -2,9 +2,9 @@ import json
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from shop.atomic.models import AtomicComponent
-from shop.assembly.models import Blueprint
-from shop.assembly.serializers import BlueprintSerializer
+from modular_assembly.atomic.models import AtomicComponent
+from modular_assembly.assembly.models import Blueprint
+from modular_assembly.assembly.serializers import BlueprintSerializer
 
 
 class BlueprintTests(APITestCase):

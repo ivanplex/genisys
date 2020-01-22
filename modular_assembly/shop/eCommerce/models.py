@@ -1,6 +1,6 @@
 from django.db import models
-from shop.models import TimestampedModel
-from shop.assembly.models import Product
+from modular_assembly.models import TimestampedModel
+from modular_assembly.assembly.models import Product
 
 
 class ECOMProductImage(TimestampedModel):
@@ -116,8 +116,8 @@ class ECOMProduct(TimestampedModel):
     custom_label_0 = models.CharField(max_length=100, null=True, blank=True)
     promotion_id = models.CharField(max_length=50, null=True, blank=True)
     ADVERTISING_DESTINATIONS = [
-        ('Shopping Ads', 'Shopping Ads'),
-        ('Shopping Actions', 'Shopping Actions'),
+        ('modular_assemblyping Ads', 'modular_assemblyping Ads'),
+        ('modular_assemblyping Actions', 'modular_assemblyping Actions'),
         ('Display Ads', 'Display Ads'),
         ('Surface across Google', 'Surface across Google'),
     ]

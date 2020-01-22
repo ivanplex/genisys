@@ -37,19 +37,19 @@
 				</class>
 			</classes>
 		</package>
-		<package branch-rate="1" complexity="0" line-rate="0.8837" name="shop">
+		<package branch-rate="1" complexity="0" line-rate="0.8837" name="modular_assembly">
 			<classes>
-				<class branch-rate="1" complexity="0" filename="shop/__init__.py" line-rate="1" name="__init__.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/__init__.py" line-rate="1" name="__init__.py">
 					<methods/>
 					<lines/>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/admin.py" line-rate="1" name="admin.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/admin.py" line-rate="1" name="admin.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>
 					</lines>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/apps.py" line-rate="0" name="apps.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/apps.py" line-rate="0" name="apps.py">
 					<methods/>
 					<lines>
 						<line hits="0" number="1"/>
@@ -57,7 +57,7 @@
 						<line hits="0" number="5"/>
 					</lines>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/models.py" line-rate="1" name="models.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/models.py" line-rate="1" name="models.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>
@@ -88,7 +88,7 @@
 						<line hits="1" number="39"/>
 					</lines>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/tests.py" line-rate="0.9167" name="tests.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/tests.py" line-rate="0.9167" name="tests.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>
@@ -105,7 +105,7 @@
 						<line hits="1" number="17"/>
 					</lines>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/views.py" line-rate="0" name="views.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/views.py" line-rate="0" name="views.py">
 					<methods/>
 					<lines>
 						<line hits="0" number="1"/>
@@ -113,13 +113,13 @@
 				</class>
 			</classes>
 		</package>
-		<package branch-rate="0.7059" complexity="0" line-rate="0.8794" name="shop.assembly">
+		<package branch-rate="0.7059" complexity="0" line-rate="0.8794" name="modular_assembly.assembly">
 			<classes>
-				<class branch-rate="1" complexity="0" filename="shop/assembly/__init__.py" line-rate="1" name="__init__.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/assembly/__init__.py" line-rate="1" name="__init__.py">
 					<methods/>
 					<lines/>
 				</class>
-				<class branch-rate="0.4444" complexity="0" filename="shop/assembly/models.py" line-rate="0.6667" name="models.py">
+				<class branch-rate="0.4444" complexity="0" filename="modular_assembly/assembly/models.py" line-rate="0.6667" name="models.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>
@@ -175,7 +175,7 @@
 						<line hits="0" number="110"/>
 					</lines>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/assembly/tests.py" line-rate="1" name="tests.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/assembly/tests.py" line-rate="1" name="tests.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>
@@ -272,13 +272,13 @@
 				</class>
 			</classes>
 		</package>
-		<package branch-rate="1" complexity="0" line-rate="0.951" name="shop.concept">
+		<package branch-rate="1" complexity="0" line-rate="0.951" name="modular_assembly.concept">
 			<classes>
-				<class branch-rate="1" complexity="0" filename="shop/concept/__init__.py" line-rate="1" name="__init__.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/concept/__init__.py" line-rate="1" name="__init__.py">
 					<methods/>
 					<lines/>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/concept/models.py" line-rate="0.9688" name="models.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/concept/models.py" line-rate="0.9688" name="models.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>
@@ -315,7 +315,7 @@
 						<line hits="1" number="61"/>
 					</lines>
 				</class>
-				<class branch-rate="1" complexity="0" filename="shop/concept/tests.py" line-rate="0.9459" name="tests.py">
+				<class branch-rate="1" complexity="0" filename="modular_assembly/concept/tests.py" line-rate="0.9459" name="tests.py">
 					<methods/>
 					<lines>
 						<line hits="1" number="1"/>

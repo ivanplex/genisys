@@ -1,5 +1,5 @@
 from django.test import TestCase
-from shop.atomic.models import AtomicPrerequisite, AtomicComponent, AtomicGroup
+from modular_assembly.atomic.models import AtomicPrerequisite, AtomicComponent, AtomicGroup
 from django.core.exceptions import ValidationError
 
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from shop.assembly.models import Product
-from shop.eCommerce.models import ECOMProduct, ECOMProductImage
+from modular_assembly.assembly.models import Product
+from modular_assembly.eCommerce.models import ECOMProduct, ECOMProductImage
 
 
 # class ECOMProductImageSerializer(serializers.ModelSerializer):

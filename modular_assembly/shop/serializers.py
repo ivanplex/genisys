@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.models import URL, OffsetImageURL
+from modular_assembly.models import URL, OffsetImageURL
 
 
 class URLsSerializer(serializers.ModelSerializer):

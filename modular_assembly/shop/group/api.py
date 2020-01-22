@@ -6,9 +6,9 @@ from rest_framework.generics import (
     DestroyAPIView
 )
 
-from shop.assembly.models import BlueprintGroup, ProductGroup
-from shop.atomic.models import AtomicGroup
-from shop.group.serializers import (
+from modular_assembly.assembly.models import BlueprintGroup, ProductGroup
+from modular_assembly.atomic.models import AtomicGroup
+from modular_assembly.group.serializers import (
     AtomicGroupSerializer,
     BlueprintGroupSerializer,
     ProductGroupSerializer

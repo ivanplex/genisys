@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from shop.eCommerce.api import (
+from modular_assembly.eCommerce.api import (
     # ECOMProduct
     ECOMProductList,
     ECOMProductDetails,
@@ -15,7 +15,7 @@ from shop.eCommerce.api import (
     # ECOMProductImageDestroy,
 )
 
-namespace_prefix = "shop.eCommerce."
+namespace_prefix = "modular_assembly.eCommerce."
 
 urlpatterns = [
     # ECOMProduct

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from shop.assembly.models import Blueprint, Product, ProductGroup, ProductPrerequisite
+from modular_assembly.assembly.models import Blueprint, Product, ProductGroup, ProductPrerequisite
 from django.core.exceptions import ValidationError
 
 

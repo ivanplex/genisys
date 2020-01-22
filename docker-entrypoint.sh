@@ -10,7 +10,7 @@ python manage.py migrate                  # Apply database migrations
 # Start Gunicorn processes
 #echo Starting Gunicorn.
 #exec gunicorn genisys.wsgi:application \
-#    --name shop_API \
+#    --name modular_assembly_API \
 #    --bind 0.0.0.0:8080 \
 #    --workers 3 \
 ##    --log-level=info \
@@ -19,4 +19,4 @@ python manage.py migrate                  # Apply database migrations
 #    "$@"
 
 # FOR DEVELOPMENT ONLY!
-python manage.py runserver 0.0.0.0:8080 --settings=shop.settings.settings_prod
+python manage.py runserver 0.0.0.0:8080 --settings=modular_assembly.settings.settings_prod

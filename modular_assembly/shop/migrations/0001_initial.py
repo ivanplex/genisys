@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OffsetImageURL',
             fields=[
-                ('url_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='shop.URL')),
+                ('url_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='modular_assembly.URL')),
                 ('position', models.IntegerField(default=0)),
                 ('offset_x', models.IntegerField(default=0, help_text='Image offset x direction')),
                 ('offset_y', models.IntegerField(default=0, help_text='Image offset y direction')),
@@ -35,6 +35,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=('shop.url',),
+            bases=('modular_assembly.url',),
         ),
     ]

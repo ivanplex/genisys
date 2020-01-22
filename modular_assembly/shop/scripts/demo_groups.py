@@ -1,4 +1,4 @@
-from shop.group.models import Group, URL, OffsetImageURL
+from modular_assembly.group.models import Group, URL, OffsetImageURL
 
 def createCarbonGroup():
     carbon, created = Group.objects.get_or_create(name="Carbon", description="Carbon Gas springs")

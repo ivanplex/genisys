@@ -18,7 +18,7 @@ The content below will describe how this platform is designed and constructed. I
 Environment variables are located in `.env` which contains the application key and database setting.
 Please update these information to reflect your deployment setup.
 
-Setting files is located in `shop.setting` directory where all variant of setting files resides. This allows
+Setting files is located in `modular_assembly.setting` directory where all variant of setting files resides. This allows
 ease of development as well as deployment.
 
 - `settings_prod.py` set and fetch environment variables from `.env`
@@ -26,7 +26,7 @@ ease of development as well as deployment.
 
 ## Configurator
 
-For documentation on configurator, click [here](shop/configurator).
+For documentation on configurator, click [here](modular_assembly/configurator).
 
 ## Design Principles
 We have 4 distinct layers of object interactions. Atomic, Abstract, Builds and Orders. These reflect the 4 stages of initializing an e-commerce store. 

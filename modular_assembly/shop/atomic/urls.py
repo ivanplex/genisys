@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from shop.atomic.api import (
+from modular_assembly.atomic.api import (
     # Component
     AtomicComponentList,
     AtomicComponentDetails,
@@ -22,11 +22,11 @@ from shop.atomic.api import (
     AtomicSpecificationDestroy,
 )
 
-from shop.atomic.views import (
+from modular_assembly.atomic.views import (
     view
 )
 
-namespace_prefix = "shop.atomic."
+namespace_prefix = "modular_assembly.atomic."
 
 urlpatterns = [
     # Component

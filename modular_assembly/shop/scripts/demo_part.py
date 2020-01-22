@@ -1,5 +1,5 @@
-from shop.atomic.models import AtomicComponent, AtomicGroup
-from shop.models import URL, OffsetImageURL
+from modular_assembly.atomic.models import AtomicComponent, AtomicGroup
+from modular_assembly.models import URL, OffsetImageURL
 
 
 

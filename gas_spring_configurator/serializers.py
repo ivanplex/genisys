@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from .models import ConfiguratorStep
-from shop.assembly.models import (
+from modular_assembly.assembly.models import (
     Blueprint
 )
-from shop.attribute.models import Attribute
-from shop.atomic.serializers import (
+from modular_assembly.attribute.models import Attribute
+from modular_assembly.atomic.serializers import (
     AtomicPrerequisiteSerializer
 )
 
-from shop.assembly.serializers import (
+from modular_assembly.assembly.serializers import (
     ProductPrerequisiteSerializer,
 )
 

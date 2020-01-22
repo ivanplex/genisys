@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models import TimestampedModel, URL, OffsetImageURL
+from modular_assembly.models import TimestampedModel, URL, OffsetImageURL
 
 
 class Group(TimestampedModel):

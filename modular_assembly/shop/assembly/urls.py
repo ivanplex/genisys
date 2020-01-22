@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from shop.assembly.api import (
+from modular_assembly.assembly.api import (
     # Blueprint
     BlueprintList,
     BlueprintDetails,
@@ -15,7 +15,7 @@ from shop.assembly.api import (
     ProductDestroy,
 )
 
-namespace_prefix = "shop.assembly."
+namespace_prefix = "modular_assembly.assembly."
 
 urlpatterns = [
     # Blueprint

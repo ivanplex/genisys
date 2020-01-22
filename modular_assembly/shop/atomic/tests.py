@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from shop.atomic.models import AtomicComponent
+from modular_assembly.atomic.models import AtomicComponent
 
 
 class AtomicComponentCreateTestCase(TestCase):

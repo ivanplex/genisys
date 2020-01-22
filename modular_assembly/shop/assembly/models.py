@@ -1,9 +1,9 @@
 from django.db import models
-from shop.models import TimestampedModel, URL, OffsetImageURL
-from shop.relations.models import Prerequisite, Specification
-from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
-from shop.attribute.models import Attribute
-from shop.group.models import Group
+from modular_assembly.models import TimestampedModel, URL, OffsetImageURL
+from modular_assembly.relations.models import Prerequisite, Specification
+from modular_assembly.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification
+from modular_assembly.attribute.models import Attribute
+from modular_assembly.group.models import Group
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 

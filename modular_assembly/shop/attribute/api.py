@@ -6,10 +6,10 @@
 #     DestroyAPIView
 # )
 #
-# from shop.atomic.models import AtomicAttribute
-# from shop.atomic.serializers import AtomicAttributeSerializer
-# from shop.assembly.models import BlueprintAttribute, ProductAttribute
-# from shop.assembly.serializers import (
+# from modular_assembly.atomic.models import AtomicAttribute
+# from modular_assembly.atomic.serializers import AtomicAttributeSerializer
+# from modular_assembly.assembly.models import BlueprintAttribute, ProductAttribute
+# from modular_assembly.assembly.serializers import (
 #     BlueprintAttributeSerializer,
 #     ProductAttributeSerializer
 # )

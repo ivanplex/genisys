@@ -6,8 +6,8 @@ from rest_framework_swagger.views import get_swagger_view
 
 def generate_url_include(name):
     regex = r'^{}/'.format(name)
-    to_include = include('shop.{}.urls'.format(name))
-    namespace = 'shop.{}'.format(name)
+    to_include = include('modular_assembly.{}.urls'.format(name))
+    namespace = 'modular_assembly.{}'.format(name)
     return url(regex, to_include, name=namespace)
 
 namespaces_to_include = [

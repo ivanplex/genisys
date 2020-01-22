@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from shop.models import URL, OffsetImageURL
-from shop.atomic.models import (
+from modular_assembly.models import URL, OffsetImageURL
+from modular_assembly.atomic.models import (
     AtomicComponent,
     AtomicPrerequisite,
     AtomicSpecification,
     AtomicGroup
 )
-from shop.attribute.models import Attribute
-from shop.attribute.serializers import AttributeSerializer
-from shop.serializers import (
+from modular_assembly.attribute.models import Attribute
+from modular_assembly.attribute.serializers import AttributeSerializer
+from modular_assembly.serializers import (
     URLsSerializer,
     OffsetImageURLSerializer
 )

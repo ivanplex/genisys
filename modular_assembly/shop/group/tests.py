@@ -1,5 +1,5 @@
 from django.test import TestCase
-from shop.atomic.models import AtomicComponent, AtomicGroup
+from modular_assembly.atomic.models import AtomicComponent, AtomicGroup
 
 
 class GroupClassTestCase(TestCase):

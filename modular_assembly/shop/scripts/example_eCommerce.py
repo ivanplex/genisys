@@ -1,5 +1,5 @@
-from shop.eCommerce.models import ECOMProduct, ECOMProductImage
-from shop.assembly.models import Product, Blueprint
+from modular_assembly.eCommerce.models import ECOMProduct, ECOMProductImage
+from modular_assembly.assembly.models import Product, Blueprint
 
 
 def run():

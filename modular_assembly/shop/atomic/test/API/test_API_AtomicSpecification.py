@@ -6,8 +6,8 @@ import json
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from shop.atomic.models import AtomicComponent, AtomicPrerequisite
-from shop.assembly.models import Blueprint
+from modular_assembly.atomic.models import AtomicComponent, AtomicPrerequisite
+from modular_assembly.assembly.models import Blueprint
 
 
 class AtomicSpecificationTestCase(APITestCase):

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         ('group', '0001_initial'),
         ('atomic', '0001_initial'),
         ('relations', '0001_initial'),
-        ('shop', '0001_initial'),
+        ('modular_assembly', '0001_initial'),
         ('attribute', '0001_initial'),
     ]
 
@@ -34,8 +34,8 @@ class Migration(migrations.Migration):
                 ('component_factor', models.FloatField(default=None, null=True)),
                 ('build_time', models.PositiveIntegerField(default=0)),
                 ('atomic_prerequisites', models.ManyToManyField(related_name='atomic_requirements', to='atomic.AtomicPrerequisite')),
-                ('description_images', models.ManyToManyField(related_name='blueprint_description_image', to='shop.URL')),
-                ('illustration_images', models.ManyToManyField(related_name='blueprint_illustration', to='shop.OffsetImageURL')),
+                ('description_images', models.ManyToManyField(related_name='blueprint_description_image', to='modular_assembly.URL')),
+                ('illustration_images', models.ManyToManyField(related_name='blueprint_illustration', to='modular_assembly.OffsetImageURL')),
             ],
             options={
                 'abstract': False,
@@ -60,8 +60,8 @@ class Migration(migrations.Migration):
                 ('atomic_specifications', models.ManyToManyField(related_name='atomic_specification', to='atomic.AtomicSpecification')),
                 ('attribute', models.ManyToManyField(related_name='product_attr', to='attribute.Attribute')),
                 ('blueprint', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='based_on', to='assembly.Blueprint')),
-                ('description_images', models.ManyToManyField(related_name='description_image', to='shop.URL')),
-                ('illustration_images', models.ManyToManyField(related_name='illustration_image', to='shop.OffsetImageURL')),
+                ('description_images', models.ManyToManyField(related_name='description_image', to='modular_assembly.URL')),
+                ('illustration_images', models.ManyToManyField(related_name='illustration_image', to='modular_assembly.OffsetImageURL')),
             ],
             options={
                 'abstract': False,
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='thumbnail_image',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='thumbnail_image', to='shop.URL'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='thumbnail_image', to='modular_assembly.URL'),
         ),
         migrations.CreateModel(
             name='BlueprintGroup',
@@ -145,6 +145,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='blueprint',
             name='thumbnail_image',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='blueprint_thumbnail', to='shop.URL'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='blueprint_thumbnail', to='modular_assembly.URL'),
         ),
     ]

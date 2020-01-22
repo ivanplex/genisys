@@ -1,7 +1,7 @@
-from shop.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification, AtomicGroup
-from shop.assembly.models import Blueprint, BlueprintAttribute
-# from shop.attribute.models import Attribute
-from shop.models import URL, OffsetImageURL
+from modular_assembly.atomic.models import AtomicComponent, AtomicPrerequisite, AtomicSpecification, AtomicGroup
+from modular_assembly.assembly.models import Blueprint, BlueprintAttribute
+# from modular_assembly.attribute.models import Attribute
+from modular_assembly.models import URL, OffsetImageURL
 
 
 def SS_6_15():
